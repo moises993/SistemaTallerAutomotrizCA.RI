@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "5BDUYIl6dnZmY3t3ZJDgYKEfDSRR3KwnDHkj94LZWQzPstKlOhvvLQqicyFxzfOz5e7z5MtxtqGuPrBx2wrkNw==",
+  "success": true,
+  "projectFilePath": "D:\\Desarrollo\\ApiPrueba\\ApiPrueba.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\moises\\.nuget\\packages\\npgsql\\4.1.4\\npgsql.4.1.4.nupkg.sha512",
+    "C:\\Users\\moises\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.6.0\\system.runtime.compilerservices.unsafe.4.6.0.nupkg.sha512"
+  ],
+  "logs": []
+}
