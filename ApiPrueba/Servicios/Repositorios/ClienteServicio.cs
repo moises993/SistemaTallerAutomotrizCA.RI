@@ -15,7 +15,7 @@ namespace ApiPrueba.Servicios.Repositorios
     public class ClienteServicio : IClienteServicio
     {
         private IConfiguration _configuration;
-        string connectionString;
+        private readonly string connectionString;
 
         public ClienteServicio(IConfiguration configuration)
         {
@@ -23,36 +23,39 @@ namespace ApiPrueba.Servicios.Repositorios
             connectionString = _configuration.GetConnectionString("pginstConexion");
         }
 
+        #region consultas
         public List<Cliente> VerClientes()
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
-            string funcion = "SELECT * FROM administracion.cltverclientes();";
-            List<Cliente> ListaClientes = new List<Cliente>(); 
+            List<Cliente> ListaClientes = new List<Cliente>();
 
             try
             {
                 conexion.Open();
-                NpgsqlCommand comando = new NpgsqlCommand(funcion, conexion);
-                NpgsqlDataReader lector = comando.ExecuteReader();
 
-                while (lector.Read())
+                using (var comando = new NpgsqlCommand("SELECT * FROM \"Taller\".\"cltVerClientes\"();", conexion))
                 {
-                    Cliente clt = new Cliente
+
+                    using (var lector = comando.ExecuteReader())
                     {
-                        IdCliente = lector.GetInt32(0),
-                        Nombre = lector.GetString(1),
-                        Apellido1 = lector.GetString(2),
-                        Apellido2 = lector.GetString(3),
-                        FechaIngreso = lector.GetDateTime(4),
-                        CltFrecuente = lector.GetBoolean(5),
-                        FactPendiente = lector.GetBoolean(6),
-                        Cedula = lector.GetString(7)
-                    };
+                        while (lector.Read())
+                        {
+                            Cliente clt = new Cliente
+                            {
+                                IDCliente = lector.GetInt32(0),
+                                nombre = lector.GetString(1).Trim(),
+                                pmrApellido = lector.GetString(2).Trim(),
+                                sgndApellido = lector.GetString(3).Trim(),
+                                cedula = lector.GetString(4).Trim(),
+                                cltFrecuente = lector.GetBoolean(5),
+                                fechaIngreso = lector.GetDateTime(6)
+                            };
 
-                    ListaClientes.Add(clt);
+                            ListaClientes.Add(clt);
+                        }
+                        lector.Close();
+                    }
                 }
-
-                lector.Close();
                 conexion.Close();
             }
             catch (Exception)
@@ -63,7 +66,7 @@ namespace ApiPrueba.Servicios.Repositorios
             return ListaClientes;
         }
 
-        public Cliente VerClientePorCedula(string pCedula)
+        public Cliente ConsultarClienteCedula(string pCedula)
         {
             Cliente salida = null;
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
@@ -72,25 +75,24 @@ namespace ApiPrueba.Servicios.Repositorios
             {
                 conexion.Open();
 
-                using (var comando = new NpgsqlCommand("administracion.cltverclienteporcedula", conexion))
+                using (var comando = new NpgsqlCommand("\"Taller\".\"cltVerClientePorCedula\"", conexion))
                 {
                     comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue("pcedula", pCedula);
 
                     using (var lector = comando.ExecuteReader())
                     {
-                        while(lector.Read())
+                        while (lector.Read())
                         {
                             salida = new Cliente
                             {
-                                IdCliente = lector.GetInt32(0),
-                                Nombre = lector.GetString(1),
-                                Apellido1 = lector.GetString(2),
-                                Apellido2 = lector.GetString(3),
-                                FechaIngreso = lector.GetDateTime(4),
-                                CltFrecuente = lector.GetBoolean(5),
-                                FactPendiente = lector.GetBoolean(6),
-                                Cedula = lector.GetString(7)
+                                IDCliente = lector.GetInt32(0),
+                                nombre = lector.GetString(1).Trim(),
+                                pmrApellido = lector.GetString(2).Trim(),
+                                sgndApellido = lector.GetString(3).Trim(),
+                                cedula = lector.GetString(4).Trim(),
+                                cltFrecuente = lector.GetBoolean(5),
+                                fechaIngreso = lector.GetDateTime(6)
                             };
                         }
 
@@ -108,7 +110,7 @@ namespace ApiPrueba.Servicios.Repositorios
             return salida;
         }
 
-        public List<ClienteCita> VerClientesConCita()
+        public List<ClienteCita> MostrarClientesConCita()
         {
             List<ClienteCita> cc = new List<ClienteCita>();
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
@@ -117,24 +119,24 @@ namespace ApiPrueba.Servicios.Repositorios
             {
                 conexion.Open();
 
-                using(var comando = new NpgsqlCommand("administracion.cltverclientesconcita", conexion))
+                using (var comando = new NpgsqlCommand("\"Taller\".\"cltVerClientesConCita\"", conexion))
                 {
                     comando.CommandType = CommandType.StoredProcedure;
 
-                    using(var lector = comando.ExecuteReader())
+                    using (var lector = comando.ExecuteReader())
                     {
                         ClienteCita objt = null;
-                        while(lector.Read())
+                        while (lector.Read())
                         {
                             objt = new ClienteCita
                             {
-                                Nombre = lector.GetString(0),
-                                Apellido1 = lector.GetString(1),
-                                Apellido2 = lector.GetString(2),
-                                Cedula = lector.GetString(3),
-                                Fecha = lector.GetDateTime(4),
-                                Hora = lector.GetString(5),
-                                Asunto = lector.GetString(6)
+                                nombre = lector.GetString(0),
+                                pmrApellido = lector.GetString(1),
+                                sgndApellido = lector.GetString(2),
+                                cedula = lector.GetString(3),
+                                fecha = lector.GetDateTime(4),
+                                hora = lector.GetString(5),
+                                asunto = lector.GetString(6)
                             };
                             cc.Add(objt);
                         }
@@ -143,12 +145,250 @@ namespace ApiPrueba.Servicios.Repositorios
                 }
                 conexion.Close();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
 
             return cc;
         }
+        #endregion consultas
+
+        //Métodos que devuelven true siempre y cuando se cumplan las validaciones para cada parámetro
+        #region operaciones
+
+        public bool CedulaExiste(string ced)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            bool resultado = false;
+
+            try
+            {
+                conexion.Open();
+
+                using (var comando = new NpgsqlCommand("\"Taller\".\"cltValidarCedula\"", conexion))
+                {
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue("pcedula", ced);
+
+                    using(var lector = comando.ExecuteReader())
+                    {
+                        while(lector.Read())
+                        {
+                            resultado = lector.GetBoolean(0);
+                        }
+                    }
+
+                    conexion.Close();
+                }
+
+                return resultado;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool RegistrarCliente(string nmb, string ap1, string ap2, string ced, bool frec)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+
+            try
+            {
+                conexion.Open();
+                using(var comando = new NpgsqlCommand("CALL \"Taller\".\"cltCrearCliente\"(@nmb, @ap1, @ap2, @ced, @frec)", conexion))
+                {
+                    comando.Parameters.AddWithValue(":nmb", nmb);
+                    comando.Parameters.AddWithValue(":ap1", ap1);
+                    comando.Parameters.AddWithValue(":ap2", ap2);
+                    comando.Parameters.AddWithValue(":ced", ced);
+                    comando.Parameters.AddWithValue(":frec", frec);
+
+                    comando.ExecuteNonQuery();
+
+                    conexion.Close();
+                }
+                return true;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+
+        }
+
+        public bool ActualizarCliente(string id, string nmb, string ap1, string ap2, string ced, bool frec)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+
+            try
+            {
+                conexion.Open();
+                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"cltEditarCliente\"(@id, @nmb, @ap1, @ap2, @ced, @frec)", conexion))
+                {
+                    comando.Parameters.AddWithValue(":id", id);
+                    comando.Parameters.AddWithValue(":nmb", nmb);
+                    comando.Parameters.AddWithValue(":ap1", ap1);
+                    comando.Parameters.AddWithValue(":ap2", ap2);
+                    comando.Parameters.AddWithValue(":ced", ced);
+                    comando.Parameters.AddWithValue(":frec", frec);
+
+                    comando.ExecuteNonQuery();
+
+                    conexion.Close();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool BorrarCliente(string ced)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+
+            try
+            {
+                conexion.Open();
+                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"cltEliminarCliente\"(@identificacion)", conexion))
+                {
+                    comando.Parameters.AddWithValue(":identificacion", ced.Trim());
+
+                    comando.ExecuteNonQuery();
+
+                    conexion.Close();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        #endregion operaciones
+
+        //Métodos para ingreso y consulta de los detalles de un cliente
+        #region areaDetalles
+        public DetallesCliente VerDetallesCliente(int id)
+        {
+            DetallesCliente salida = null;
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+
+            try
+            {
+                conexion.Open();
+
+                using (var comando = new NpgsqlCommand("\"Taller\".\"dtcVerDetalleClt\"", conexion))
+                {
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue("pid", id);
+
+                    using (var lector = comando.ExecuteReader())
+                    {
+                        while (lector.Read())
+                        {
+                            salida = new DetallesCliente
+                            {
+                                IDCliente = lector.GetInt32(0),
+                                direccion = lector.GetString(1),
+                                telefono = lector.GetString(2),
+                                correo = lector.GetString(3)
+                            };
+                        }
+
+                        lector.Close();
+                    }
+                }
+
+                conexion.Close();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return salida;
+        }
+
+        public bool ActualizarDetalleCliente(int id, string pdireccion, string ptelefono, string pcorreo)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+
+            try
+            {
+                conexion.Open();
+                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"dtcActualizarDetalles\"(@pid, @pdireccion, @ptelefono, @pcorreo)", conexion))
+                {
+                    comando.Parameters.AddWithValue(":pid", id);
+                    comando.Parameters.AddWithValue(":pdireccion", pdireccion);
+                    comando.Parameters.AddWithValue(":ptelefono", ptelefono);
+                    comando.Parameters.AddWithValue(":pcorreo", pcorreo);
+
+                    comando.ExecuteNonQuery();
+
+                    conexion.Close();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool BorrarDetalleCliente(int id)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+
+            try
+            {
+                conexion.Open();
+                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"dtcEliminarDetalle\"(@pid)", conexion))
+                {
+                    comando.Parameters.AddWithValue(":pid", id);
+
+                    comando.ExecuteNonQuery();
+
+                    conexion.Close();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool RegistrarDetalleCliente(int id, string pdireccion, string ptelefono, string pcorreo)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+
+            try
+            {
+                conexion.Open();
+                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"dtcIngresarDetalles\"(@pid, @pdireccion, @ptelefono, @pcorreo)", conexion))
+                {
+                    comando.Parameters.AddWithValue(":pid", id);
+                    comando.Parameters.AddWithValue(":pdireccion", pdireccion);
+                    comando.Parameters.AddWithValue(":ptelefono", ptelefono);
+                    comando.Parameters.AddWithValue(":pcorreo", pcorreo);
+
+                    comando.ExecuteNonQuery();
+
+                    conexion.Close();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        #endregion areaDetalles
     }
 }

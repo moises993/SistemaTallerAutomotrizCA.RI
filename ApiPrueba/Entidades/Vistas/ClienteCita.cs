@@ -7,12 +7,12 @@ namespace ApiPrueba.Entidades.Vistas
 {
     public class ClienteCita
     {
-        public string Nombre { get; set; }
-        public string Apellido1 { get; set; }
-        public string Apellido2 { get; set; }
-        public string Cedula { get; set; }
-        public DateTime Fecha { get; set; }
-        public string Hora { get; set; }
-        public string Asunto { get; set; }
+        public string nombre { get; set; }
+        public string pmrApellido { get; set; }
+        public string sgndApellido { get; set; }
+        public string cedula { get; set; }
+        public DateTime fecha { get; set; }
+        public string hora { get; set; }
+        public string asunto { get; set; }
     }
 }
