@@ -5,7 +5,7 @@
 
 Erick Gustavo Bonilla Carrión\
 Josef Eduardo Ramírez Berrocal\
-Moisés Valverde García\
+Moisés Valverde García
 
 **Descripción del proyecto**
 
