@@ -1,0 +1,106 @@
+﻿@model IEnumerable<tema.Models.Cliente>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+
+<div class="content-wrapper">
+
+    <!-- <h1>Inicio</h1>-->
+
+  
+  
+
+    <div class="container">
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a href="../Cliente/Index" style="color:aliceblue">Inicio</a></li>
+
+        </ol>
+        <form class="form-inline ml-3">
+            @*buscar*@
+            <div class="input-group input-group-sm">
+                <input class="form-control form-control-navbar" type="search" placeholder="Buscar Cliente " aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-navbar" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+        <div class="container">
+            <table class="Tablas" style="border:solid;color:black">
+                <thead>
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.pmrApellido)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sgndApellido)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.cedula)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.cltFrecuente)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.fechaIngreso)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.pmrApellido)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.sgndApellido)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cedula)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cltFrecuente)
+                            </td>
+                            <td>
+                                @item.fechaIngreso.Date.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @Html.ActionLink("Editar", "Edit", new { id = item.cedula }) |
+                                @Html.ActionLink("Detalles", "Details", new { id = item.cedula }) |
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.cedula })
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div>
+                <p>
+                    <a asp-action="Create" class="Boton">Crear nuevo Cliente</a>
+                </p>
+
+            </div>
+        </div>
+</div>

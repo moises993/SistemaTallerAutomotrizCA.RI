@@ -1,0 +1,69 @@
+﻿@model IEnumerable<tema.Models.Tecnico>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+    <div class="content-wrapper">
+
+        <h1>Index</h1>
+
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IDTecnico)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.pmrApellido)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.sgndApellido)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.cedula)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fechaIngreso)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IDTecnico)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.pmrApellido)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.sgndApellido)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.cedula)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fechaIngreso)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>

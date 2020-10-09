@@ -1,0 +1,44 @@
+﻿@model tema.Models.Orden
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+    <div class="content-wrapper">
+
+        <h1>Create</h1>
+
+        <h4>Orden</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="cedulaCliente" class="control-label"></label>
+                        <input asp-for="cedulaCliente" class="form-control" />
+                        <span asp-validation-for="cedulaCliente" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="placaVehiculo" class="control-label"></label>
+                        <input asp-for="placaVehiculo" class="form-control" />
+                        <span asp-validation-for="placaVehiculo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="descServicio" class="control-label"></label>
+                        <input asp-for="descServicio" class="form-control" />
+                        <span asp-validation-for="descServicio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+      </div>

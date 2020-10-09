@@ -1,0 +1,64 @@
+﻿@model IEnumerable<tema.Models.Vehiculo>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+    <div class="content-wrapper">
+
+        <h1>Lista de Vehículos</h1>
+
+        <form class="form-inline ml-3">
+            @*buscar*@
+            <div class="input-group input-group-sm">
+                <input class="form-control form-control-navbar" type="search" placeholder="Buscar Vehículo " aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-navbar" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <p>
+            <a asp-action="Create">Añadir Vehículo</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.marca)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.modelo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.placa)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.marca)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.modelo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.placa)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Detalles", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Eliminar", "Delete", new { /* id=item.PrimaryKey */ })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

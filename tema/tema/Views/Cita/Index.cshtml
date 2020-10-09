@@ -1,0 +1,98 @@
+﻿@model IEnumerable<tema.Models.Cita>
+
+@{
+    ViewData["Title"] = "Index";
+}
+    <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+    <div class="content-wrapper">
+
+        <h1>Index</h1>
+
+        <form class="form-inline ml-3">
+            @*buscar*@
+            <div class="input-group input-group-sm">
+                <input class="form-control form-control-navbar" type="search" placeholder="Buscar Cita " aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-navbar" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table class="Tablas" style="border:solid;color:black">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IDCita)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IDTecnico)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.cedulaCliente)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fecha)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.hora)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.asunto)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.descripcion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.citaConfirmada)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IDCliente)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IDCita)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IDTecnico)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.cedulaCliente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fecha)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.hora)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.asunto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.citaConfirmada)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IDCliente)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", new { id = item.IDCita }) |
+                            @Html.ActionLink("Detalles", "Details", new { id = item.IDCita }) |
+                            @Html.ActionLink("Eliminar", "Delete", new { id = item.IDCita })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
