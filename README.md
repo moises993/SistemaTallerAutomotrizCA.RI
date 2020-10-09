@@ -3,9 +3,9 @@
  
 **Desarrolladores**
 
-Erick Gustavo Bonilla Carrión 
-Josef Eduardo Ramírez Berrocal
-Moisés Valverde García
+Erick Gustavo Bonilla Carrión\
+Josef Eduardo Ramírez Berrocal\
+Moisés Valverde García\
 
 **Descripción del proyecto**
 
