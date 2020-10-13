@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,87 +11,56 @@ namespace ApiPrueba.Servicios.Utilidades
 {
     public class Cifrado
     {
-        public static string Cifrar(string clave, string llave)
+        private static RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
+        public static string GenerarHash(string contra, string sal)
         {
-            var bytesClave = Encoding.UTF8.GetBytes(clave);
-            var bytesLlave = Encoding.UTF8.GetBytes(llave);
-            bytesLlave = SHA256.Create().ComputeHash(bytesLlave);
-            var bytesEncriptados = Cifrar(bytesClave, bytesLlave);
-            return Convert.ToBase64String(bytesEncriptados);
+            var hash = KeyDerivation.Pbkdf2
+            (
+                password: contra,
+                salt: Encoding.UTF8.GetBytes(sal),
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 1000000,
+                numBytesRequested: 256 / 8
+            );
+
+            return Convert.ToBase64String(hash);
         }
 
-        public static string Desencriptar(string claveCifrada, string llave)
+        public static string GenerarSal()
         {
-            var bytesCifrados = Convert.FromBase64String(claveCifrada);
-            var bytesLlave = Encoding.UTF8.GetBytes(llave);
+            byte[] salt = new byte[128 / 8];
 
-            bytesLlave = SHA256.Create().ComputeHash(bytesLlave);
+            const int totalRolls = 1000000;
 
-            var bytesDescifrados = Desencriptar(bytesCifrados, bytesLlave);
-
-            return Encoding.UTF8.GetString(bytesDescifrados);
-        }
-
-        private static byte[] Cifrar(byte[] bytesClave, byte[] bytesLlave)
-        {
-            byte[] bytesCifrados = null;
-            var bytesSal = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 
-            21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 };
-
-            using (MemoryStream ms = new MemoryStream())
+            for (int x = 0; x < totalRolls; x++)
             {
-                using (RijndaelManaged AES = new RijndaelManaged())
-                {
-                    var key = new Rfc2898DeriveBytes(bytesLlave, bytesSal, 1000);
-
-                    AES.KeySize = 256;
-                    AES.BlockSize = 128;
-                    AES.Key = key.GetBytes(AES.KeySize / 8);
-                    AES.IV = key.GetBytes(AES.BlockSize / 8);
-
-                    AES.Mode = CipherMode.CBC;
-
-                    using (var cs = new CryptoStream(ms, AES.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(bytesClave, 0, bytesClave.Length);
-                        cs.Close();
-                    }
-
-                    bytesCifrados = ms.ToArray();
-                }
+                byte roll = RollDice((byte)salt.Length);
+                salt[roll - 1]++;
             }
 
-            return bytesCifrados;
+            return Convert.ToBase64String(salt);
         }
 
-        private static byte[] Desencriptar(byte[] bytesCifrados, byte[] bytesLlave)
+        public static byte RollDice(byte numberSides)
         {
-            byte[] claveDescifrada = null;
+            if (numberSides <= 0)
+                throw new ArgumentOutOfRangeException("numberSides");
 
-            var bytesSal = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-            21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32  };
-
-            using (MemoryStream ms = new MemoryStream())
+            byte[] randomNumber = new byte[1];
+            do
             {
-                using (RijndaelManaged AES = new RijndaelManaged())
-                {
-                    var key = new Rfc2898DeriveBytes(bytesCifrados, bytesSal, 1000);
-
-                    AES.KeySize = 256;
-                    AES.BlockSize = 128;
-                    AES.Key = key.GetBytes(AES.KeySize / 8);
-                    AES.IV = key.GetBytes(AES.BlockSize / 8);
-                    AES.Mode = CipherMode.CBC;
-
-                    using (var cs = new CryptoStream(ms, AES.CreateDecryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(bytesCifrados, 0, bytesCifrados.Length);
-                        cs.Close();
-                    }
-                    claveDescifrada = ms.ToArray();
-                }
+                rngCsp.GetBytes(randomNumber);
             }
-            return claveDescifrada;
+            while (!IsFairRoll(randomNumber[0], numberSides));
+
+            return (byte)((randomNumber[0] % numberSides) + 1);
+        }
+
+        private static bool IsFairRoll(byte roll, byte numSides)
+        {
+            int fullSetsOfValues = Byte.MaxValue / numSides;
+
+            return roll < numSides * fullSetsOfValues;
         }
     }
 }

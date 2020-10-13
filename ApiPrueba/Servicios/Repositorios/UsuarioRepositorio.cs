@@ -31,11 +31,6 @@ namespace ApiPrueba.Servicios.Repositorios
             connectionString = _configuration.GetConnectionString("pginstConexion");
         }
 
-        public void CambiarContrasena(string contraVieja, string contraNueva)
-        {
-            throw new NotImplementedException();
-        }
-
         public void IniciarRecuperacion()
         {
             throw new NotImplementedException();
@@ -45,19 +40,31 @@ namespace ApiPrueba.Servicios.Repositorios
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
             Usuario usr = null;
+            string sal = string.Empty;
 
             try
             {
                 conexion.Open();
 
-                using(var comando = new NpgsqlCommand("\"Taller\".\"usrBuscarUsuario\"", conexion))
+                using(var comando1 = new NpgsqlCommand("\"Taller\".\"usrObtenerSal\"", conexion))
                 {
-                    comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.AddWithValue("pcorreo", correo);
-                    const string llave = "iohgisfg8709254ytgsfjlvhsd89";
-                    comando.Parameters.AddWithValue("pclave", Cifrado.Cifrar(clave, llave));
+                    comando1.CommandType = CommandType.StoredProcedure;
+                    comando1.Parameters.AddWithValue("pcorreo", correo);
 
-                    using(var lector = comando.ExecuteReader())
+                    sal = (string)comando1.ExecuteScalar();
+                   
+                    conexion.Close();
+                }
+
+                conexion.Open();
+
+                using (var comando2 = new NpgsqlCommand("\"Taller\".\"usrBuscarUsuario\"", conexion))
+                {
+                    comando2.CommandType = CommandType.StoredProcedure;
+                    var hash = Cifrado.GenerarHash(clave, sal);
+                    comando2.Parameters.AddWithValue("phash", hash);
+
+                    using (var lector = comando2.ExecuteReader())
                     {
                         while (lector.Read())
                         {
@@ -65,8 +72,7 @@ namespace ApiPrueba.Servicios.Repositorios
                             {
                                 IDUsuario = lector.GetInt32(0),
                                 correo = lector.GetString(1).Trim(),
-                                clave = lector.GetString(2).Trim(),
-                                rol = lector.GetString(3).Trim()
+                                rol = lector.GetString(2).Trim()
                             };
                         }
                         lector.Close();
@@ -96,7 +102,7 @@ namespace ApiPrueba.Servicios.Repositorios
             }
             catch(Exception)
             {
-                throw;
+                return null;
             }
         }
 
@@ -179,20 +185,21 @@ namespace ApiPrueba.Servicios.Repositorios
         //efectúa el registro con clave autogenerada y encriptado SHA256
         public bool RegistrarUsuario(string correo, string rol)
         {
-            const string llave = "iohgisfg8709254ytgsfjlvhsd89";
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
-            string claveGenerada = _gen.GenerarClave(8);
-            string claveEncriptada = Cifrado.Cifrar(claveGenerada, llave);
 
             try
             {
                 conexion.Open();
 
-                using(var comando = new NpgsqlCommand("CALL \"Taller\".\"usrCrearUsuario\"(@pcorreo, @pclave, @prol);", conexion))
+                using(var comando = new NpgsqlCommand("CALL \"Taller\".\"usrCrearUsuario\"(@pcorreo, @phash, @psal, @prol);", conexion))
                 {
+                    string claveGenerada = _gen.GenerarClave(8);
+                    var sal = Cifrado.GenerarSal();
+                    var hash = Cifrado.GenerarHash(claveGenerada, sal);
                     comando.Parameters.AddWithValue(":pcorreo", correo);
-                    comando.Parameters.AddWithValue(":pclave", claveEncriptada);
                     comando.Parameters.AddWithValue(":prol", rol);
+                    comando.Parameters.AddWithValue(":phash", hash);
+                    comando.Parameters.AddWithValue(":psal", sal);
 
                     comando.ExecuteNonQuery();
 
