@@ -19,8 +19,8 @@ namespace ApiPrueba.Servicios.Utilidades
                 password: contra,
                 salt: Encoding.UTF8.GetBytes(sal),
                 prf: KeyDerivationPrf.HMACSHA256,
-                iterationCount: 1000000,
-                numBytesRequested: 256 / 8
+                iterationCount: 100000,
+                numBytesRequested: 1024 / 8
             );
 
             return Convert.ToBase64String(hash);
@@ -28,9 +28,9 @@ namespace ApiPrueba.Servicios.Utilidades
 
         public static string GenerarSal()
         {
-            byte[] salt = new byte[128 / 8];
+            byte[] salt = new byte[1024 / 8];
 
-            const int totalRolls = 1000000;
+            const int totalRolls = 100000;
 
             for (int x = 0; x < totalRolls; x++)
             {
