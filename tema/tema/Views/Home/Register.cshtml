@@ -21,17 +21,20 @@
 
         <h2>Formulario para el envío del correo</h2>
 
-        <form method="post" id="emisor">
-            <input id="correoEmisor" placeholder="Ingrese su correo" />
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="correoForm" placeholder="Ingrese su correo de gmail" />
+            <span asp-validation-for="correoForm"></span>
             <br />
             <br />
-            <input id="claveCuenta" type="password" placeholder="Contraseña" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="contra" type="password" placeholder="Ingrese la contraseña" />
+            <span asp-validation-for="contra"></span>
             <br />
             <br />
-        </form>
+
             <h2>Formulario para el registro del nuevo usuario</h2>
 
-        <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="correo" placeholder="Ingrese el correo" />
             <span asp-validation-for="correo"></span>

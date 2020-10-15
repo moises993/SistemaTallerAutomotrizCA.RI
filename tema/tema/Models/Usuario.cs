@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace tema.Models
@@ -16,5 +17,7 @@ namespace tema.Models
         public string rol { get; set; }
         public string tokenCorreo { get; set; }
         public string tokenSesion { get; set; }
+        public string correoForm { get; set; }
+        public string contra { get; set; }
     }
 }
