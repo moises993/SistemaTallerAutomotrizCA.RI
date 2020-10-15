@@ -2,6 +2,7 @@
 using ApiPrueba.Servicios.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ApiPrueba.Controllers
 {
@@ -33,7 +34,7 @@ namespace ApiPrueba.Controllers
 
         [AllowAnonymous]
         [HttpPost("Registrar")]
-        public IActionResult Register([FromBody] Usuario modelo)
+        public async Task<IActionResult> Register([FromBody] Usuario modelo)
         {
             bool Existe = _usrRepo.ExisteEnElSistema(modelo.correo);
             bool EsUnico = _usrRepo.EsUsuarioUnico(modelo.correo);
@@ -48,7 +49,7 @@ namespace ApiPrueba.Controllers
                 return BadRequest(new { message = "Existe un usuario con este correo" });
             }
 
-            bool seCreoUsuario = _usrRepo.RegistrarUsuario(modelo.correo, modelo.rol);
+            bool seCreoUsuario = await _usrRepo.RegistrarUsuario(modelo.correoForm, modelo.contra, modelo.correo, modelo.rol);
 
             if (!seCreoUsuario)
             {

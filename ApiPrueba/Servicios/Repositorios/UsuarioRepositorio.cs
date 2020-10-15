@@ -10,9 +10,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ApiPrueba.Servicios.Repositorios
 {
@@ -183,7 +186,7 @@ namespace ApiPrueba.Servicios.Repositorios
         }
 
         //efectúa el registro con clave autogenerada y encriptado SHA256
-        public bool RegistrarUsuario(string correo, string rol)
+        public async Task<bool> RegistrarUsuario(string correoForm, string contra, string correo, string rol)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
 
@@ -195,6 +198,7 @@ namespace ApiPrueba.Servicios.Repositorios
                 {
                     string claveGenerada = _gen.GenerarClave(8);
                     var sal = Cifrado.GenerarSal();
+                    await Correos.EnviarCorreo(correoForm, contra, correo, claveGenerada, rol);
                     var hash = Cifrado.GenerarHash(claveGenerada, sal);
                     comando.Parameters.AddWithValue(":pcorreo", correo);
                     comando.Parameters.AddWithValue(":prol", rol);
