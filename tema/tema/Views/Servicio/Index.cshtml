@@ -2,16 +2,26 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="content-wrapper">
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 
-        <h1>Index</h1>
+<div class="content-wrapper">
 
-        <p>
-            <a asp-action="Create">Create New</a>
-        </p>
-        <table class="table">
+    <div class="container">
+        <form class="form-inline ml-3">
+            @*buscar*@
+            <div class="input-group input-group-sm">
+                <input class="form-control form-control-navbar" type="search" placeholder="Buscar Servicio" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-navbar" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <table class="Tablas">
             <thead>
                 <tr>
                     <th>
@@ -48,4 +58,8 @@
                 }
             </tbody>
         </table>
+        <p>
+            <a asp-action="Create" class="Boton">Registrar Servicio</a>
+        </p>
+    </div>
 </div>

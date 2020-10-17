@@ -1,4 +1,4 @@
-﻿@model tema.Models.Vehiculo
+﻿@model tema.Models.Expediente
 
 @{
     ViewData["Title"] = "Details";
@@ -9,9 +9,15 @@
             <h1>Details</h1>
 
             <div>
-                <h4>Vehiculo</h4>
+                <h4>Expediente</h4>
                 <hr />
                 <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.IDExpediente)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.IDExpediente)
+                    </dd>
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.IDVehiculo)
                     </dt>
@@ -19,10 +25,34 @@
                         @Html.DisplayFor(model => model.IDVehiculo)
                     </dd>
                     <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.IDCliente)
+                        @Html.DisplayNameFor(model => model.nombreTecnico)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.IDCliente)
+                        @Html.DisplayFor(model => model.nombreTecnico)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.asunto)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.asunto)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.descripcion)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.descripcion)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.fechaCreacionExp)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.fechaCreacionExp)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.nombreCliente)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.nombreCliente)
                     </dd>
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.marca)
@@ -47,6 +77,7 @@
             <div>
                 @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
                 <a asp-action="Index">Back to List</a>
+    
             </div>
-        </div>
+            </div>
         </div>

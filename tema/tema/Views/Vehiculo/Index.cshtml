@@ -2,9 +2,12 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="content-wrapper">
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+
+<div class="content-wrapper">
+    <div class="container">
 
         <h1>Lista de Vehículos</h1>
 
@@ -19,10 +22,8 @@
                 </div>
             </div>
         </form>
-        <p>
-            <a asp-action="Create">Añadir Vehículo</a>
-        </p>
-        <table class="table">
+
+        <table class="Tablas">
             <thead>
                 <tr>
 
@@ -61,4 +62,8 @@
                 }
             </tbody>
         </table>
+        <p>
+            <a asp-action="Create" class="Boton">Añadir Vehículo</a>
+        </p>
     </div>
+</div>
