@@ -1,0 +1,83 @@
+﻿@model tema.Models.Expediente
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<div class="content-wrapper">
+    <div class="container">
+
+
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a href="../Expediente/Index" style="color:aliceblue">Inicio</a></li>
+            <li><a class="active" style="color:aliceblue">Crear Expediente</a></li>
+            @*<li><a href="#">Home</a></li>
+            <li><a href="#">Private</a></li>
+            <li><a href="#">Pictures</a></li>
+            <li class="active">Vacation</li>*@
+        </ol>
+        <hr />
+        <h1>Crear Expediente</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="nombreTecnico" class="control-label"></label>
+                        <input asp-for="nombreTecnico" class="form-control" />
+                        <span asp-validation-for="nombreTecnico" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="asunto" class="control-label"></label>
+                        <input asp-for="asunto" class="form-control" />
+                        <span asp-validation-for="asunto" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="descripcion" class="control-label"></label>
+                        <input asp-for="descripcion" class="form-control" />
+                        <span asp-validation-for="descripcion" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="fechaCreacionExp" class="control-label"></label>
+                        <input asp-for="fechaCreacionExp" class="form-control" />
+                        <span asp-validation-for="fechaCreacionExp" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="nombreCliente" class="control-label"></label>
+                        <input asp-for="nombreCliente" class="form-control" />
+                        <span asp-validation-for="nombreCliente" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="marca" class="control-label"></label>
+                        <input asp-for="marca" class="form-control" />
+                        <span asp-validation-for="marca" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="modelo" class="control-label"></label>
+                        <input asp-for="modelo" class="form-control" />
+                        <span asp-validation-for="modelo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="placa" class="control-label"></label>
+                        <input asp-for="placa" class="form-control" />
+                        <span asp-validation-for="placa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+    </div>
+</div>

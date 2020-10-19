@@ -1,4 +1,4 @@
-﻿@model IEnumerable<tema.Models.Tecnico>
+﻿@model IEnumerable<tema.Models.Expediente>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,11 +8,14 @@
 
 <div class="content-wrapper">
     <div class="container">
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a href="../Expediente/Index" style="color:aliceblue">Inicio</a></li>
 
+        </ol>
         <form class="form-inline ml-3">
             @*buscar*@
             <div class="input-group input-group-sm">
-                <input class="form-control form-control-navbar" type="search" placeholder="Buscar Ténico" aria-label="Search">
+                <input class="form-control form-control-navbar" type="search" placeholder="Buscar Expediente " aria-label="Search">
                 <div class="input-group-append">
                     <button class="btn btn-navbar" type="submit">
                         <i class="fas fa-search"></i>
@@ -20,26 +23,36 @@
                 </div>
             </div>
         </form>
+
+
+
         <table class="Tablas">
             <thead>
                 <tr>
+
                     <th>
-                        @Html.DisplayNameFor(model => model.IDTecnico)
+                        @Html.DisplayNameFor(model => model.nombreTecnico)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.nombre)
+                        @Html.DisplayNameFor(model => model.asunto)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.pmrApellido)
+                        @Html.DisplayNameFor(model => model.descripcion)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.sgndApellido)
+                        @Html.DisplayNameFor(model => model.fechaCreacionExp)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.cedula)
+                        @Html.DisplayNameFor(model => model.nombreCliente)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.fechaIngreso)
+                        @Html.DisplayNameFor(model => model.marca)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.modelo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.placa)
                     </th>
                     <th></th>
                 </tr>
@@ -48,23 +61,30 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+
                         <td>
-                            @Html.DisplayFor(modelItem => item.IDTecnico)
+                            @Html.DisplayFor(modelItem => item.nombreTecnico)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.nombre)
+                            @Html.DisplayFor(modelItem => item.asunto)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.pmrApellido)
+                            @Html.DisplayFor(modelItem => item.descripcion)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.sgndApellido)
+                            @Html.DisplayFor(modelItem => item.fechaCreacionExp)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.cedula)
+                            @Html.DisplayFor(modelItem => item.nombreCliente)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.fechaIngreso)
+                            @Html.DisplayFor(modelItem => item.marca)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.modelo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.placa)
                         </td>
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
@@ -75,8 +95,9 @@
                 }
             </tbody>
         </table>
+
         <p>
-            <a asp-action="Create" class="Boton">Registrar Técnico</a>
+            <a asp-action="Create" class="Boton">Registrar nuevo Expediente</a>
         </p>
     </div>
 </div>

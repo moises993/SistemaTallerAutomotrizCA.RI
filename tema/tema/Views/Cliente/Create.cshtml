@@ -11,7 +11,7 @@
 <div class="content-wrapper">
     <div class="container">
 
-        <h1>Crear Cliente</h1>
+
 
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
             <li><a href="../Cliente/Index" style="color:aliceblue">Inicio</a></li>
@@ -21,17 +21,17 @@
             <li><a href="#">Pictures</a></li>
             <li class="active">Vacation</li>*@
         </ol>
-
-        <div class="row" style="border:solid; width:auto; height:30em">
+        <h1>Crear Cliente</h1>
+        <div class="row">
             @*es para el borde de la división de la tabla*@
             <div class="col-md-4">
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     @*<div class="form-group">
-            <label asp-for="IDCliente" class="control-label"></label>
-            <input asp-for="IDCliente" class="form-control" />
-            <span asp-validation-for="IDCliente" class="text-danger"></span>
-        </div>*@
+                        <label asp-for="IDCliente" class="control-label"></label>
+                        <input asp-for="IDCliente" class="form-control" />
+                        <span asp-validation-for="IDCliente" class="text-danger"></span>
+                    </div>*@
                     <div class="form-group">
                         <label asp-for="nombre" class="control-label"></label>
                         <input asp-for="nombre" class="form-control" />

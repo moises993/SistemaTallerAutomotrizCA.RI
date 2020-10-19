@@ -2,58 +2,59 @@
 
 @{
     ViewData["Title"] = "Delete";
-    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
     <div class="content-wrapper">
+        <div class="container">
+            <h1>Delete</h1>
 
-        <h1>Delete</h1>
+            <h3>Are you sure you want to delete this?</h3>
+            <div>
+                <h4>Tecnico</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.IDTecnico)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.IDTecnico)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.nombre)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.nombre)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.pmrApellido)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.pmrApellido)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.sgndApellido)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.sgndApellido)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.cedula)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.cedula)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.fechaIngreso)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.fechaIngreso)
+                    </dd>
+                </dl>
 
-        <h3>Are you sure you want to delete this?</h3>
-        <div>
-            <h4>Tecnico</h4>
-            <hr />
-            <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.IDTecnico)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.IDTecnico)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.nombre)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.nombre)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.pmrApellido)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.pmrApellido)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.sgndApellido)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.sgndApellido)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.cedula)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.cedula)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.fechaIngreso)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.fechaIngreso)
-                </dd>
-            </dl>
-
-            <form asp-action="Delete">
-                <input type="submit" value="Delete" class="btn btn-danger" /> |
-                <a asp-action="Index">Back to List</a>
-            </form>
+                <form asp-action="Delete">
+                    <input type="submit" value="Delete" class="btn btn-danger" /> |
+                    <a asp-action="Index">Back to List</a>
+                </form>
+            </div>
         </div>
 </div>
