@@ -273,37 +273,33 @@ namespace ApiPrueba.Servicios.Repositorios
 
         //Métodos para ingreso y consulta de los detalles de un cliente
         #region areaDetalles
-        public DetallesCliente VerDetallesCliente(int id)
+        public List<DetallesCliente> VerDetallesCliente(string cedula)
         {
-            DetallesCliente salida = null;
+            List<DetallesCliente> salida = new List<DetallesCliente>();
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
-
             try
             {
                 conexion.Open();
-
-                using (var comando = new NpgsqlCommand("\"Taller\".\"dtcVerDetalleClt\"", conexion))
+                using (var comando = new NpgsqlCommand("\"Taller\".\"dtcVerDetalleCliente\"", conexion))
                 {
                     comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.AddWithValue("pid", id);
-
+                    comando.Parameters.AddWithValue("pcedula", cedula);
                     using (var lector = comando.ExecuteReader())
                     {
                         while (lector.Read())
                         {
-                            salida = new DetallesCliente
+                            DetallesCliente dtc = new DetallesCliente
                             {
                                 IDCliente = lector.GetInt32(0),
-                                direccion = lector.GetString(1),
-                                telefono = lector.GetString(2),
-                                correo = lector.GetString(3)
+                                direccion = lector.GetString(1).Trim(),
+                                telefono = lector.GetString(2).Trim(),
+                                correo = lector.GetString(3).Trim()
                             };
+                            salida.Add(dtc);
                         }
-
                         lector.Close();
                     }
                 }
-
                 conexion.Close();
             }
             catch (Exception)

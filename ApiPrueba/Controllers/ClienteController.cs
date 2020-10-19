@@ -109,15 +109,9 @@ namespace ApiPrueba.Controllers
          ------------------------------------------DETALLES DEL CLIENTE----------------------------------------------------
          ------------------------------------------------------------------------------------------------------------------*/
 
-        [HttpGet("ObtenerDetallesCliente/{id}")]
-        public DetallesCliente VerDetallesCliente(int id)
-        {
-            DetallesCliente objt = _clienteServicio.VerDetallesCliente(id);
-
-            if (objt == null) return null;
-
-            return objt;
-        }
+        [HttpGet("ObtenerDetallesCliente/{cedula}")]
+        public List<DetallesCliente> VerDetallesCliente(string cedula) =>
+            _clienteServicio.VerDetallesCliente(cedula);
 
         [HttpPost("RegistrarDetallesCliente")]
         public IActionResult RegistrarDetallesCliente([FromBody] DetallesCliente clt)
