@@ -1,0 +1,77 @@
+﻿body {
+    font-family: sans-serif,"Source Sans Pro";
+}
+
+tabla {
+    font-family: sans-serif,"Source Sans Pro";
+    font-size: 12px;
+    margin: 45px;
+    width: 480px;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+th {
+    font-size: 12px;
+    font-weight: normal;
+    padding: 8px;
+    background: #01386E;
+    border-top: 4px solid;
+    border-bottom: 1px solid;
+    color: #ffffff;
+}
+
+td {
+    padding: 8px;
+    background: #CCCCCC;
+    border-bottom: 1px solid;
+    color: #ffffff;
+    border-top: 1px solid transparent;
+}
+
+tr:hover td {
+    background: #CCCCCC;
+    color: #339;
+}
+
+.Boton {
+    text-decoration: none;
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: sans-serif,"Source Sans Pro";
+    font-weight: 300;
+    font-size: 15px;
+    font-style: italic;
+    color: #CCCCCC;
+    background-color: #01386E;
+    border-radius: 15px;
+    border: 3px double #000;
+}
+
+Buttonn:hover {
+    opacity: 0.6;
+    text-decoration: none;
+}
+
+
+.Titulos {
+    text-decoration: none;
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: sans-serif;
+    font-weight: 300;
+    font-size: 30px;
+    font-style: italic;
+    color: #CCCCCC;
+    background-color: #01386E;
+    border-radius: 15px;
+    border: 3px double #000;
+    position: fixed;
+}
+
+Tituloss:hover {
+    opacity: 0.6;
+    text-decoration: none;
+}

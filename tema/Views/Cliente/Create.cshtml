@@ -1,0 +1,74 @@
+﻿@model tema.Models.Cliente
+
+@{
+    ViewData["Title"] = "Create";
+}
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<div class="content-wrapper">
+    <div class="container">
+
+
+
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a href="../Cliente/Index" style="color:aliceblue">Inicio</a></li>
+            <li><a class="active" style="color:aliceblue">Crear Cliente</a></li>
+            @*<li><a href="#">Home</a></li>
+            <li><a href="#">Private</a></li>
+            <li><a href="#">Pictures</a></li>
+            <li class="active">Vacation</li>*@
+        </ol>
+        <h1>Crear Cliente</h1>
+        <div class="row">
+            @*es para el borde de la división de la tabla*@
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @*<div class="form-group">
+                        <label asp-for="IDCliente" class="control-label"></label>
+                        <input asp-for="IDCliente" class="form-control" />
+                        <span asp-validation-for="IDCliente" class="text-danger"></span>
+                    </div>*@
+                    <div class="form-group">
+                        <label asp-for="nombre" class="control-label"></label>
+                        <input asp-for="nombre" class="form-control" />
+                        <span asp-validation-for="nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="pmrApellido" class="control-label"></label>
+                        <input asp-for="pmrApellido" class="form-control" />
+                        <span asp-validation-for="pmrApellido" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="sgndApellido" class="control-label"></label>
+                        <input asp-for="sgndApellido" class="form-control" />
+                        <span asp-validation-for="sgndApellido" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="cedula" class="control-label"></label>
+                        <input asp-for="cedula" class="form-control" />
+                        <span asp-validation-for="cedula" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label" asp-for="cltFrecuente">
+                            <input class="form-check-input" asp-for="cltFrecuente" /> @Html.DisplayNameFor(model => model.cltFrecuente)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Crear" class="Boton" />
+                    </div>
+
+                    <div>
+                        <a asp-action="Index" class="Boton">Ver lista de Clientes</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
