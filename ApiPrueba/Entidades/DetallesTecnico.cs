@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ApiPrueba.Entidades
+﻿namespace ApiPrueba.Entidades
 {
     public class DetallesTecnico
     {
@@ -11,5 +6,6 @@ namespace ApiPrueba.Entidades
         public string direccion { get; set; }
         public string telefono { get; set; }
         public string correo { get; set; }
+        public int codDet { get; set; }
     }
 }

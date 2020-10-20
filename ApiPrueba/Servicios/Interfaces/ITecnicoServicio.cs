@@ -15,7 +15,8 @@ namespace ApiPrueba.Servicios.Interfaces
         bool RegistrarTecnico(string nmb, string ap1, string ap2, string ced);
         bool ActualizarTecnico(int id, string nmb, string ap1, string ap2, string ced);
         bool BorrarTecnico(int id);
-        DetallesTecnico VerDetallesTecnico(int id);
+        List<DetallesTecnico> VerDetallesTecnico(string cedula);
+        DetallesTecnico VerDetalleIndividual(int id);
         bool RegistrarDetalleTecnico(int id, string pdireccion, string ptelefono, string pcorreo);
         bool ActualizarDetalleTecnico(int id, string pdireccion, string ptelefono, string pcorreo);
         bool BorrarDetalleTecnico(int id);
