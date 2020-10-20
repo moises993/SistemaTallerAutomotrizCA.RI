@@ -1,0 +1,59 @@
+﻿@model tema.Models.DetallesCliente
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="content-wrapper">
+        <div class="container">
+
+
+            <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+                <li><a href="../Cliente/Index" style="color:aliceblue">Inicio</a></li>
+                <li><a class="active" style="color:aliceblue">Crear Detalle del Cliente</a></li>
+                @*<li><a href="#">Home</a></li>
+                <li><a href="#">Private</a></li>
+                <li><a href="#">Pictures</a></li>
+                <li class="active">Vacation</li>*@
+            </ol>
+            <h4>Detalle Cliente</h4>
+            <hr />
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group">
+                            <label asp-for="direccion" class="control-label"></label>
+                            <input asp-for="direccion" class="form-control" />
+                            <span asp-validation-for="direccion" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="telefono" class="control-label"></label>
+                            <input asp-for="telefono" class="form-control" />
+                            <span asp-validation-for="telefono" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="correo" class="control-label"></label>
+                            <input asp-for="correo" class="form-control" />
+                            <span asp-validation-for="correo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="codDet" class="control-label"></label>
+                            <input asp-for="codDet" class="form-control" />
+                            <span asp-validation-for="codDet" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
+
+</div>
+</div>
