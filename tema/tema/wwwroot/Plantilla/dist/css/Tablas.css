@@ -18,21 +18,18 @@ th {
     background: #01386E;
     border-top: 4px solid;
     border-bottom: 1px solid;
-    color: #ffffff;
+    color: #000
 }
 
 td {
     padding: 8px;
     background: #CCCCCC;
     border-bottom: 1px solid;
-    color: #ffffff;
+    color: #000;
     border-top: 1px solid transparent;
 }
 
-tr:hover td {
-    background: #CCCCCC;
-    color: #339;
-}
+
 
 .Boton {
     text-decoration: none;
@@ -50,7 +47,7 @@ tr:hover td {
 }
 
 Buttonn:hover {
-    opacity: 0.6;
+    opacity:1;
     text-decoration: none;
 }
 
