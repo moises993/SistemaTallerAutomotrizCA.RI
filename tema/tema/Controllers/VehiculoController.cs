@@ -72,7 +72,6 @@ namespace tema.Controllers
                     var byteContent = new ByteArrayContent(buffer);
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                     var postTask = client.PostAsync("Taller/Vehiculo/RegistrarVehiculo", byteContent).Result;
-
                     var result = postTask;
 
                     if (result.StatusCode == HttpStatusCode.BadRequest)

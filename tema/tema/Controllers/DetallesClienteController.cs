@@ -46,7 +46,7 @@ namespace tema.Controllers
                     }
                 }
             }
-            return View(dtc);   
+            return View(dtc);
         }
 
         public async Task<ActionResult> Edit(int? id)

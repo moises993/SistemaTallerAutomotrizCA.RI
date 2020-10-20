@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using tema.Models;
+using tema.Models.ViewModels;
 
 namespace tema.Controllers
 {
@@ -40,18 +41,27 @@ namespace tema.Controllers
 
         public async Task<IActionResult> Details(string id)
         {
-            if (id == string.Empty)
+            if (id == string.Empty) return NotFound();
+            ClienteViewModel cltvm = new ClienteViewModel();
+            cltvm.cliente = await GetOneById(id, new Cliente());
+            using (var client = new HttpClient())
             {
-                return NotFound();
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client.GetAsync("Taller/Cliente/ObtenerDetallesCliente/" + id);
+                if (res.IsSuccessStatusCode)
+                {
+                    var auxRes = res.Content.ReadAsStringAsync().Result;
+                    cltvm.detallesCliente = JsonConvert.DeserializeObject<List<DetallesCliente>>(auxRes);
+                }
+                else
+                {
+                    cltvm.detallesCliente = new List<DetallesCliente>();
+                    return RedirectToAction("Index", "Cliente");
+                }
             }
-
-            var cliente = await GetOneById(id, new Cliente());
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-
-            return View(cliente);
+            return View(cltvm);
         }
         public IActionResult Create()
         {
