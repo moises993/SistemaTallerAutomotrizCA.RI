@@ -11,5 +11,9 @@ namespace tema.Models
         [Required(ErrorMessage = "No se ingresó un correo")]
         public string correo { get; set; }
         public string rol { get; set; }
+        [Required(ErrorMessage = "No se ingresó un correo")]
+        public string correoForm { get; set; }
+        [Required(ErrorMessage = "No se ingresó la contraseña")]
+        public string contra { get; set; }
     }
 }

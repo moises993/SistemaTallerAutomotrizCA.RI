@@ -16,5 +16,7 @@ namespace tema.Models
         public string rol { get; set; }
         public string tokenCorreo { get; set; }
         public string tokenSesion { get; set; }
+        public string correoForm { get; set; }
+        public string contra { get; set; }
     }
 }
