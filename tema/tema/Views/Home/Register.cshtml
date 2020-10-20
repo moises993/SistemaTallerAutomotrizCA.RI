@@ -9,7 +9,7 @@
     <div class="container">
         <h1>Registrar usuario</h1>
 
-        <p style="text-align: justify;">
+        <p style="text-align: justify; font-family:Arial" >
             A continuación, se le presentan dos formularios: en el primero debe ingresar su correo y la contraseña
             de la misma, ya que el nuevo usuario recibirá una clave generada por el sistema y será enviada por medio
             de la cuenta ingresada en este formulario. Sus datos no serán conservados por ningún elemento del sistema
@@ -19,7 +19,7 @@
             correo. De lo contrario, no se creará a este usuario.
         </p>
 
-        <h2>Formulario para el envío del correo</h2>
+        <h2 style="text-align: justify; font-family:Arial">Formulario para el envío del correo</h2>
 
         <form method="post" id="emisor">
             <input id="correoEmisor" placeholder="Ingrese su correo" />
@@ -29,21 +29,21 @@
             <br />
             <br />
         </form>
-            <h2>Formulario para el registro del nuevo usuario</h2>
+            <h2 style="text-align: justify; font-family:Arial">Formulario para el registro del nuevo usuario</h2>
 
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="correo" placeholder="Ingrese el correo" />
+            <input asp-for="correo" style="font-family:Arial" placeholder="Ingrese el correo" />
             <span asp-validation-for="correo"></span>
             <br />
             <br />
-            <label asp-for="rol">Seleccione un rol para el nuevo usuario</label>
+            <label asp-for="rol" style="font-family:Arial">Seleccione un rol para el nuevo usuario</label>
             <br />
             <select asp-for="rol">
                 <option value="manager">Administrador</option>
                 <option value="tecnico">Técnico</option>
             </select>
-            <button type="submit" value="Submit">Ingresar</button>
+            <button type="submit" value="Submit" style="text-align: justify; font-family:Arial">Ingresar</button>
         </form>
     </div>
 </div>

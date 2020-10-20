@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using tema.Models;
+using tema.Models.ViewModels;
 
 namespace tema.Controllers
 {
@@ -16,8 +18,8 @@ namespace tema.Controllers
     public class ClienteController : Controller
     {
         string baseurl = "https://localhost:44300/";
-
-        public async Task<IActionResult> Index()
+        public static string ced;
+        public async Task<ActionResult> Index()
         {
             List<Cliente> aux = new List<Cliente>();
 
@@ -31,156 +33,96 @@ namespace tema.Controllers
                 if (res.IsSuccessStatusCode)
                 {
                     var auxRes = res.Content.ReadAsStringAsync().Result;
-
                     aux = JsonConvert.DeserializeObject<List<Cliente>>(auxRes);
                 }
             }
             return View(aux);
         }
 
-        public async Task<IActionResult> Details(string id)
+        public async Task<ActionResult> Details(string id)
         {
-            if (id == string.Empty)
+            if (id == string.Empty) return NotFound();
+            ClienteViewModel cltvm = new ClienteViewModel();
+            cltvm.cliente = await GetOneById(id, new Cliente());
+            using (var client = new HttpClient())
             {
-                return NotFound();
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client.GetAsync("Taller/Cliente/ObtenerDetallesCliente/" + id);
+                if (res.IsSuccessStatusCode)
+                {
+                    var auxRes = res.Content.ReadAsStringAsync().Result;
+                    cltvm.detallesCliente = JsonConvert.DeserializeObject<List<DetallesCliente>>(auxRes);
+                }
+                else
+                {
+                    cltvm.detallesCliente = new List<DetallesCliente>();
+                    return RedirectToAction("Index", "Cliente");
+                }
             }
-
-            var cliente = await GetOneById(id, new Cliente());
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-
-            return View(cliente);
+            return View(cltvm);
         }
-        public IActionResult Create()
+
+        public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("nombre,pmrApellido,sgndApellido,cedula,cltFrecuente,fechaIngreso")] Cliente cliente)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
         {
-            if (ModelState.IsValid)
+            try
             {
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(baseurl);
-
-                    var myContent = JsonConvert.SerializeObject(cliente);
-                    var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-                    var byteContent = new ByteArrayContent(buffer);
-                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    var postTask = client.PostAsync("Taller/Cliente/RegistrarCliente", byteContent).Result;
-
-                    var result = postTask;
-
-                    if (result.StatusCode == HttpStatusCode.BadRequest)
-                    {
-                        ModelState.AddModelError(string.Empty, "Existe un cliente con esta cédula");
-                    }
-
-                    if (result.IsSuccessStatusCode)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-                //ModelState.AddModelError(string.Empty, "Error del servidor");
+                return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            catch
+            {
+                return View();
+            }
         }
 
-        public async Task<IActionResult> Edit(string id)
+        public ActionResult Edit(int id)
         {
-            if (id == string.Empty)
-            {
-                return NotFound();
-            }
-
-            var cliente = await GetOneById(id, new Cliente());
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-            return View(cliente);
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("nombre,pmrApellido,sgndApellido,cedula,cltFrecuente,fechaIngreso")] Cliente cliente)
+        public ActionResult Edit(int id, IFormCollection collection)
         {
-            if (id != cliente.cedula)
+            try
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
-
-            if (ModelState.IsValid)
+            catch
             {
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(baseurl);
-
-                    var myContent = JsonConvert.SerializeObject(cliente);
-                    var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-                    var byteContent = new ByteArrayContent(buffer);
-                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    var postTask = client.PatchAsync("Taller/Cliente/ActualizarDatos/" + id, byteContent).Result;
-
-                    var result = postTask;
-                    if (result.IsSuccessStatusCode)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-                ModelState.AddModelError(string.Empty, "Server Error, Please contact administrator");
-
-
+                return View();
             }
-            return View(cliente);
         }
 
-        public async Task<IActionResult> Delete(string id)
+        public ActionResult Delete(int id)
         {
-            if (id == string.Empty)
-            {
-                return NotFound();
-            }
-
-            var cliente = await GetOneById(id, new Cliente());
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-
-            return View(cliente);
+            return View();
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public ActionResult Delete(int id, IFormCollection collection)
         {
-            var cliente = await GetOneById(id, new Cliente());
-            using (var client = new HttpClient())
+            try
             {
-                client.BaseAddress = new Uri(baseurl);
-
-                var myContent = JsonConvert.SerializeObject(cliente);
-                var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-                var byteContent = new ByteArrayContent(buffer);
-                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                var postTask = client.DeleteAsync("Taller/Cliente/BorrarCliente/" + id).Result;
-
-                var result = postTask;
-                if (result.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("Index");
-                }
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            catch
+            {
+                return View();
+            }
         }
-
         private async Task<Cliente> GetOneById(string cedula, Cliente aux)
         {
+            ced = cedula;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(baseurl);
@@ -190,11 +132,9 @@ namespace tema.Controllers
                 if (res.IsSuccessStatusCode)
                 {
                     var auxRes = res.Content.ReadAsStringAsync().Result;
-
                     aux = JsonConvert.DeserializeObject<Cliente>(auxRes);
                 }
             }
-
             return aux;
         }
     }

@@ -1,4 +1,5 @@
-﻿@model tema.Models.Cliente
+﻿@model tema.Models.ViewModels.ClienteViewModel
+
 
 @{
     ViewData["Title"] = "Details";
@@ -7,11 +8,10 @@
 
 <div class="content-wrapper">
 
-    <h1>Detalles del Cliente</h1>
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a href="../Cliente/Index"  style="color:aliceblue">Inicio/</a></li>
-            <li><a class="active"  style="color:aliceblue">Detalles</a></li>
+            <li><a href="../Cliente/Index" style="color:aliceblue">Inicio/</a></li>
+            <li><a class="active" style="color:aliceblue">Detalles</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>
                 <li><a href="#">Pictures</a></li>
@@ -20,57 +20,149 @@
     </div>
     <div class="container">
 
-        <div>
-            <!--  <h4>Cliente</h4> -->
+        <h1>Detalles del cliente @Model.cliente.nombre @Model.cliente.pmrApellido</h1>
+        <!--class="container" style="position: relative; margin-left: auto; margin-right: auto;"-->
+        <div style="display: inline-block; ">
             <hr />
-            <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.IDCliente)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.IDCliente)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.nombre)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.nombre)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.pmrApellido)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.pmrApellido)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.sgndApellido)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.sgndApellido)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.cedula)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.cedula)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.cltFrecuente)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.cltFrecuente)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.fechaIngreso)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.fechaIngreso)
-                </dd>
-            </dl>
+            <div style="float: left; max-width: 34%;">
+                <dl class="row">
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.cliente.IDCliente)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.cliente.IDCliente)
+                    </dd>
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.cliente.nombre)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.cliente.nombre)
+                    </dd>
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.cliente.pmrApellido)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.cliente.pmrApellido)
+                    </dd>
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.cliente.sgndApellido)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.cliente.sgndApellido)
+                    </dd>
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.cliente.cedula)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.cliente.cedula)
+                    </dd>
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.cliente.cltFrecuente)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.cliente.cltFrecuente)
+                    </dd>
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.cliente.fechaIngreso)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Model.cliente.fechaIngreso.Date.ToString("dd/MM/yyyy")
+                    </dd>
+                </dl>
+                <div>
+                    @Html.ActionLink("Actualizar", "Edit", new { /* id = Model.PrimaryKey */ }) |
+                    <a asp-action="Index">Regresar a la tabla</a>
+                </div>
+            </div>
+            <!--*******************************************************************************************************-->
+            <div style="float: right; max-width: 60%;">
+                @section Scripts
+        {
+                    <script>
+                        $(document).ready(function () {
+                            $('#tablaDatos').DataTable({
+                                "language":
+                                {
+                                    "sProcessing": "Procesando...",
+                                    "sLengthMenu": "Mostrar _MENU_ registros",
+                                    "sZeroRecords": "No se encontraron resultados",
+                                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                                    "sInfoPostFix": "",
+                                    "sSearch": "Buscar:",
+                                    "sUrl": "",
+                                    "sInfoThousands": ",",
+                                    "sLoadingRecords": "Cargando...",
+                                    "oPaginate": {
+                                        "sFirst": "Primero",
+                                        "sLast": "Último",
+                                        "sNext": "Siguiente",
+                                        "sPrevious": "Anterior"
+                                    },
+                                    "oAria": {
+                                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                                    },
+                                    "buttons": {
+                                        "copy": "Copiar",
+                                        "colvis": "Visibilidad"
+                                    }
+                                },
+                                "lengthChange": false,
+                                "pageLength": 2
+                            });
+                        });
+                    </script>
+                }
+                <table id="tablaDatos" class="table table-responsive-md">
+                    <thead class="text-center">
+                        <tr>
+                            <th>
+                                Dirección
+                            </th>
+                            <th>
+                                Teléfono
+                            </th>
+                            <th>
+                                Correo
+                            </th>
+                            <th>
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DetallesCliente dtc in Model.detallesCliente)
+                        {
+                            <tr>
+                                @*<td>
+                                        @dtc.IDCliente
+                                    </td>*@
+                                <td>
+                                    @dtc.direccion
+                                </td>
+                                <td>
+                                    @dtc.telefono
+                                </td>
+                                <td>
+                                    @dtc.correo
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Actualizar", "Edit", "DetallesCliente", new { id = dtc.codDet }) |
+                                    @Html.ActionLink("Borrar", "Delete", "DetallesCliente", new { id = dtc.codDet })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <p>
+                    @*<a asp-controller="DetallesCliente" asp-action="Create">Ingresar más información</a>*@
+                    @Html.ActionLink("Ingresar datos nuevos", "Create", "DetallesCliente", new { id = Model.cliente.IDCliente })
+                </p>
+            </div>
+            <!--*******************************************************************************************************-->
         </div>
-        <div>
-            @Html.ActionLink("Editar", "Edit", new { id = Model.cedula }) |
-            <a asp-action="Index" class="Boton">Ver lista de Clientes</a>
-        </div>
-    </div>
+</div>
 </div>

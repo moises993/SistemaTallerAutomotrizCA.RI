@@ -12,7 +12,7 @@ using tema.Models;
 
 namespace tema.Controllers
 {
-    [Authorize]
+    [Authorize] 
     public class OrdenController : Controller
     {
         string baseurl = "https://localhost:44300/";

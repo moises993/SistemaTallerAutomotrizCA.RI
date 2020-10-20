@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using tema.Models;
 using tema.Utilidades;
 using tema.Utilidades.Interfaces;
@@ -60,13 +59,7 @@ namespace tema.Controllers
                 return View();
             }
 
-            Usuario objLogin = new Usuario
-            {
-                correo = objeto.correo.Trim(),
-                clave = objeto.clave.Trim()
-            };
-
-            Usuario objetoUsuario = await _usRep.LoginAsync(baseurl + "Taller/Usuario/IniciarSesion", objLogin);
+            Usuario objetoUsuario = await _usRep.LoginAsync(baseurl + "Taller/Usuario/IniciarSesion", objeto);
 
             if (_usRep.Error400)
             {
@@ -104,8 +97,6 @@ namespace tema.Controllers
 
             Usuario objeto = new Usuario
             {
-                correoForm = objetoVM.correoForm,
-                contra = objetoVM.contra,
                 correo = objetoVM.correo,
                 rol = objetoVM.rol
             };

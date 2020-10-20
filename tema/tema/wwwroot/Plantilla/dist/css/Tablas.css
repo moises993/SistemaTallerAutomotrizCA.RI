@@ -1,9 +1,9 @@
 ﻿body {
-    font-family: sans-serif;
+    font-family: sans-serif,"Source Sans Pro";
 }
 
 tabla {
-    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-family: sans-serif,"Source Sans Pro";
     font-size: 12px;
     margin: 45px;
     width: 480px;
@@ -39,7 +39,7 @@ tr:hover td {
     padding: 3px;
     padding-left: 10px;
     padding-right: 10px;
-    font-family: sans-serif;
+    font-family: sans-serif,"Source Sans Pro";
     font-weight: 300;
     font-size: 15px;
     font-style: italic;
