@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using ApiPrueba.Entidades;
 using ApiPrueba.Entidades.Vistas;
@@ -99,13 +100,15 @@ namespace ApiPrueba.Controllers
          ------------------------------------------DETALLES DEL TÉCNICO----------------------------------------------------
          ------------------------------------------------------------------------------------------------------------------*/
 
-        [HttpGet("ObtenerDetallesTecnico/{id}")]
-        public DetallesTecnico VerDetallesTecnico(int id)
+        [HttpGet("ObtenerDetallesTecnico/{cedula}")]
+        public List<DetallesTecnico> VerDetallesTecnico(string cedula) =>
+            _tecServicio.VerDetallesTecnico(cedula);
+
+        [HttpGet("ObtenerDetalleIndividual/{id}")]
+        public DetallesTecnico VerClientePorCedula(int id)
         {
-            DetallesTecnico objt = _tecServicio.VerDetallesTecnico(id);
-
+            DetallesTecnico objt = _tecServicio.VerDetalleIndividual(id);
             if (objt == null) return null;
-
             return objt;
         }
 
@@ -136,13 +139,13 @@ namespace ApiPrueba.Controllers
         [HttpPatch("ActualizarDetalles/{id}")]
         public IActionResult ActualizarDetallesTecnico(int id, [FromBody] DetallesTecnico tec)
         {
-            if (tec == null || id != tec.IDTecnico)
+            if (tec == null || id != tec.codDet)
             {
                 ModelState.AddModelError("", "No se digitó toda la información requerida para este Tecnico");
                 return StatusCode(400, ModelState);
             }
 
-            if (!_tecServicio.ActualizarDetalleTecnico(tec.IDTecnico, tec.direccion, tec.telefono, tec.correo))
+            if (!_tecServicio.ActualizarDetalleTecnico(tec.codDet, tec.direccion, tec.telefono, tec.correo))
             {
                 ModelState.AddModelError("", "Ocurrió un error durante la actualización. Por favor, inténtelo en un momento");
                 return StatusCode(500, ModelState);

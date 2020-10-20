@@ -113,6 +113,14 @@ namespace ApiPrueba.Controllers
         public List<DetallesCliente> VerDetallesCliente(string cedula) =>
             _clienteServicio.VerDetallesCliente(cedula);
 
+        [HttpGet("ObtenerDetalleIndividual/{id}")]
+        public DetallesCliente VerClientePorCedula(int id)
+        {
+            DetallesCliente objt = _clienteServicio.VerDetalleIndividual(id);
+            if (objt == null) return null;
+            return objt;
+        }
+
         [HttpPost("RegistrarDetallesCliente")]
         public IActionResult RegistrarDetallesCliente([FromBody] DetallesCliente clt)
         {
@@ -140,13 +148,13 @@ namespace ApiPrueba.Controllers
         [HttpPatch("ActualizarDetalles/{id}")]
         public IActionResult ActualizarDetallesCliente(int id, [FromBody] DetallesCliente clt)
         {
-            if (clt == null || id != clt.IDCliente)
+            if (clt == null || id != clt.codDet)
             {
                 ModelState.AddModelError("", "No se digitó toda la información requerida para este cliente");
                 return StatusCode(400, ModelState);
             }
 
-            if (!_clienteServicio.ActualizarDetalleCliente(clt.IDCliente, clt.direccion, clt.telefono, clt.correo))
+            if (!_clienteServicio.ActualizarDetalleCliente(clt.codDet, clt.direccion, clt.telefono, clt.correo))
             {
                 ModelState.AddModelError("", "Ocurrió un error durante la actualización. Por favor, inténtelo en un momento");
                 return StatusCode(500, ModelState);
@@ -159,13 +167,11 @@ namespace ApiPrueba.Controllers
         public IActionResult BorrarDetallesCliente(int id)
         {
             bool resultado = _clienteServicio.BorrarDetalleCliente(id);
-
             if (!resultado)
             {
                 ModelState.AddModelError("", "No se eliminó la información consultada para este cliente");
                 return StatusCode(400, ModelState);
             }
-
             return Ok();
         }
     }

@@ -17,8 +17,9 @@ namespace ApiPrueba.Servicios.Interfaces
         bool BorrarCliente(string ced);
         bool CedulaExiste(string ced);
         List<DetallesCliente> VerDetallesCliente(string cedula);
+        DetallesCliente VerDetalleIndividual(int id);
+        bool RegistrarDetalleCliente(int id, string pdireccion, string ptelefono, string pcorreo);
         bool ActualizarDetalleCliente(int id, string pdireccion, string ptelefono, string pcorreo);
         bool BorrarDetalleCliente(int id);
-        bool RegistrarDetalleCliente(int id, string pdireccion, string ptelefono, string pcorreo);
     }
 }

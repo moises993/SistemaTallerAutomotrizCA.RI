@@ -293,7 +293,8 @@ namespace ApiPrueba.Servicios.Repositorios
                                 IDCliente = lector.GetInt32(0),
                                 direccion = lector.GetString(1).Trim(),
                                 telefono = lector.GetString(2).Trim(),
-                                correo = lector.GetString(3).Trim()
+                                correo = lector.GetString(3).Trim(),
+                                codDet = lector.GetInt32(4)
                             };
                             salida.Add(dtc);
                         }
@@ -310,10 +311,70 @@ namespace ApiPrueba.Servicios.Repositorios
             return salida;
         }
 
+        public DetallesCliente VerDetalleIndividual(int id)
+        {
+            DetallesCliente dtc = null;
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            try
+            {
+                conexion.Open();
+                using (var comando = new NpgsqlCommand("\"Taller\".\"dtcVerDetallePorId\"", conexion))
+                {
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue("pid", id);
+                    using (var lector = comando.ExecuteReader())
+                    {
+                        while (lector.Read())
+                        {
+                            dtc = new DetallesCliente
+                            {
+                                IDCliente = lector.GetInt32(0),
+                                direccion = lector.GetString(1).Trim(),
+                                telefono = lector.GetString(2).Trim(),
+                                correo = lector.GetString(3).Trim(),
+                                codDet = lector.GetInt32(4)
+                            };
+                        }
+                        lector.Close();
+                    }
+                }
+                conexion.Close();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dtc;
+        }
+
+        public bool RegistrarDetalleCliente(int id, string pdireccion, string ptelefono, string pcorreo)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            try
+            {
+                conexion.Open();
+                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"dtcIngresarDetalles\"(@pid, @pdireccion, @ptelefono, @pcorreo)", conexion))
+                {
+                    comando.Parameters.AddWithValue(":pid", id);
+                    comando.Parameters.AddWithValue(":pdireccion", pdireccion);
+                    comando.Parameters.AddWithValue(":ptelefono", ptelefono);
+                    comando.Parameters.AddWithValue(":pcorreo", pcorreo);
+
+                    comando.ExecuteNonQuery();
+
+                    conexion.Close();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public bool ActualizarDetalleCliente(int id, string pdireccion, string ptelefono, string pcorreo)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
-
             try
             {
                 conexion.Open();
@@ -346,9 +407,7 @@ namespace ApiPrueba.Servicios.Repositorios
                 using (var comando = new NpgsqlCommand("CALL \"Taller\".\"dtcEliminarDetalle\"(@pid)", conexion))
                 {
                     comando.Parameters.AddWithValue(":pid", id);
-
                     comando.ExecuteNonQuery();
-
                     conexion.Close();
                 }
                 return true;
@@ -358,33 +417,6 @@ namespace ApiPrueba.Servicios.Repositorios
                 throw;
             }
         }
-
-        public bool RegistrarDetalleCliente(int id, string pdireccion, string ptelefono, string pcorreo)
-        {
-            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
-
-            try
-            {
-                conexion.Open();
-                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"dtcIngresarDetalles\"(@pid, @pdireccion, @ptelefono, @pcorreo)", conexion))
-                {
-                    comando.Parameters.AddWithValue(":pid", id);
-                    comando.Parameters.AddWithValue(":pdireccion", pdireccion);
-                    comando.Parameters.AddWithValue(":ptelefono", ptelefono);
-                    comando.Parameters.AddWithValue(":pcorreo", pcorreo);
-
-                    comando.ExecuteNonQuery();
-
-                    conexion.Close();
-                }
-                return true;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         #endregion areaDetalles
     }
 }
