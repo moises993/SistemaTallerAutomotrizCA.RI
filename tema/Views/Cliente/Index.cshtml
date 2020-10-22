@@ -5,10 +5,6 @@
 }
 
 
-@{
-    ViewData["Title"] = "Home Page";
-}
-
 
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 
@@ -24,64 +20,64 @@
         @section Scripts
         {
             <script>
-        $(document).ready(function () {
-            $('#tablaDatos').DataTable({
-                "language":
-                {
-                    "sProcessing": "Procesando...",
-                    "sLengthMenu": "Mostrar _MENU_ registros",
-                    "sZeroRecords": "No se encontraron resultados",
-                    "sEmptyTable": "Ningún dato disponible en esta tabla",
-                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sSearch": "Buscar:",
-                    "sUrl": "",
-                    "sInfoThousands": ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst": "Primero",
-                        "sLast": "Último",
-                        "sNext": "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    },
-                    "buttons": {
-                        "copy": "Copiar",
-                        "colvis": "Visibilidad"
-                    }
-                },
-                "pageLength": 5
-            });
-        });
+                $(document).ready(function () {
+                    $('#tablaDatos').DataTable({
+                        "language":
+                        {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+                            },
+                            "oAria": {
+                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            },
+                            "buttons": {
+                                "copy": "Copiar",
+                                "colvis": "Visibilidad"
+                            }
+                        },
+                        "pageLength": 5
+                    });
+                });
             </script>
         }
-        <table id="tablaDatos" class="Tablas">
+        <table id="tablaDatos" class="tabla" style="width:100%">
             <thead>
                 <tr>
                     @*<th>
                             @Html.DisplayNameFor(model => model.IDCliente)
                         </th>*@
-                    <th>
+                    <th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.nombre)
                     </th>
-                    <th>
+                    <th style="color:white;font-family:Arial ">
                         @Html.DisplayNameFor(model => model.pmrApellido)
                     </th>
-                    <th>
+                    <th style="color:white;font-family:Arial" >
                         @Html.DisplayNameFor(model => model.sgndApellido)
                     </th>
-                    <th>
+                    <th style="color:white;font-family:Arial" >
                         @Html.DisplayNameFor(model => model.cedula)
                     </th>
-                    <th>
+                    <th style="color:white;font-family:Arial" >
                         @Html.DisplayNameFor(model => model.cltFrecuente)
                     </th>
-                    <th>
+                    <th style="color:white;font-family:Arial" >
                         @Html.DisplayNameFor(model => model.fechaIngreso)
                     </th>
                     <th></th>
@@ -114,12 +110,16 @@
                         </td>
                         <td>
                             @Html.ActionLink("Editar", "Edit", new { id = item.cedula }) |
-                            @Html.ActionLink("Detalles", "Details", new { id = item.cedula })
+                            @Html.ActionLink("Detalles", "Details", new { id = item.cedula })|
                             @Html.ActionLink("Eliminar", "Delete", new { id = item.cedula })
                         </td>
                     </tr>
                 }
             </tbody>
+
         </table>
-</div>
+        <p>
+            <a asp-action="Create" class="Boton" style="font-family: Arial;color: white">Crear Cliente</a>
+        </p>
+    </div>
 </div>

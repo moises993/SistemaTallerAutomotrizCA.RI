@@ -8,37 +8,73 @@
 
 <div class="content-wrapper">
     <div class="container">
-
-        <form class="form-inline ml-3">
-            @*buscar*@
-            <div class="input-group input-group-sm">
-                <input class="form-control form-control-navbar" type="search" placeholder="Buscar Ténico" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-navbar" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
-        <table class="Tablas">
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a href="../Vehiculo/Index" style="color:aliceblue">Inicio </a></li>
+            @*<li><a class="active" style="color:aliceblue">/ Crear Vehículo</a></li>*@
+            @*<li><a href="#">Home</a></li>
+            <li><a href="#">Private</a></li>
+            <li><a href="#">Pictures</a></li>
+            <li class="active">Vacation</li>*@
+        </ol>
+        <h1>Técnico</h1>
+        @section Scripts
+        {
+            <script>
+                $(document).ready(function () {
+                    $('#tablaDatos').DataTable({
+                        "language":
+                        {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+                            },
+                            "oAria": {
+                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            },
+                            "buttons": {
+                                "copy": "Copiar",
+                                "colvis": "Visibilidad"
+                            }
+                        },
+                        "pageLength": 5
+                    });
+                });
+            </script>
+        }
+        <table id="tablaDatos" class="Tablas" style="width:100%">
             <thead>
                 <tr>
-                    <th>
+                    <th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.IDTecnico)
                     </th>
-                    <th>
+                    <th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.nombre)
                     </th>
-                    <th>
+                    <th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.pmrApellido)
                     </th>
-                    <th>
+                    <th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.sgndApellido)
                     </th>
-                    <th>
+                    <th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.cedula)
                     </th>
-                    <th>
+                    <th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.fechaIngreso)
                     </th>
                     <th></th>
@@ -66,17 +102,17 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.fechaIngreso)
                         </td>
-                        <td>
-                            @Html.ActionLink("Editar", "Edit", new { id=item.IDTecnico }) |
-                            @Html.ActionLink("Detalles", "Details", new { id=item.IDTecnico }) |
-                            @Html.ActionLink("Borrar", "Delete", new { id=item.IDTecnico })
+                        <td style="text-align:center;font-family:Arial">
+                            @Html.ActionLink("Editar", "Edit", new { id = item.IDTecnico }) |
+                            @Html.ActionLink("Detalles", "Details", new { id = item.IDTecnico }) |
+                            @Html.ActionLink("Borrar", "Delete", new { id = item.IDTecnico })
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
         <p>
-            <a asp-action="Create" class="Boton">Registrar Técnico</a>
+            <a asp-action="Create" class="Boton" style="font-family:Arial; color: white">Registrar Técnico</a>
         </p>
     </div>
 </div>

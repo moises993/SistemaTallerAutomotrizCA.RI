@@ -9,28 +9,56 @@
 <div class="content-wrapper">
 
     <div class="container">
-        <form class="form-inline ml-3">
-            @*buscar*@
-            <div class="input-group input-group-sm">
-                <input class="form-control form-control-navbar" type="search" placeholder="Buscar Servicio" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-navbar" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
-
-        <table class="Tablas">
+        <h1>Servicio</h1>
+        @section Scripts
+        {
+            <script>
+                $(document).ready(function () {
+                    $('#tablaDatos').DataTable({
+                        "language":
+                        {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+                            },
+                            "oAria": {
+                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            },
+                            "buttons": {
+                                "copy": "Copiar",
+                                "colvis": "Visibilidad"
+                            }
+                        },
+                        "pageLength": 5
+                    });
+                });
+            </script>
+        }
+        <table id="tablaDatos" class="Tablas" style="width:100%">
             <thead>
                 <tr>
-                    <th>
+                    <th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.IDServicio)
                     </th>
-                    <th>
+                    <th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.IDVehiculo)
                     </th>
-                    <th>
+                    <th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.descripcion)
                     </th>
                     <th></th>
@@ -49,7 +77,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.descripcion)
                         </td>
-                        <td>
+                        <td style="text-align:center;font-family:Arial">
                             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                             @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
@@ -59,7 +87,7 @@
             </tbody>
         </table>
         <p>
-            <a asp-action="Create" class="Boton">Registrar Servicio</a>
+            <a asp-action="Create" class="Boton" style="font-family: Arial;color: white">Registrar Servicio</a>
         </p>
     </div>
 </div>

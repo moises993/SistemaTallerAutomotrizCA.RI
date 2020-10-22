@@ -6,7 +6,16 @@
 }
     <div class="content-wrapper">
         <div class="container">
-            <h1>Details</h1>
+
+            <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+                <li><a href="../Expediente/Index" style="color:aliceblue">Inicio</a></li>
+                <li><a class="active" style="color:aliceblue">Detalles del Expediente</a></li>
+                @*<li><a href="#">Home</a></li>
+            <li><a href="#">Private</a></li>
+            <li><a href="#">Pictures</a></li>
+            <li class="active">Vacation</li>*@
+            </ol>
+            <h1>Detalles del Cliente</h1>
 
             <div>
                 <h4>Expediente</h4>
@@ -77,7 +86,7 @@
             <div>
                 @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
                 <a asp-action="Index">Back to List</a>
-    
+
             </div>
-            </div>
+        </div>
         </div>
