@@ -10,8 +10,6 @@ namespace tema.Models
     {
         public int IDServicio { get; set; }
         public int IDVehiculo { get; set; }
-        [Required(ErrorMessage = "No se ingresó la descripción")]
-        [Display(Name = "Descripción")]
         public string descripcion { get; set; }
     }
 }

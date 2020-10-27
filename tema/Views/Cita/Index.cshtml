@@ -1,131 +1,234 @@
-﻿@model IEnumerable<tema.Models.Cita>
+﻿@model tema.Models.ViewModels.CitaViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
-    <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
-    <div class="content-wrapper">
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+<div class="content-wrapper">
 
-        <div class="container">
-            <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-                <li><a href="../Cita/Index" style="color:aliceblue">Inicio </a></li>
-                @*<li><a class="active" style="color:aliceblue">/ Crear Cita</a></li>*@
-                @*<li><a href="#">Home</a></li>
+    <div class="container">
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a href="../Cita/Index" style="color:aliceblue">Inicio </a></li>
+            @*<li><a class="active" style="color:aliceblue">/ Crear Cita</a></li>*@
+            @*<li><a href="#">Home</a></li>
             <li><a href="#">Private</a></li>
             <li><a href="#">Pictures</a></li>
             <li class="active">Vacation</li>*@
-            </ol>
-            <h1>Citas</h1>
-            @section Scripts
+        </ol>
+        <h1>Módulo de citas</h1>
+
+        <p>
+            <a asp-action="Create">Agregar una nueva cita</a>
+        </p>
+        @section ScriptTablaCita
         {
-                <script>
-                    $(document).ready(function () {
-                        $('#tablaDatos').DataTable({
-                            "language":
-                            {
-                                "sProcessing": "Procesando...",
-                                "sLengthMenu": "Mostrar _MENU_ registros",
-                                "sZeroRecords": "No se encontraron resultados",
-                                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                                "sInfoPostFix": "",
-                                "sSearch": "Buscar:",
-                                "sUrl": "",
-                                "sInfoThousands": ",",
-                                "sLoadingRecords": "Cargando...",
-                                "oPaginate": {
-                                    "sFirst": "Primero",
-                                    "sLast": "Último",
-                                    "sNext": "Siguiente",
-                                    "sPrevious": "Anterior"
-                                },
-                                "oAria": {
-                                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                                },
-                                "buttons": {
-                                    "copy": "Copiar",
-                                    "colvis": "Visibilidad"
-                                }
+            <script>
+                $(document).ready(function () {
+                    $('#tablaDatosCita').DataTable({
+                        "language":
+                        {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
                             },
-                            "pageLength": 5
-                        });
+                            "oAria": {
+                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            },
+                            "buttons": {
+                                "copy": "Copiar",
+                                "print": "Imprimir",
+                                "colvis": "Visibilidad"
+                            }
+                        },
+                        "lengthChange": false,
+                        "pageLength": 4,
+                        "dom": 'Bfrtip',
+                        "buttons": [
+                            'copy', 'csv', 'excel', 'pdf', 'print'
+                        ]
                     });
-                </script>
-            }
-            <table id="tablaDatos" class="Tablas" style="width:100%">
-                <thead>
+                });
+            </script>
+        }
+        <table id="tablaDatosCita" class="table table-responsive-md display">
+            <thead>
+                <tr>
+                    <th>
+                        Código del técnico
+                    </th>
+                    <th>
+                        Cédula del cliente
+                    </th>
+                    <th>
+                        Fecha de la cita
+                    </th>
+                    <th>
+                        Hora de la cita
+                    </th>
+                    <th>
+                        Asunto
+                    </th>
+                    <th>
+                        Descripción
+                    </th>
+                    <th>
+                        ¿Está confirmada?
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Cita citas in Model.cita)
+                {
                     <tr>
-
-                        <th style="color:white;font-family:Arial">
-                            @Html.DisplayNameFor(model => model.IDTecnico)
-                        </th>
-                        <th style="color:white;font-family:Arial">
-                            @Html.DisplayNameFor(model => model.cedulaCliente)
-                        </th>
-                        <th style="color:white;font-family:Arial">
-                            @Html.DisplayNameFor(model => model.fecha)
-                        </th>
-                        <th style="color:white;font-family:Arial">
-                            @Html.DisplayNameFor(model => model.hora)
-                        </th>
-                        <th style="color:white;font-family:Arial">
-                            @Html.DisplayNameFor(model => model.asunto)
-                        </th>
-                        <th style="color:white;font-family:Arial">
-                            @Html.DisplayNameFor(model => model.descripcion)
-                        </th>
-                        <th style="color:white;font-family:Arial">
-                            @Html.DisplayNameFor(model => model.citaConfirmada)
-                        </th>
-                        <th style="color:white;font-family:Arial">
-                            @Html.DisplayNameFor(model => model.IDCliente)
-                        </th>
-                        <th></th>
+                        <td>
+                            @citas.IDTecnico
+                        </td>
+                        <td>
+                            @citas.cedulaCliente
+                        </td>
+                        <td>
+                            @citas.fecha.Date.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @citas.hora
+                        </td>
+                        <td>
+                            @citas.asunto
+                        </td>
+                        <td>
+                            @citas.descripcion
+                        </td>
+                        <td>
+                            @citas.citaConfirmada
+                        </td>
+                        <td>
+                            @Html.ActionLink("Actualizar", "Edit", new { citas.IDCita }) |
+                            @Html.ActionLink("Cancelar cita", "Delete", new { citas.IDCita })
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IDTecnico)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.cedulaCliente)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.fecha)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.hora)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.asunto)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.descripcion)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.citaConfirmada)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IDCliente)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Editar", "Edit", new { id = item.IDCita }) |
-                                @Html.ActionLink("Detalles", "Details", new { id = item.IDCita }) |
-                                @Html.ActionLink("Eliminar", "Delete", new { id = item.IDCita })
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <p>
-                <a asp-action="Create" class="Boton" style="font-family: Arial;color: white">Crear Cita</a>
-            </p>
-        </div>
+                }
+            </tbody>
+        </table>
+        <p>
+            <a asp-controller="Cita" asp-action="Create">Crear cita</a>
+        </p>
+        <hr />
+        <h4>Detalle de servicios</h4>
+        <p style="text-align: justify;">
+            La siguiente tabla le permitirá agregar información preliminar sobre las tareas que debe hacer
+            a un vehículo. Le recomendamos que proceda a ingresar servicios antes de crear una cita
+            para automatizar la recolección de información dentro de la creación de citas.
+        </p>
+        <br />
+        @section ScriptTablaServicio
+        {
+            <script>
+                $(document).ready(function () {
+                    $('#tablaDatosServicio').DataTable({
+                        "language":
+                        {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+                            },
+                            "oAria": {
+                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            },
+                            "buttons": {
+                                "copy": "Copiar",
+                                "colvis": "Visibilidad"
+                            }
+                        },
+                        "paging": false,
+                        "scrollY": 150
+                    });
+                });
+            </script>
+        }
+        <table id="tablaDatosServicio" class="table table-responsive-md">
+            <thead>
+                <tr>
+                    <th>
+                        Código del vehículo
+                    </th>
+                    <th>
+                        Descripción del servicio
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Servicio srv in Model.servicio)
+                {
+                    <tr>
+                        <td>
+                            @srv.IDVehiculo
+                        </td>
+                        <td>
+                            @srv.descripcion
+                        </td>
+                        <td>
+                            @Html.ActionLink("Actualizar", "Details", "Servicio", new { id = srv.IDServicio }) |
+                            @Html.ActionLink("Eliminar", "Delete", "Servicio", new { id = srv.IDServicio })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+        <h4>Crear servicio</h4>
+        <hr />
+        <form asp-controller="Servicio" asp-action="Create">
+            <div class="form-row row">
+                <div class="col col-3">
+                    <label class="control-label">Código del vehículo</label>
+                    <select asp-for="IDVehiculo" asp-items="@(new SelectList(Model.vehiculo,"IDVehiculo","marca"))">
+                        <option>Seleccione un vehículo</option>
+                    </select>
+                </div>
+                <div class="col col-9">
+                    <label class="control-label">Descripción del servicio</label>
+                    <textarea asp-for="descripcion" cols="40" rows="5" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Ingresar" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

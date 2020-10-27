@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -73,16 +72,14 @@ namespace tema.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var client = new HttpClient())
+                using (HttpClient client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(baseurl);
-
                     var myContent = JsonConvert.SerializeObject(cliente);
                     var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
                     var byteContent = new ByteArrayContent(buffer);
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    var postTask = client.PostAsync("Taller/Cliente/RegistrarCliente", byteContent).Result;
-
+                    var postTask = await client.PostAsync("Taller/Cliente/RegistrarCliente", byteContent);
                     var result = postTask;
 
                     if (result.StatusCode == HttpStatusCode.BadRequest)
@@ -95,7 +92,6 @@ namespace tema.Controllers
                         return RedirectToAction(nameof(Index));
                     }
                 }
-                //ModelState.AddModelError(string.Empty, "Error del servidor");
             }
             return View(cliente);
         }
@@ -117,7 +113,7 @@ namespace tema.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("nombre,pmrApellido,sgndApellido,cedula,cltFrecuente,fechaIngreso")] Cliente cliente)
+        public IActionResult Edit(string id, [Bind("IDCliente,nombre,pmrApellido,sgndApellido,cedula,cltFrecuente,fechaIngreso")] Cliente cliente)
         {
             if (id != cliente.cedula)
             {

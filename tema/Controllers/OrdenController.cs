@@ -59,7 +59,7 @@ namespace tema.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("cedulaCliente,placaVehiculo,descServicio")] Orden Orden)
+        public IActionResult Create([Bind("cedulaCliente,placaVehiculo,descServicio")] Orden Orden)
         {
             if (ModelState.IsValid)
             {
@@ -109,7 +109,7 @@ namespace tema.Controllers
 
       
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("cedulaCliente,placaVehiculo,descServicio")] Orden Orden)
+        public IActionResult Edit(string id, [Bind("cedulaCliente,placaVehiculo,descServicio")] Orden Orden)
         {
             if (id != Orden.cedulaCliente)
             {

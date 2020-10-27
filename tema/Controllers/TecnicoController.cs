@@ -59,7 +59,7 @@ namespace tema.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([Bind("nombre,pmrApellido,sgndApellido,cedula,fechaIngreso")] Tecnico Tecnico)
+    public IActionResult Create([Bind("nombre,pmrApellido,sgndApellido,cedula,fechaIngreso")] Tecnico Tecnico)
     {
         if (ModelState.IsValid)
         {
@@ -107,7 +107,7 @@ namespace tema.Controllers
       
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string id, [Bind("nombre,pmrApellido,sgndApellido,cedula,fechaIngreso")] Tecnico Tecnico)
+    public IActionResult Edit(string id, [Bind("nombre,pmrApellido,sgndApellido,cedula,fechaIngreso")] Tecnico Tecnico)
     {
         if (id != Tecnico.cedula)
         {

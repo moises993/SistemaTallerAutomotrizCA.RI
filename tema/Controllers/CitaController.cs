@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using tema.Models;
+using tema.Models.ViewModels;
 
 namespace tema.Controllers
 {
@@ -19,23 +20,26 @@ namespace tema.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<Cita> aux = new List<Cita>();
-
-            using (var client = new HttpClient())
+            CitaViewModel ctavm = new CitaViewModel();
+            using (HttpClient cliente = new HttpClient())
             {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("Taller/Cita/ListaCitas");
-
-                if (res.IsSuccessStatusCode)
+                cliente.BaseAddress = new Uri(baseurl);
+                cliente.DefaultRequestHeaders.Clear();
+                cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage resCita = await cliente.GetAsync("Taller/Cita/ListaCitas");
+                HttpResponseMessage resServicio = await cliente.GetAsync("Taller/Servicio/ListaServicios");
+                HttpResponseMessage resVhl = await cliente.GetAsync("Taller/Vehiculo/ListaVehiculos");
+                if (resCita.IsSuccessStatusCode && resServicio.IsSuccessStatusCode && resVhl.IsSuccessStatusCode)
                 {
-                    var auxRes = res.Content.ReadAsStringAsync().Result;
-
-                    aux = JsonConvert.DeserializeObject<List<Cita>>(auxRes);
+                    var auxResCita = resCita.Content.ReadAsStringAsync().Result;
+                    var auxResServicio = resServicio.Content.ReadAsStringAsync().Result;
+                    var auxResVhl = resVhl.Content.ReadAsStringAsync().Result;
+                    ctavm.cita = JsonConvert.DeserializeObject<List<Cita>>(auxResCita);
+                    ctavm.servicio = JsonConvert.DeserializeObject<List<Servicio>>(auxResServicio);
+                    ctavm.vehiculo = JsonConvert.DeserializeObject<List<Vehiculo>>(auxResVhl);
                 }
             }
-            return View(aux);
+            return View(ctavm);
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -53,40 +57,65 @@ namespace tema.Controllers
 
             return View(Cita);
         }
-        public IActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            CitaViewModel ctavm = new CitaViewModel();
+            using (HttpClient cliente = new HttpClient())
+            {
+                cliente.BaseAddress = new Uri(baseurl);
+                cliente.DefaultRequestHeaders.Clear();
+                cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage resTecnico = await cliente.GetAsync("Taller/Tecnico/ListaTecnicos");
+                HttpResponseMessage resServicio = await cliente.GetAsync("Taller/Servicio/ListaServicios");
+                HttpResponseMessage resClt = await cliente.GetAsync("Taller/Cliente/ListaClientes");
+                if (resTecnico.IsSuccessStatusCode && resClt.IsSuccessStatusCode)
+                {
+                    var auxResTecnico = resTecnico.Content.ReadAsStringAsync().Result;
+                    var auxResClt = resClt.Content.ReadAsStringAsync().Result;
+                    var auxResServicio = resServicio.Content.ReadAsStringAsync().Result;
+                    ctavm.servicio = JsonConvert.DeserializeObject<List<Servicio>>(auxResServicio);
+                    ctavm.tecnico = JsonConvert.DeserializeObject<List<Tecnico>>(auxResTecnico);
+                    ctavm.cliente = JsonConvert.DeserializeObject<List<Cliente>>(auxResClt);
+                }
+            }
+            return View(ctavm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("IDTecnico,cedulaCliente,fecha,hora,asunto,descripcion,citaConfirmada")] Cita Cita)
+        public async Task<IActionResult> Create([Bind("IDTecnico,cedulaCliente,fecha,hora,asunto,descripcion,citaConfirmada")] CitaViewModel cta)
         {
+            Cita ctapost = new Cita
+            {
+                IDTecnico = cta.IDTecnico,
+                cedulaCliente = cta.cedulaCliente,
+                fecha = cta.fecha,
+                hora = cta.hora,
+                asunto = cta.asunto,
+                descripcion = cta.descripcion,
+                citaConfirmada = cta.citaConfirmada
+            };
             if (ModelState.IsValid)
             {
-                using (var client = new HttpClient())
+                using (HttpClient cliente = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(baseurl);
-
-                    var myContent = JsonConvert.SerializeObject(Cita);
+                    cliente.BaseAddress = new Uri(baseurl);
+                    var myContent = JsonConvert.SerializeObject(ctapost);
                     var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
                     var byteContent = new ByteArrayContent(buffer);
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    var postTask = client.PostAsync("Taller/Cita/RegistrarCita", byteContent).Result;
-
+                    var postTask = await cliente.PostAsync("Taller/Cita/RegistrarCita", byteContent);
                     var result = postTask;
-
                     if (result.StatusCode == HttpStatusCode.BadRequest)
                     {
-                        ModelState.AddModelError(string.Empty, "Existe un cita con esta identificación");
+                        ModelState.AddModelError(string.Empty, "Existen errores en la información suministrada");
                     }
-
                     if (result.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Index));
                     }
                 }
             }
-            return View(Cita);
+            return View(ctapost);
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -106,7 +135,7 @@ namespace tema.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("IDCita,IDTecnico,cedulaCliente,fecha,hora,asunto,descripcion,citaConfirmada")] Cita Cita)
+        public IActionResult Edit(int? id, [Bind("IDCita,IDTecnico,cedulaCliente,fecha,hora,asunto,descripcion,citaConfirmada")] Cita Cita)
         {
             if (id != Cita.IDCita)
             {

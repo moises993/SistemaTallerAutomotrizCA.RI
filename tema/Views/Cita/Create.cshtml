@@ -1,4 +1,4 @@
-﻿@model tema.Models.Cita
+﻿@model tema.Models.ViewModels.CitaViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -14,22 +14,26 @@
             <li><a href="#">Pictures</a></li>
             <li class="active">Vacation</li>*@
         </ol>
-        <h1>Crear Cita</h1>
+        <h1>Cita</h1>
 
-
+        <h4>Crear cita</h4>
         <hr />
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="IDTecnico" class="control-label"></label>
-                        <input asp-for="IDTecnico" type="text" class="form-control" />
+                        <label class="control-label">Técnico de la cita (el nombre corresponde al código generado por el sistema)</label>
+                        <select asp-for="IDTecnico" asp-items="@(new SelectList(Model.tecnico,"IDTecnico","nombre"))">
+                            <option>Seleccione un técnico</option>
+                        </select>
                         <span asp-validation-for="IDTecnico" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="cedulaCliente" class="control-label"></label>
-                        <input asp-for="cedulaCliente" class="form-control" />
+                        <label class="control-label">Cliente (el nombre corresponde a la cédula registrada en el sistema)</label>
+                        <select asp-for="cedulaCliente" asp-items="@(new SelectList(Model.cliente,"cedula","nombre"))">
+                            <option>Seleccione un cliente</option>
+                        </select>
                         <span asp-validation-for="cedulaCliente" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -48,25 +52,26 @@
                         <span asp-validation-for="asunto" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="descripcion" class="control-label"></label>
-                        <input asp-for="descripcion" class="form-control" />
+                        <label class="control-label">Seleccione la descripción del servicio (si no observa alguna, agregue una en la pantalla principal de <a asp-action="Index">citas</a>)</label>
+                        <select asp-for="descripcion" asp-items="@(new SelectList(Model.servicio,"descripcion","descripcion"))">
+                            <option>Seleccione el servicio a aplicar</option>
+                        </select>
                         <span asp-validation-for="descripcion" class="text-danger"></span>
                     </div>
                     <div class="form-group form-check">
                         <label class="form-check-label">
-                            <input class="form-check-input" asp-for="citaConfirmada" /> @Html.DisplayNameFor(model => model.citaConfirmada)
+                            <input class="form-check-input" asp-for="citaConfirmada" /> @*@Html.DisplayNameFor(model => model.citaConfirmada)*@ ¿Cita confirmada?
                         </label>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <input type="submit" value="Crear" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
         </div>
 
         <div>
-            <a asp-action="Index" class="Boton" style="font-family:Arial">Ver lista de Citas</a>
+            <a asp-action="Index">Regresar</a>
         </div>
-
     </div>
-    </div>
+</div>
