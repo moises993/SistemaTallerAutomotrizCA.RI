@@ -59,7 +59,7 @@
                         "pageLength": 4,
                         "dom": 'Bfrtip',
                         "buttons": [
-                            'copy', 'csv', 'excel', 'pdf', 'print'
+                            'csv', 'excel', 'pdf'
                         ]
                     });
                 });
@@ -117,11 +117,14 @@
                             @citas.descripcion
                         </td>
                         <td>
-                            @citas.citaConfirmada
+                            @{ 
+                                if(citas.citaConfirmada == true) { <p>Sí</p> }
+                                else { <p>No</p> }
+                            }
                         </td>
                         <td>
-                            @Html.ActionLink("Actualizar", "Edit", new { citas.IDCita }) |
-                            @Html.ActionLink("Cancelar cita", "Delete", new { citas.IDCita })
+                            <a asp-action="Edit" asp-controller="Cita" asp-route-id="@citas.IDCita">Actualizar</a> |
+                            <a asp-action="Delete" asp-controller="Cita" asp-route-id="@citas.IDCita">Cancelar cita</a>
                         </td>
                     </tr>
                 }
