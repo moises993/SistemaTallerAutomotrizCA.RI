@@ -42,9 +42,9 @@ namespace ApiPrueba.Servicios.Repositorios
                             {
                                 IDOrden = lector.GetInt32(0),
                                 IDVehiculo = lector.GetInt32(1),
-                                cedulaCliente = lector.GetString(2),
-                                placaVehiculo = lector.GetString(3),
-                                descServicio = lector.GetString(4)
+                                cedulaCliente = lector.GetString(2).Trim(),
+                                placaVehiculo = lector.GetString(3).Trim(),
+                                descServicio = lector.GetString(4).Trim()
                             };
 
                             ListaOrdens.Add(clt);
@@ -84,9 +84,9 @@ namespace ApiPrueba.Servicios.Repositorios
                             {
                                 IDOrden = lector.GetInt32(0),
                                 IDVehiculo = lector.GetInt32(1),
-                                cedulaCliente = lector.GetString(2),
-                                placaVehiculo = lector.GetString(3),
-                                descServicio = lector.GetString(4)
+                                cedulaCliente = lector.GetString(2).Trim(),
+                                placaVehiculo = lector.GetString(3).Trim(),
+                                descServicio = lector.GetString(4).Trim()
                             };
                         }
 
@@ -105,6 +105,7 @@ namespace ApiPrueba.Servicios.Repositorios
         }
         #endregion consultas
 
+        #region operaciones
         public bool RegistrarOrden(int idv, string pced, string placa)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
@@ -177,5 +178,6 @@ namespace ApiPrueba.Servicios.Repositorios
                 throw;
             }
         }
+        #endregion operaciones
     }
 }

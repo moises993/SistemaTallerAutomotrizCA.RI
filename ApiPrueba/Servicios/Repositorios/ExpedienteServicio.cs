@@ -42,14 +42,14 @@ namespace ApiPrueba.Servicios.Repositorios
                             {
                                 IDExpediente = lector.GetInt32(0),
                                 IDVehiculo = lector.GetInt32(1),
-                                nombreTecnico = lector.GetString(2),
-                                asunto = lector.GetString(3),
-                                descripcion = lector.GetString(4),
+                                nombreTecnico = lector.GetString(2).Trim(),
+                                asunto = lector.GetString(3).Trim(),
+                                descripcion = lector.GetString(4).Trim(),
                                 fechaCreacionExp = lector.GetDateTime(5),
-                                nombreCliente = lector.GetString(6),
-                                marca = lector.GetString(7),
+                                nombreCliente = lector.GetString(6).Trim(),
+                                marca = lector.GetString(7).Trim(),
                                 modelo = lector.GetInt32(8),
-                                placa = lector.GetString(9)
+                                placa = lector.GetString(9).Trim()
                             };
 
                             ListaExpedientes.Add(exp);
@@ -89,14 +89,14 @@ namespace ApiPrueba.Servicios.Repositorios
                             {
                                 IDExpediente = lector.GetInt32(0),
                                 IDVehiculo = lector.GetInt32(1),
-                                nombreTecnico = lector.GetString(2),
-                                asunto = lector.GetString(3),
-                                descripcion = lector.GetString(4),
+                                nombreTecnico = lector.GetString(2).Trim(),
+                                asunto = lector.GetString(3).Trim(),
+                                descripcion = lector.GetString(4).Trim(),
                                 fechaCreacionExp = lector.GetDateTime(5),
-                                nombreCliente = lector.GetString(6),
-                                marca = lector.GetString(7),
+                                nombreCliente = lector.GetString(6).Trim(),
+                                marca = lector.GetString(7).Trim(),
                                 modelo = lector.GetInt32(8),
-                                placa = lector.GetString(9)
+                                placa = lector.GetString(9).Trim()
                             };
                         }
 

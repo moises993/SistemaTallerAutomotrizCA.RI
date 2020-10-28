@@ -25,20 +25,18 @@ namespace ApiPrueba.Controllers
         }
 
         [HttpGet("ListaClientes")]
-        public List<Cliente> VerClientes() =>
-            _clienteServicio.VerClientes();
+        public async Task<List<Cliente>> VerClientes() =>
+            await _clienteServicio.VerClientes();
 
         [HttpGet("ClientesConCita")]
-        public List<ClienteCita> VerClientesConCita() =>
-            _clienteServicio.MostrarClientesConCita();
+        public async Task<List<ClienteCita>> VerClientesConCita() =>
+            await _clienteServicio.MostrarClientesConCita();
 
         [HttpGet("BuscarCliente/{cedula}")] 
-        public Cliente VerClientePorCedula(string cedula)
+        public async Task<Cliente> VerClientePorCedula(string cedula)
         {
-            Cliente objt = _clienteServicio.ConsultarClienteCedula(cedula);
-
+            Cliente objt = await _clienteServicio.ConsultarClienteCedula(cedula);
             if(objt == null) return null;
-
             return objt;
         }
 

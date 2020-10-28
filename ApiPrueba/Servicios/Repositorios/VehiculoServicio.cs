@@ -42,9 +42,9 @@ namespace ApiPrueba.Servicios.Repositorios
                             {
                                 IDVehiculo = lector.GetInt32(0),
                                 IDCliente = lector.GetInt32(1),
-                                marca = lector.GetString(2),
+                                marca = lector.GetString(2).Trim(),
                                 modelo = lector.GetInt32(3),
-                                placa = lector.GetString(4)
+                                placa = lector.GetString(4).Trim()
                             };
 
                             ListaVehiculos.Add(clt);
@@ -66,12 +66,10 @@ namespace ApiPrueba.Servicios.Repositorios
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
             Vehiculo v = null;
-
             try
             {
                 conexion.Open();
-
-                using (var comando = new NpgsqlCommand("SELECT * FROM \"Taller\".\"vhcVerVehiculoPorPlaca\"(@pplaca);", conexion))
+                using (var comando = new NpgsqlCommand("\"Taller\".\"vhcVerVehiculoPorPlaca\"", conexion))
                 {
                     comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue("pplaca", placa);
@@ -84,9 +82,9 @@ namespace ApiPrueba.Servicios.Repositorios
                             {
                                 IDVehiculo = lector.GetInt32(0),
                                 IDCliente = lector.GetInt32(1),
-                                marca = lector.GetString(2),
+                                marca = lector.GetString(2).Trim(),
                                 modelo = lector.GetInt32(3),
-                                placa = lector.GetString(4)
+                                placa = lector.GetString(4).Trim()
                             };
                         }
                         lector.Close();

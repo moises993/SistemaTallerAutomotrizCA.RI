@@ -9,9 +9,9 @@ namespace ApiPrueba.Servicios.Interfaces
 {
     public interface IClienteServicio
     {
-        List<Cliente> VerClientes();
-        Cliente ConsultarClienteCedula(string pCedula);
-        List<ClienteCita> MostrarClientesConCita();
+        Task<List<Cliente>> VerClientes();
+        Task<Cliente> ConsultarClienteCedula(string pCedula);
+        Task<List<ClienteCita>> MostrarClientesConCita();
         bool RegistrarCliente(string nmb, string ap1, string ap2, string ced, bool frec);
         bool ActualizarCliente(string id, string nmb, string ap1, string ap2, string ced, bool frec);
         bool BorrarCliente(string ced);

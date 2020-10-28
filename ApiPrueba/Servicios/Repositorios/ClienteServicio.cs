@@ -2,6 +2,7 @@
 using ApiPrueba.Entidades.Vistas;
 using ApiPrueba.Servicios.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -24,21 +25,18 @@ namespace ApiPrueba.Servicios.Repositorios
         }
 
         #region consultas
-        public List<Cliente> VerClientes()
+        public async Task<List<Cliente>> VerClientes()
         {
-            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            await using NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
             List<Cliente> ListaClientes = new List<Cliente>();
-
             try
             {
-                conexion.Open();
-
-                using (var comando = new NpgsqlCommand("SELECT * FROM \"Taller\".\"cltVerClientes\"();", conexion))
+                await conexion.OpenAsync();
+                await using (NpgsqlCommand comando = new NpgsqlCommand("SELECT * FROM \"Taller\".\"cltVerClientes\"();", conexion)) //
                 {
-
-                    using (var lector = comando.ExecuteReader())
+                    using (var lector = await comando.ExecuteReaderAsync())
                     {
-                        while (lector.Read())
+                        while (await lector.ReadAsync())
                         {
                             Cliente clt = new Cliente
                             {
@@ -50,39 +48,35 @@ namespace ApiPrueba.Servicios.Repositorios
                                 cltFrecuente = lector.GetBoolean(5),
                                 fechaIngreso = lector.GetDateTime(6)
                             };
-
                             ListaClientes.Add(clt);
                         }
-                        lector.Close();
+                        await lector.CloseAsync();
                     }
                 }
-                conexion.Close();
+                await conexion.CloseAsync();
             }
             catch (Exception)
             {
-                throw;
+                return null;
             }
-
             return ListaClientes;
         }
 
-        public Cliente ConsultarClienteCedula(string pCedula)
+        public async Task<Cliente> ConsultarClienteCedula(string pCedula)
         {
+            await using NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
             Cliente salida = null;
-            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
-
             try
             {
-                conexion.Open();
-
+                await conexion.OpenAsync();
                 using (var comando = new NpgsqlCommand("\"Taller\".\"cltVerClientePorCedula\"", conexion))
                 {
                     comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue("pcedula", pCedula);
-
-                    using (var lector = comando.ExecuteReader())
+                    await comando.PrepareAsync();
+                    using (var lector = await comando.ExecuteReaderAsync())
                     {
-                        while (lector.Read())
+                        while (await lector.ReadAsync())
                         {
                             salida = new Cliente
                             {
@@ -95,38 +89,32 @@ namespace ApiPrueba.Servicios.Repositorios
                                 fechaIngreso = lector.GetDateTime(6)
                             };
                         }
-
-                        lector.Close();
+                        await lector.CloseAsync();
                     }
                 }
-
-                conexion.Close();
+                await conexion.CloseAsync();
             }
             catch (Exception)
             {
-                throw;
+                return null;
             }
-
             return salida;
         }
 
-        public List<ClienteCita> MostrarClientesConCita()
+        public async Task<List<ClienteCita>> MostrarClientesConCita()
         {
+            await using NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
             List<ClienteCita> cc = new List<ClienteCita>();
-            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
-
             try
             {
-                conexion.Open();
-
+                await conexion.OpenAsync();
                 using (var comando = new NpgsqlCommand("\"Taller\".\"cltVerClientesConCita\"", conexion))
                 {
                     comando.CommandType = CommandType.StoredProcedure;
-
-                    using (var lector = comando.ExecuteReader())
+                    using (var lector = await comando.ExecuteReaderAsync())
                     {
                         ClienteCita objt = null;
-                        while (lector.Read())
+                        while (await lector.ReadAsync())
                         {
                             objt = new ClienteCita
                             {
@@ -140,16 +128,15 @@ namespace ApiPrueba.Servicios.Repositorios
                             };
                             cc.Add(objt);
                         }
-                        lector.Close();
+                        await lector.CloseAsync();
                     }
                 }
-                conexion.Close();
+                await conexion.CloseAsync();
             }
             catch (Exception)
             {
-                throw;
+                return null;
             }
-
             return cc;
         }
         #endregion consultas

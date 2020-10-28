@@ -42,13 +42,12 @@ namespace ApiPrueba.Servicios.Repositorios
                             Tecnico tnc = new Tecnico
                             {
                                 IDTecnico = lector.GetInt32(0),
-                                nombre = lector.GetString(1),
-                                pmrApellido = lector.GetString(2),
-                                sgndApellido = lector.GetString(3),
-                                cedula = lector.GetString(4),
+                                nombre = lector.GetString(1).Trim(),
+                                pmrApellido = lector.GetString(2).Trim(),
+                                sgndApellido = lector.GetString(3).Trim(),
+                                cedula = lector.GetString(4).Trim(),
                                 fechaIngreso = lector.GetDateTime(5)
                             };
-
                             ListaTecnicos.Add(tnc);
                         }
                         lector.Close();
@@ -85,10 +84,10 @@ namespace ApiPrueba.Servicios.Repositorios
                             salida = new Tecnico
                             {
                                 IDTecnico = lector.GetInt32(0),
-                                nombre = lector.GetString(1),
-                                pmrApellido = lector.GetString(2),
-                                sgndApellido = lector.GetString(3),
-                                cedula = lector.GetString(4),
+                                nombre = lector.GetString(1).Trim(),
+                                pmrApellido = lector.GetString(2).Trim(),
+                                sgndApellido = lector.GetString(3).Trim(),
+                                cedula = lector.GetString(4).Trim(),
                                 fechaIngreso = lector.GetDateTime(6)
                             };
                         }
@@ -128,12 +127,12 @@ namespace ApiPrueba.Servicios.Repositorios
                             objt = new TecnicoCita
                             {
                                 nombre = lector.GetString(0),
-                                pmrApellido = lector.GetString(1),
-                                sgndApellido = lector.GetString(2),
-                                cedula = lector.GetString(3),
+                                pmrApellido = lector.GetString(1).Trim(),
+                                sgndApellido = lector.GetString(2).Trim(),
+                                cedula = lector.GetString(3).Trim(),
                                 fecha = lector.GetDateTime(4),
-                                hora = lector.GetString(5),
-                                asunto = lector.GetString(6)
+                                hora = lector.GetString(5).Trim(),
+                                asunto = lector.GetString(6).Trim()
                             };
                             tc.Add(objt);
                         }

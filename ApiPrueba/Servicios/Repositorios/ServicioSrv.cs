@@ -19,13 +19,79 @@ namespace ApiPrueba.Servicios.Repositorios
             _configuration = configuration;
             connectionString = _configuration.GetConnectionString("pginstConexion");
         }
+
+        #region consultas
+        public List<Servicio> VerServicio()
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            List<Servicio> ListaServicios = new List<Servicio>();
+
+            try
+            {
+                conexion.Open();
+
+                using (var comando = new NpgsqlCommand("SELECT * FROM \"Taller\".\"svcVerServicios\"();", conexion))
+                {
+
+                    using (var lector = comando.ExecuteReader())
+                    {
+                        while (lector.Read())
+                        {
+                            Servicio clt = new Servicio
+                            {
+                                IDServicio = lector.GetInt32(0),
+                                IDVehiculo = lector.GetInt32(1),
+                                descripcion = lector.GetString(2).Trim()
+                            };
+
+                            ListaServicios.Add(clt);
+                        }
+                        lector.Close();
+                    }
+                }
+                conexion.Close();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return ListaServicios;
+        }
+        #endregion consultas
+
+        #region operaciones
+        public bool RegistrarServicio(int idv, string desc)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+
+            try
+            {
+                conexion.Open();
+                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"svcCrearServicio\"(@pidv, @pdesc)", conexion))
+                {
+                    comando.Parameters.AddWithValue(":pidv", idv);
+                    comando.Parameters.AddWithValue(":pdesc", desc);
+
+                    comando.ExecuteNonQuery();
+
+                    conexion.Close();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public bool ActualizarServicio(int ids, string desc)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
             try
             {
                 conexion.Open();
-                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"svcEliminarServicio\"(@pid, @pdesc)", conexion))
+                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"svcActualizarServicio\"(@pid, @pdesc)", conexion))
                 {
                     comando.Parameters.AddWithValue(":pid", ids);
                     comando.Parameters.AddWithValue(":pdesc", desc);
@@ -64,67 +130,6 @@ namespace ApiPrueba.Servicios.Repositorios
                 throw;
             }
         }
-
-        public bool RegistrarServicio(int idv, string desc)
-        {
-            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
-
-            try
-            {
-                conexion.Open();
-                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"svcCrearServicio\"(@pidv, @pdesc)", conexion))
-                {
-                    comando.Parameters.AddWithValue(":pidv", idv);
-                    comando.Parameters.AddWithValue(":pdesc", desc);
-
-                    comando.ExecuteNonQuery();
-
-                    conexion.Close();
-                }
-                return true;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public List<Servicio> VerServicio()
-        {
-            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
-            List<Servicio> ListaServicios = new List<Servicio>();
-
-            try
-            {
-                conexion.Open();
-
-                using (var comando = new NpgsqlCommand("SELECT * FROM \"Taller\".\"svcVerServicios\"();", conexion))
-                {
-
-                    using (var lector = comando.ExecuteReader())
-                    {
-                        while (lector.Read())
-                        {
-                            Servicio clt = new Servicio
-                            {
-                                IDServicio = lector.GetInt32(0),
-                                IDVehiculo = lector.GetInt32(1),
-                                descripcion = lector.GetString(2)
-                            };
-
-                            ListaServicios.Add(clt);
-                        }
-                        lector.Close();
-                    }
-                }
-                conexion.Close();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return ListaServicios;
-        }
+        #endregion operaciones
     }
 }
