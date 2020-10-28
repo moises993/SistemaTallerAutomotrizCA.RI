@@ -18,7 +18,11 @@
                 <div class="col-md-4">
                     <form asp-action="Create">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+                        <div class="form-group">
+                            <label class="control-label">Indique la cédula del cliente (puede obtenerla en <a asp-controller="Cliente" asp-action="Index">la sección de clientes</a>)</label>
+                            <input asp-for="cedclt" class="form-control" />
+                            <span asp-validation-for="cedclt" class="text-danger"></span>
+                        </div>
                         <div class="form-group">
                             <label asp-for="marca" class="control-label"></label>
                             <input asp-for="marca" class="form-control" />

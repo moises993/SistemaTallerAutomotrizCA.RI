@@ -87,9 +87,9 @@
                             @Html.DisplayFor(modelItem => item.placa)
                         </td>
                         <td style="text-align:center; font-family:Arial">
-                            @Html.ActionLink("Editar", "Edit", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Detalles", "Details", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Eliminar", "Delete", new { /* id=item.PrimaryKey */ })
+                            @Html.ActionLink("Editar", "Edit", new { id=item.placa }) |
+                            @Html.ActionLink("Detalles", "Details", new { id = item.placa }) |
+                            @Html.ActionLink("Eliminar", "Delete", new { id = item.placa })
                         </td>
                     </tr>
                 }

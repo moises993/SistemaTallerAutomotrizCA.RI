@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Delete";
-    Layout = "~/Views/Shared/Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
     <div class="content-wrapper">
         <div class="container">
@@ -14,11 +14,10 @@
             <li><a href="#">Pictures</a></li>
             <li class="active">Vacation</li>*@
             </ol>
-            <h1>Eliminar Vehículo</h1>
-
+            <h1>Eliminar vehículo</h1>
 
             <div>
-                <h4>Vehiculo</h4>
+                <h4>¿Desea proceder con la eliminación de este vehículo?</h4>
                 <hr />
                 <dl class="row">
                     <dt class="col-sm-2">
@@ -54,8 +53,8 @@
                 </dl>
 
                 <form asp-action="Delete">
-                    <input type="submit" value="Delete" class="btn btn-danger" /> |
-                    <a asp-action="Index">Back to List</a>
+                    <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+                    <a asp-action="Index">Regresar</a>
                 </form>
             </div>
         </div>

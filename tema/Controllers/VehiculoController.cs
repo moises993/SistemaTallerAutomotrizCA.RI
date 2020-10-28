@@ -59,7 +59,7 @@ namespace tema.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("nombre,pmrApellido,sgndApellido,cedula,cltFrecuente,fechaIngreso")] Vehiculo Vehiculo)
+        public IActionResult Create([Bind("cedclt,marca,modelo,placa")] Vehiculo Vehiculo)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +76,7 @@ namespace tema.Controllers
 
                     if (result.StatusCode == HttpStatusCode.BadRequest)
                     {
-                        ModelState.AddModelError(string.Empty, "Existe un Vehiculo con esta cédula");
+                        ModelState.AddModelError(string.Empty, "Existe un vehículo con esta placa");
                     }
 
                     if (result.IsSuccessStatusCode)
@@ -130,9 +130,7 @@ namespace tema.Controllers
                         return RedirectToAction(nameof(Index));
                     }
                 }
-                ModelState.AddModelError(string.Empty, "Server Error, Please contact administrator");
-
-
+                //ModelState.AddModelError(string.Empty, "Server Error, Please contact administrator");
             }
             return View(Vehiculo);
         }

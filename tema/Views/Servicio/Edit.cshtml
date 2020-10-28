@@ -4,31 +4,40 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="content-wrapper">
+<div class="content-wrapper">
 
-        <h1>Edit</h1>
+    <h1>Editar servicio</h1>
 
-        <h4>Servicio</h4>
-        <hr />
-        <div class="row">
-            <div class="col-md-4">
-                <form asp-action="Edit">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                   
-                    <div class="form-group">
-                        <label asp-for="descripcion" class="control-label"></label>
-                        <input asp-for="descripcion" class="form-control" />
-                        <span asp-validation-for="descripcion" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" />
-                    </div>
-                </form>
-            </div>
+    <h4>Servicio</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-controller="Servicio" asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group" hidden>
+                    <label asp-for="IDServicio" class="control-label"></label>
+                    <input asp-for="IDServicio" type="text" class="form-control" />
+                    <span asp-validation-for="IDServicio" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                    <label asp-for="IDVehiculo" class="control-label"></label>
+                    <input asp-for="IDVehiculo" type="text" class="form-control" disabled />
+                    <span asp-validation-for="IDVehiculo" class="text-danger"></span>
+                </div>*@
+                <div class="form-group">
+                    <label asp-for="descripcion" class="control-label"></label>
+                    <input asp-for="descripcion" class="form-control" />
+                    <span asp-validation-for="descripcion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
+    <div>
+        <a asp-controller="Cita" asp-action="Index">Regresar</a>
+    </div>
 
-        </div>
+</div>
