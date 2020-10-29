@@ -2,12 +2,14 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using tema.Models;
 
 namespace tema.Controllers
 {
+    [Authorize]
     public class DetallesClienteController : Controller
     {
         string baseurl = "https://localhost:44300/";

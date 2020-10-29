@@ -59,9 +59,9 @@
         <table id="tablaDatos" class="Tablas" style="width:100%">
             <thead>
                 <tr>
-                    <th style="color:white;font-family:Arial">
+                    @*<th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.IDTecnico)
-                    </th>
+                    </th>*@
                     <th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.nombre)
                     </th>
@@ -84,9 +84,9 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        @*<td>
                             @Html.DisplayFor(modelItem => item.IDTecnico)
-                        </td>
+                        </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.nombre)
                         </td>
@@ -103,16 +103,16 @@
                             @Html.DisplayFor(modelItem => item.fechaIngreso)
                         </td>
                         <td style="text-align:center;font-family:Arial">
-                            @Html.ActionLink("Editar", "Edit", new { id = item.IDTecnico }) |
-                            @Html.ActionLink("Detalles", "Details", new { id = item.IDTecnico }) |
-                            @Html.ActionLink("Borrar", "Delete", new { id = item.IDTecnico })
+                            @Html.ActionLink("Editar", "Edit", new { id = item.cedula }) |
+                            @Html.ActionLink("Detalles", "Details", new { id = item.cedula }) |
+                            @Html.ActionLink("Borrar", "Delete", new { id = item.cedula })
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
         <p>
-            <a asp-action="Create" class="Boton" style="font-family:Arial; color: white">Registrar Técnico</a>
+            <a asp-action="Create" class="Boton" style="font-family:Arial; color: white">Registrar técnico</a>
         </p>
     </div>
 </div>

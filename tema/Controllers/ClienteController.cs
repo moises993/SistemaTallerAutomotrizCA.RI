@@ -200,7 +200,6 @@ namespace tema.Controllers
                     aux = JsonConvert.DeserializeObject<Cliente>(auxRes);
                 }
             }
-
             return aux;
         }
     }

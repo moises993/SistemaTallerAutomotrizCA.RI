@@ -1,4 +1,4 @@
-﻿@model tema.Models.UsuarioViewModel
+﻿@model tema.Models.ViewModels.UsuarioViewModel
 
 @{
     ViewData["Title"] = "Register";
@@ -21,17 +21,17 @@
 
         <h2 style="text-align: justify; font-family:Arial">Formulario para el envío del correo</h2>
 
-        <form method="post" id="emisor">
-            <input id="correoEmisor" placeholder="Ingrese su correo" />
+        <form asp-controller="Home" asp-action="Register">
+            <input asp-for="correoForm" placeholder="Ingrese su correo" />
             <br />
             <br />
-            <input id="claveCuenta" type="password" placeholder="Contraseña" />
+            <input asp-for="contra" type="password" placeholder="Contraseña" />
             <br />
             <br />
-        </form>
+
             <h2 style="text-align: justify; font-family:Arial">Formulario para el registro del nuevo usuario</h2>
 
-        <form method="post">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="correo" style="font-family:Arial" placeholder="Ingrese el correo" />
             <span asp-validation-for="correo"></span>

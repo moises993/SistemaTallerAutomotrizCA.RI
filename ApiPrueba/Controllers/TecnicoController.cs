@@ -65,15 +65,15 @@ namespace ApiPrueba.Controllers
         }
 
         [HttpPatch("ActualizarDatos/{id}")]
-        public IActionResult ActualizarTecnico(int id, [FromBody] Tecnico tec)
+        public IActionResult ActualizarTecnico(string id, [FromBody] Tecnico tec)
         {
-            if (tec == null || id != tec.IDTecnico)
+            if (tec == null || id != tec.cedula)
             {
                 ModelState.AddModelError("", "No se digitó toda la información requerida para este técnico");
                 return StatusCode(400, ModelState);
             }
 
-            if (!_tecServicio.ActualizarTecnico(id, tec.nombre, tec.pmrApellido, tec.sgndApellido, tec.cedula))
+            if (!_tecServicio.ActualizarTecnico(tec.nombre, tec.pmrApellido, tec.sgndApellido, tec.cedula))
             {
                 ModelState.AddModelError("", "Ocurrió un error durante la actualización. Por favor, inténtelo en un momento");
                 return StatusCode(500, ModelState);
@@ -83,7 +83,7 @@ namespace ApiPrueba.Controllers
         }
 
         [HttpDelete("BorrarTecnico/{id}")]
-        public IActionResult BorrarTecnico(int id)
+        public IActionResult BorrarTecnico(string id)
         {
             bool resultado = _tecServicio.BorrarTecnico(id);
 
@@ -105,7 +105,7 @@ namespace ApiPrueba.Controllers
             _tecServicio.VerDetallesTecnico(cedula);
 
         [HttpGet("ObtenerDetalleIndividual/{id}")]
-        public DetallesTecnico VerClientePorCedula(int id)
+        public DetallesTecnico VerTecnicoPorCedula(int id)
         {
             DetallesTecnico objt = _tecServicio.VerDetalleIndividual(id);
             if (objt == null) return null;
@@ -141,7 +141,7 @@ namespace ApiPrueba.Controllers
         {
             if (tec == null || id != tec.codDet)
             {
-                ModelState.AddModelError("", "No se digitó toda la información requerida para este Tecnico");
+                ModelState.AddModelError("", "No se digitó toda la información requerida para este técnico");
                 return StatusCode(400, ModelState);
             }
 
@@ -161,7 +161,7 @@ namespace ApiPrueba.Controllers
 
             if (!resultado)
             {
-                ModelState.AddModelError("", "No se eliminó la información consultada para este Tecnico");
+                ModelState.AddModelError("", "No se eliminó la información consultada para este técnico");
                 return StatusCode(400, ModelState);
             }
 

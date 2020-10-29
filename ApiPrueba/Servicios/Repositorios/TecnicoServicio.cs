@@ -6,8 +6,6 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ApiPrueba.Servicios.Repositorios
 {
@@ -75,7 +73,7 @@ namespace ApiPrueba.Servicios.Repositorios
                 using (var comando = new NpgsqlCommand("\"Taller\".\"tncVerTecnicoPorCedula\"", conexion))
                 {
                     comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.AddWithValue("pcedula", pCedula);
+                    comando.Parameters.AddWithValue("pced", pCedula);
 
                     using (var lector = comando.ExecuteReader())
                     {
@@ -88,7 +86,7 @@ namespace ApiPrueba.Servicios.Repositorios
                                 pmrApellido = lector.GetString(2).Trim(),
                                 sgndApellido = lector.GetString(3).Trim(),
                                 cedula = lector.GetString(4).Trim(),
-                                fechaIngreso = lector.GetDateTime(6)
+                                fechaIngreso = lector.GetDateTime(5)
                             };
                         }
 
@@ -179,16 +177,16 @@ namespace ApiPrueba.Servicios.Repositorios
 
         }
 
-        public bool ActualizarTecnico(int id, string nmb, string ap1, string ap2, string ced)
+        public bool ActualizarTecnico(string nmb, string ap1, string ap2, string ced)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
 
             try
             {
                 conexion.Open();
-                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"tncActualizarTecnico\"(@id, @nmb, @ap1, @ap2)", conexion))
+                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"tncActualizarTecnico\"(@pid, @nmb, @ap1, @ap2)", conexion))
                 {
-                    comando.Parameters.AddWithValue(":id", id);
+                    comando.Parameters.AddWithValue(":pid", ced);
                     comando.Parameters.AddWithValue(":nmb", nmb);
                     comando.Parameters.AddWithValue(":ap1", ap1);
                     comando.Parameters.AddWithValue(":ap2", ap2);
@@ -205,7 +203,7 @@ namespace ApiPrueba.Servicios.Repositorios
             }
         }
 
-        public bool BorrarTecnico(int id)
+        public bool BorrarTecnico(string id)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
             bool resultado = false;
@@ -241,7 +239,7 @@ namespace ApiPrueba.Servicios.Repositorios
         #region areaDetallesTec
         public List<DetallesTecnico> VerDetallesTecnico(string cedula)
         {
-            List<DetallesTecnico> salida = null;
+            List<DetallesTecnico> salida = new List<DetallesTecnico>();
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
             try
             {
@@ -250,7 +248,7 @@ namespace ApiPrueba.Servicios.Repositorios
                 using (var comando = new NpgsqlCommand("\"Taller\".\"dttVerDetalleTecnico\"", conexion))
                 {
                     comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.AddWithValue("pid", cedula);
+                    comando.Parameters.AddWithValue("pcedula", cedula);
                     using (var lector = comando.ExecuteReader())
                     {
                         while (lector.Read())

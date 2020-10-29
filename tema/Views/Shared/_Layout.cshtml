@@ -195,13 +195,6 @@ httpAcc.HttpContext.Session.GetString("JWToken").ToString().Length > 0)
                                             </a>
                                         </li>*@
                                     <li class="nav-item">
-                                        <a asp-controller="Tecnico" asp-action="Index" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p style="font-family:Arial">Técnicos</p>
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
                                         <a asp-controller="Vehiculo" asp-action="Index" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p style="font-family:Arial">Vehículos</p>
@@ -214,19 +207,6 @@ httpAcc.HttpContext.Session.GetString("JWToken").ToString().Length > 0)
                                             <p style="font-family:Arial">Citas</p>
                                         </a>
                                     </li>
-                                    @*<li class="nav-item">
-                                            <a href="./index3.html" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>Detalles de Clientes</p>
-                                            </a>
-                                        </li>*@
-
-                                    @*<li class="nav-item">
-                                            <a href="./index3.html" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>Detalles de Técnicos</p>
-                                            </a>
-                                        </li>*@
                                 </ul>
                             </li>
                             @if (User.IsInRole("manager"))
@@ -244,6 +224,14 @@ httpAcc.HttpContext.Session.GetString("JWToken").ToString().Length > 0)
                                             <a asp-controller="Home" asp-action="Register" class="nav-link">
                                                 <i class="far fa-circle nav-icon"></i>
                                                 <p style="font-family:Arial">Añadir usuario</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a asp-controller="Tecnico" asp-action="Index" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p style="font-family:Arial">Técnicos</p>
                                             </a>
                                         </li>
                                     </ul>
@@ -729,6 +717,7 @@ httpAcc.HttpContext.Session.GetString("JWToken").ToString().Length > 0)
     <script type="text/javascript" src="~/DataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="~/DataTables/datatables.min.js"></script>
     @RenderSection("Scripts", required: false)
+    @RenderSection("ScriptTablaTecnico", required: false);
     @RenderSection("ScriptTablaCita", required: false)
     @RenderSection("ScriptTablaServicio", required: false)
 </body>
