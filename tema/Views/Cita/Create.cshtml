@@ -7,15 +7,14 @@
 
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a href="../Cita/Index" style="color:aliceblue">Inicio </a></li>
-            <li><a class="active" style="color:aliceblue">/ Crear Cita</a></li>
+            <li><a asp-controller="Cita" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+            <li><a class="active" style="color:aliceblue">/Crear cita</a></li>
             @*<li><a href="#">Home</a></li>
             <li><a href="#">Private</a></li>
             <li><a href="#">Pictures</a></li>
             <li class="active">Vacation</li>*@
         </ol>
         <h1>Cita</h1>
-
         <h4>Crear cita</h4>
         <hr />
         <div class="row">
@@ -69,7 +68,6 @@
                 </form>
             </div>
         </div>
-
         <div>
             <a asp-action="Index">Regresar</a>
         </div>
