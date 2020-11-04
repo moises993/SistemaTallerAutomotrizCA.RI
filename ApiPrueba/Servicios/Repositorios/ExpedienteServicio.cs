@@ -5,8 +5,6 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ApiPrueba.Servicios.Repositorios
 {
@@ -116,7 +114,7 @@ namespace ApiPrueba.Servicios.Repositorios
         #endregion consultas
 
         #region operaciones
-        public bool RegistrarExpediente(int pidv)
+        public bool RegistrarExpediente(int? pidv)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
 

@@ -34,10 +34,10 @@ namespace ApiPrueba.Controllers
             return objt;
         }
 
-        [HttpPost("RegistrarExpediente")]
-        public IActionResult RegistrarExpediente([FromBody] Expediente exp)
+        [HttpPost("RegistrarExpediente/{id}")]
+        public IActionResult RegistrarExpediente(int? id)
         {
-            if (exp == null)
+            if (id == null)
             {
                 ModelState.AddModelError("", "No se digitó toda la información requerida para este expediente");
                 return StatusCode(400, ModelState);
@@ -49,7 +49,7 @@ namespace ApiPrueba.Controllers
                 return StatusCode(400, ModelState);
             }
 
-            if (!_exp.RegistrarExpediente(exp.IDVehiculo))
+            if (!_exp.RegistrarExpediente(id))
             {
                 ModelState.AddModelError("", "Ocurrió un error creando el expediente. Por favor, inténtelo en un momento");
                 return StatusCode(500, ModelState);

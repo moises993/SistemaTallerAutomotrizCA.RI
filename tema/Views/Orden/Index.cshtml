@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 <div class="content-wrapper">
@@ -74,7 +74,9 @@
                     <th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.descServicio)
                     </th>
-                    <th></th>
+                    <th>
+                        Acciones
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -97,17 +99,19 @@
                             @Html.DisplayFor(modelItem => item.descServicio)
                         </td>
                         <td style="text-align:center;font-family:Arial">
-                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                            @Html.ActionLink("Borrar", "Delete", new { id=item.IDOrden })
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-
-        <p>
-            <a asp-action="Create" class="Boton" style="font-family: Arial;color: white">Registrar Orden</a>
+        <br />
+        <p class="text-justify">
+            Nota: las órdenes no se crean en esta sección. Debe dirigirse al módulo de citas, en la página principal.
+            Allí podrá crear una cita y generar la orden para las citas que están debidamente confirmadas (es decir, 
+            aquellas donde tenga la total seguridad de que el cliente asistirá al taller). <br />
+            Puede ir al módulo de citas presionando <a asp-controller="Cita" asp-action="Index">aquí</a> o bien,
+            en el menú a su izquierda, presionando la opción de "Citas".
         </p>
 
     </div>

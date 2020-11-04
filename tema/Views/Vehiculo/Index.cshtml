@@ -63,13 +63,15 @@
                     <th style="color:white; font-family:Arial">
                         @Html.DisplayNameFor(model => model.marca)
                     </th>
-                    <th style="color:white; font-family:Arial" ">
+                    <th style="color:white; font-family:Arial;">
                         @Html.DisplayNameFor(model => model.modelo)
                     </th>
-                    <th style="color:white;font-family:Arial" ">
+                    <th style="color:white;font-family:Arial;">
                         @Html.DisplayNameFor(model => model.placa)
                     </th>
-                    <th></th>
+                    <th class="text-center" style="color:white;;font-family:Arial;">
+                        Acciones
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -87,16 +89,19 @@
                             @Html.DisplayFor(modelItem => item.placa)
                         </td>
                         <td style="text-align:center; font-family:Arial">
-                            @Html.ActionLink("Editar", "Edit", new { id=item.placa }) |
+                            @Html.ActionLink("Editar", "Edit", new { id = item.placa }) |
                             @Html.ActionLink("Detalles", "Details", new { id = item.placa }) |
-                            @Html.ActionLink("Eliminar", "Delete", new { id = item.placa })
+                            @Html.ActionLink("Eliminar", "Delete", new { id = item.placa }) |
+                            @Html.ActionLink("Crear expediente", "CreateExpediente", "Expediente", new { id = item.IDVehiculo }) |
+                            @Html.ActionLink("Ver expediente", "Details", "Expediente", new { id = item.placa })
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+        <br />
         <p>
-            <a asp-action="Create" class="Boton" style="font-family:Arial; color:white">Añadir Vehículo</a>
+            <a asp-action="Create" class="Boton" style="font-family:Arial; color:white">Registrar vehículo</a>
         </p>
     </div>
 </div>

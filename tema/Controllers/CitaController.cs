@@ -225,5 +225,52 @@ namespace tema.Controllers
 
             return aux;
         }
+        
+        public async Task<IActionResult> CreateOrden(int? idCita, int idCliente, string desc)
+        {
+            if (idCita == null)
+            {
+                ModelState.AddModelError(string.Empty, "No se brindó un id para generar la orden");
+            }
+            if (ModelState.IsValid)
+            {
+                ParametrosOrden odnPost = new ParametrosOrden
+                {
+                    IDCita = idCita,
+                    IDCliente = idCliente,
+                    descripcion = desc
+                };
+                using (HttpClient cliente = new HttpClient())
+                {
+                    cliente.BaseAddress = new Uri(baseurl);
+                    string myContent = JsonConvert.SerializeObject(odnPost);
+                    byte[] buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+                    ByteArrayContent byteContent = new ByteArrayContent(buffer);
+                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                    HttpResponseMessage postTask = await cliente.PostAsync("Taller/Orden/RegistrarOrden", byteContent);
+                    HttpResponseMessage result = postTask;
+                    if (result.StatusCode == HttpStatusCode.BadRequest)
+                    {
+                        ModelState.AddModelError("Error", "Ya existe una orden correspondiente a esta cita.");
+                        return RedirectToAction("Index", "Cita");
+                    }
+                    else if (result.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index", "Cita");
+                    }
+                }
+            }
+            return RedirectToAction("Index", "Cita");
+        }
+
+        /*
+         El siguiente código contiene una clase para mandarla como objeto a la API
+         */
+        private class ParametrosOrden
+        {
+            public int? IDCita { get; set; }
+            public int IDCliente { get; set; }
+            public string descripcion { get; set; }
+        }
     }
 }

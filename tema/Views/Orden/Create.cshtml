@@ -2,52 +2,53 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="content-wrapper">
 
-        <div class="container">
-            <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-                <li><a href="../Orden/Index" style="color:aliceblue">Inicio</a></li>
-                <li><a class="active" style="color:aliceblue">Crear Orden</a></li>
-                @*<li><a href="#">Home</a></li>
-            <li><a href="#">Private</a></li>
-            <li><a href="#">Pictures</a></li>
-            <li class="active">Vacation</li>*@
-            </ol>
-            <h1>Crear Orden</h1>
+<div class="content-wrapper">
 
-            <hr />
-            <div class="row">
-                <div class="col-md-4">
-                    <form asp-action="Create">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="container">
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a href="../Orden/Index" style="color:aliceblue">Inicio</a></li>
+            <li><a class="active" style="color:aliceblue">Crear Orden</a></li>
+            @*<li><a href="#">Home</a></li>
+                <li><a href="#">Private</a></li>
+                <li><a href="#">Pictures</a></li>
+                <li class="active">Vacation</li>*@
+        </ol>
+        <h1>Crear Orden</h1>
 
-                        <div class="form-group">
-                            <label asp-for="cedulaCliente" class="control-label"></label>
-                            <input asp-for="cedulaCliente" class="form-control" />
-                            <span asp-validation-for="cedulaCliente" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="placaVehiculo" class="control-label"></label>
-                            <input asp-for="placaVehiculo" class="form-control" />
-                            <span asp-validation-for="placaVehiculo" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="descServicio" class="control-label"></label>
-                            <input asp-for="descServicio" class="form-control" />
-                            <span asp-validation-for="descServicio" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Create" class="btn btn-primary" />
-                        </div>
-                    </form>
-                </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="cedulaCliente" class="control-label"></label>
+                        <input asp-for="cedulaCliente" class="form-control" />
+                        <span asp-validation-for="cedulaCliente" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="placaVehiculo" class="control-label"></label>
+                        <input asp-for="placaVehiculo" class="form-control" />
+                        <span asp-validation-for="placaVehiculo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="descServicio" class="control-label"></label>
+                        <input asp-for="descServicio" class="form-control" />
+                        <span asp-validation-for="descServicio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-
-            <div>
-                <a asp-action="Index">Back to List</a>
-            </div>
-
         </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+    </div>
 </div>

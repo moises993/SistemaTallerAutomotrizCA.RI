@@ -10,7 +10,7 @@ namespace ApiPrueba.Servicios.Interfaces
     {
         List<Expediente> VerExpedientes();
         Expediente ConsultarExpedientePorPlaca(string placa);
-        bool RegistrarExpediente(int pidv);
+        bool RegistrarExpediente(int? pidv);
         bool ActualizarExpediente(int pid, string desc);
         bool BorrarExpediente(int pid);
     }

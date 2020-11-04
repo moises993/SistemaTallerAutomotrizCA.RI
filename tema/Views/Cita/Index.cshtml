@@ -125,13 +125,21 @@
                         <td>
                             <a asp-action="Edit" asp-controller="Cita" asp-route-id="@citas.IDCita">Actualizar</a> |
                             <a asp-action="Delete" asp-controller="Cita" asp-route-id="@citas.IDCita">Cancelar cita</a>
+                            @if (citas.citaConfirmada == true)
+                            {
+                                <p>
+                                    @Html.ActionLink("Crear orden", "CreateOrden", "Cita", new { idCita = citas.IDCita, idCliente = citas.IDCliente, desc = citas.descripcion })
+                                </p>
+                            }
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
         <p>
-            <a asp-controller="Cita" asp-action="Create">Crear cita</a>
+            Acciones rápidas:<br />
+            <a asp-controller="Cita" asp-action="Create">Crear cita</a> |
+            <a asp-controller="Orden" asp-action="Index">Ver órdenes generadas</a>
         </p>
         <hr />
         <h4>Detalle de servicios</h4>

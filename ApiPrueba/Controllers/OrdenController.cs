@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using ApiPrueba.Entidades;
 using ApiPrueba.Servicios.Interfaces;
@@ -35,7 +36,7 @@ namespace ApiPrueba.Controllers
         }
 
         [HttpPost("RegistrarOrden")]
-        public IActionResult RegistrarOrden([FromBody] Orden odn)
+        public IActionResult RegistrarOrden([FromBody] ParametrosOrden odn)
         {
             if (odn == null)
             {
@@ -49,10 +50,11 @@ namespace ApiPrueba.Controllers
                 return StatusCode(400, ModelState);
             }
 
-            if (!_odn.RegistrarOrden(odn.IDVehiculo, odn.cedulaCliente, odn.placaVehiculo))
+            if ((bool)_odn.RegistrarOrden(odn.IDCita, odn.IDCliente, odn.descripcion) == false)
             {
-                ModelState.AddModelError("", "Ocurrió un error creando la orden. Por favor, inténtelo en un momento");
-                return StatusCode(500, ModelState);
+                HttpResponseMessage mensaje = new HttpResponseMessage();
+                mensaje.Content = new StringContent("ya_existe");
+                return StatusCode(400, mensaje);
             }
 
             return Ok(new { message = "Orden ingresada al sistema exitosamente" });

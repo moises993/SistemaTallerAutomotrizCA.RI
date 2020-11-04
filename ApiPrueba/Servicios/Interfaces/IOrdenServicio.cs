@@ -10,7 +10,7 @@ namespace ApiPrueba.Servicios.Interfaces
     {
         List<Orden> VerOrdenes();
         Orden ConsultarOrdenPorCedula(string ced);
-        bool RegistrarOrden(int idv, string pced, string placa);
+        bool? RegistrarOrden(int pidcita, int pidcliente, string pdesc);
         bool ActualizarOrden(int id, string pced, string placa);
         bool BorrarOrden(int id);
     }
