@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-//using ElectronNET.API;
+using ElectronNET.API;
 
 namespace tema
 {
@@ -21,7 +21,7 @@ namespace tema
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    //webBuilder.UseElectron(args);
+                    webBuilder.UseElectron(args);
                     webBuilder.UseStartup<Startup>();
                 });
     }

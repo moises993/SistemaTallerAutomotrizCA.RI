@@ -1,16 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-//using ElectronNET.API;
-//using ElectronNET.API.Entities;
-using System.Runtime.InteropServices;
+using ElectronNET.API;
+using ElectronNET.API.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using tema.Utilidades.Interfaces;
 using tema.Utilidades;
@@ -49,10 +44,10 @@ namespace tema
             services.AddControllersWithViews();
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(3);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,23 +86,26 @@ namespace tema
                     pattern: "{controller=Home}/{action=Login}/{id?}");
             });
 
-            //if (HybridSupport.IsElectronActive)
-            //{
-            //    CreateWindow();
-            //}
+            if (HybridSupport.IsElectronActive)
+            {
+                CreateWindow();
+            }
         }
 
-        //private async void CreateWindow()
-        //{
-        //    var window = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
-        //    {
-        //        Width = 1280,
-        //        Height = 1024
-        //    });
-        //    window.OnClosed += () =>
-        //    {
-        //        Electron.App.Quit();
-        //    };
-        //}
+        private async void CreateWindow()
+        {
+            var window = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
+            {
+                Width = 1280,
+                Height = 1024,
+                Show = false
+            });
+            await window.WebContents.Session.ClearCacheAsync();
+            window.OnReadyToShow += () => window.Show();
+            window.OnClosed += () =>
+            {
+                Electron.App.Quit();
+            };
+        }
     }
 }
