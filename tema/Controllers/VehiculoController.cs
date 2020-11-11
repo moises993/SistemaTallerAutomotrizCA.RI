@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using tema.Models;
 using tema.Models.ViewModels;
+using tema.Utilidades;
 
 namespace tema.Controllers
 {
@@ -41,6 +43,17 @@ namespace tema.Controllers
             return View(Vehiculo);
         }
 
+        public static List<SelectListItem> ObtenerMarcas()
+        {
+            List<SelectListItem> ls = new List<SelectListItem>();
+            List<string> marcas = ListaFabricantes.ObtenerMarcas();
+            foreach(string x in marcas)
+            {
+                ls.Add(new SelectListItem() { Text = x.ToString(), Value = x.ToString() });
+            }
+            return ls;
+        }
+
         public static async Task<List<SelectListItem>> ObtenerLista()
         {
             List<SelectListItem> ls = new List<SelectListItem>();
@@ -63,7 +76,7 @@ namespace tema.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("cedclt,marca,modelo,placa,placaExt")] VehiculoViewModel vhlmod)
+        public IActionResult Create([Bind("cedclt,marca,modelo,placa,placaExt,fabricante")] VehiculoViewModel vhlmod)
         {
             string placa = string.Empty;
             if (string.IsNullOrEmpty(vhlmod.placa) && !string.IsNullOrEmpty(vhlmod.placaExt)) placa = vhlmod.placaExt;
@@ -75,7 +88,7 @@ namespace tema.Controllers
                 Vehiculo vhlPatch = new Vehiculo
                 {
                     cedclt = vhlmod.cedclt,
-                    marca = vhlmod.marca,
+                    marca = string.Join(" ", vhlmod.fabricante, vhlmod.marca),
                     modelo = int.Parse(vhlmod.modelo),
                     placa = placa.ToUpper()
                 };

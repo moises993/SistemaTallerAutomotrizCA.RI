@@ -1,5 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ElectronNET.API;
@@ -10,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using tema.Models;
 using tema.Models.ViewModels;
 using tema.Utilidades.Interfaces;
@@ -243,7 +248,7 @@ namespace tema.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(Usuario objeto)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View();
             }
@@ -292,13 +297,11 @@ namespace tema.Controllers
 
             Usuario objeto = new Usuario
             {
-                correoForm = objetoVM.correoForm,
-                contra = objetoVM.contra,
                 correo = objetoVM.correo,
                 rol = objetoVM.rol
             };
 
-            bool resultado = await _usRep.RegisterAsync(baseurl + "Taller/Usuario/Registrar", objeto);
+            await _usRep.RegisterAsync(baseurl + "Taller/Usuario/Registrar", objeto);
 
             if (_usRep.Error400)
             {
@@ -332,6 +335,20 @@ namespace tema.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+
+        [Authorize]
+        [Authorize(Roles = "manager")]
+        public async Task<IActionResult> VerUsuarios()
+        {
+            IEnumerable<Usuario> aux = new List<Usuario>();
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(baseurl);
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage res = await client.GetAsync("Taller/Usuario/ListaUsuarios");
+            if (res.IsSuccessStatusCode) aux = JsonConvert.DeserializeObject<IEnumerable<Usuario>>(res.Content.ReadAsStringAsync().Result);
+            return View(aux);
         }
     }
 }

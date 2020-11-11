@@ -19,6 +19,10 @@ namespace tema.Models.ViewModels
         //[Required(ErrorMessage = "La placa es obligatoria para agregar un nuevo vehículo")]
         public string placa { get; set; }
         public string placaExt { get; set; }
+        #nullable enable
+        [Required(ErrorMessage = "Debe seleccionar una marca")]
+        public string? fabricante { get; set; }
+        #nullable disable
         #endregion propieadesCrear
     }
 }
