@@ -114,22 +114,20 @@ namespace ApiPrueba.Servicios.Repositorios
         #endregion consultas
 
         #region operaciones
-        public bool RegistrarExpediente(int? pidv)
+        public int RegistrarExpediente(int? pidv)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
-
+            int filasAfectadas = 0;
             try
             {
                 conexion.Open();
-                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"expCrearExpediente\"(@pidv)", conexion))
+                using (NpgsqlCommand comando = new NpgsqlCommand("CALL \"Taller\".\"expCrearExpediente\"(@pidv)", conexion))
                 {
                     comando.Parameters.AddWithValue(":pidv", pidv);
-
-                    comando.ExecuteNonQuery();
-
+                    filasAfectadas = comando.ExecuteNonQuery();
                     conexion.Close();
                 }
-                return true;
+                return filasAfectadas;
             }
             catch (Exception)
             {

@@ -102,6 +102,29 @@ namespace ApiPrueba.Servicios.Repositorios
         #endregion consultas
 
         #region operaciones
+
+        public bool PlacaExiste(string placa)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            bool resultado = false;
+            try
+            {
+                conexion.Open();
+                NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"vhlValidarPlaca\"", conexion);
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.Parameters.AddWithValue("pplaca", placa);
+                NpgsqlDataReader lector = comando.ExecuteReader();
+                while (lector.Read()) resultado = lector.GetBoolean(0);
+                lector.Close();
+                conexion.Close();
+                return resultado;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+
         public bool RegistrarVehiculo(string pcedclt, string marca, int modelo, string placa)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);

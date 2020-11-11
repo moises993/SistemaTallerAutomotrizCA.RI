@@ -49,9 +49,9 @@ namespace ApiPrueba.Controllers
                 return StatusCode(400, ModelState);
             }
 
-            if (!_exp.RegistrarExpediente(id))
+            if (_exp.RegistrarExpediente(id) < 1)
             {
-                ModelState.AddModelError("", "Ocurrió un error creando el expediente. Por favor, inténtelo en un momento");
+                ModelState.AddModelError("", "No se creó el expediente. Verifique que el vehículo tenga al menos una cita confirmada.");
                 return StatusCode(500, ModelState);
             }
 
