@@ -18,15 +18,16 @@ namespace tema.Models
         [Display(Name = "Segundo Apellido")]
         [Required(ErrorMessage = "No se ingresó el segundo apellido del cliente")]
         public string sgndApellido { get; set; }
-        [RegularExpression(@"[1-7]-[0-9]{4}-[0-9]{4}", 
-            ErrorMessage = "Formato requerido (0-0000-0000)")]
+        
         [Display(Name = "Cédula")]
-        [Required(ErrorMessage = "No se ingresó la cédula del cliente")]
+
         public string cedula { get; set; }
         [Display(Name = "Cliente Frecuente")]
         [Required(ErrorMessage = "No se indicó si el cliente es frecuente o nuevo")]
         public bool cltFrecuente { get; set; }
         [Display(Name = "Fecha de Ingreso")]
         public DateTime fechaIngreso { get; set; }
+        //para la vista de crear
+        public string cedExt { get; set; }
     }
-}
+} //[1-7]-[0-9]{4}-[0-9]{4}

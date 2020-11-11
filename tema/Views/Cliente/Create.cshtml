@@ -3,23 +3,68 @@
 @{
     ViewData["Title"] = "Create";
 }
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $("select").change(function () {
+            $("select option:selected").each(function () {
+                if ($(this).attr("value") == "nac") {
+                    $("#extranjero").addClass("d-none");
+                    $("#ninguna").addClass("d-none");
+                    $("#nacional").removeClass("d-none");
+                    $('#boton_guardar').addClass("d-none");
+                    $('#cedula_ext').val("");
+                }
+                if ($(this).attr("value") == "ext") {
+                    $("#nacional").addClass("d-none");
+                    $("#ninguna").addClass("d-none");
+                    $("#extranjero").removeClass("d-none");
+                    $('#boton_guardar').removeClass("d-none");
+                    $('#cedula_nac').val("");
+                }
+                if ($(this).attr("value") == "escoja") {
+                    $("#nacional").addClass("d-none");
+                    $("#extranjero").addClass("d-none");
+                    $("#ninguna").removeClass("d-none");
+                    $('#boton_guardar').addClass("d-none");
+                    $('#cedula_nac').val("");
+                    $('#cedula_ext').val("");
+                }
+            });
+        }).change();
+    });
+
+    $(document).ready(function () {
+        var $regexname = /([1-7]-[0-9]{4}-[0-9]{4})/;
+        $('#cedula_nac').on('keypress keydown keyup mouseout mouseover', function () {
+            if (!$(this).val().match($regexname)) {
+                $('#error_msg').removeClass('d-none');
+                $('#error_msg').addClass('text-danger');
+                $('#boton_guardar').addClass('d-none');
+            }
+            else {
+                $('#error_msg').addClass('d-none');
+                $('#error_msg').removeClass('text-danger');
+                $('#boton_guardar').removeClass('d-none');
+            }
+        });
+    });
+</script>
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <div class="content-wrapper">
     <div class="container">
-
-
-
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a href="../Cliente/Index" style="color:aliceblue">Inicio</a></li>
+            <li><a asp-controller="Cliente" asp-action="Index" style="color:aliceblue">Inicio</a></li>
             <li><a class="active" style="color:aliceblue">Crear Cliente</a></li>
             @*<li><a href="#">Home</a></li>
-            <li><a href="#">Private</a></li>
-            <li><a href="#">Pictures</a></li>
-            <li class="active">Vacation</li>*@
+                <li><a href="#">Private</a></li>
+                <li><a href="#">Pictures</a></li>
+                <li class="active">Vacation</li>*@
         </ol>
         <h1>Crear Cliente</h1>
         <div class="row">
@@ -27,11 +72,6 @@
             <div class="col-md-4">
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    @*<div class="form-group">
-                        <label asp-for="IDCliente" class="control-label"></label>
-                        <input asp-for="IDCliente" class="form-control" />
-                        <span asp-validation-for="IDCliente" class="text-danger"></span>
-                    </div>*@
                     <div class="form-group">
                         <label asp-for="nombre" class="control-label"></label>
                         <input asp-for="nombre" class="form-control" />
@@ -47,19 +87,42 @@
                         <input asp-for="sgndApellido" class="form-control" />
                         <span asp-validation-for="sgndApellido" class="text-danger"></span>
                     </div>
+                    <!--BLOQUE VALIDACIÓN CÉDULA-->
                     <div class="form-group">
                         <label asp-for="cedula" class="control-label"></label>
-                        <input asp-for="cedula" class="form-control" />
-                        <span asp-validation-for="cedula" class="text-danger"></span>
+                        <div>
+                            <select class="form-control">
+                                <!--Bloque selección de validaciones-->
+                                <option value="escoja">Escoja el formato</option>
+                                <option value="nac">Nacional (con formato)</option>
+                                <option value="ext">Extranjera (sin formato)</option>
+                            </select>
+                        </div>
+                        <div id="ninguna" class="d-none">
+                            <label class="control-label text-danger">No se seleccionó ninguna opción</label>
+                        </div>
+                        <div id="nacional" class="d-none">
+                            <!--Nacional-->
+                            <label class="control-label">Ingrese una cédula nacional</label>
+                            <input id="cedula_nac" asp-for="cedula" type="text" class="form-control" />
+                            <p><span id="error_msg" class="text-danger d-none">Formato inválido (siga el patrón 0-0000-0000)</span></p>
+                        </div>
+                        <div id="extranjero" class="d-none">
+                            <!--Extranjera-->
+                            <label class="control-label">Ingrese una cédula extranjera o con formato diferente</label>
+                            <input id="cedula_ext" asp-for="cedula" type="text" class="form-control" />
+                        </div>
                     </div>
+                    <!--FIN BLOQUE VALIDACIÓN CÉDULA-->
                     <div class="form-group form-check">
                         <label class="form-check-label" asp-for="cltFrecuente">
-                            <input class="checked" asp-for="cltFrecuente" /> @Html.DisplayNameFor(model=> model.cltFrecuente)
+                            <input class="checked" asp-for="cltFrecuente" /> @Html.DisplayNameFor(model => model.cltFrecuente)
                         </label>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Crear" class="Boton" />
-                    </div>
+                    <button id="boton_guardar" type="submit" class="Boton d-none">Guardar</button>
+                    @*<div class="form-group">
+                        <input id="boton_guardar" type="submit" value="Crear" class="Boton d-none" />
+                    </div>*@
 
                     <div>
                         <a asp-action="Index" class="Boton" style="font-family:Arial">Ver lista de Clientes</a>
@@ -67,8 +130,5 @@
                 </form>
             </div>
         </div>
-
-
-
     </div>
 </div>

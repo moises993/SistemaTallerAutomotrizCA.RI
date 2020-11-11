@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Policy;
-using System.Threading.Tasks;
 
 namespace tema.Models
 {
@@ -20,7 +16,7 @@ namespace tema.Models
         public string cedulaCliente { get; set; }
         [Required(ErrorMessage = "No se ingresó la fecha")]
         [Display(Name = "Fecha")]
-        public DateTime fecha { get; set; }
+        public DateTime? fecha { get; set; }
         [Required(ErrorMessage = "No se ingresó la hora")]
         [Display(Name = "Hora")]
         public string hora { get; set; }

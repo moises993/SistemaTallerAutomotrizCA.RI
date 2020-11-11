@@ -4,8 +4,6 @@
     ViewData["Title"] = "Index";
 }
 
-
-
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 
 <div class="content-wrapper">
@@ -80,7 +78,9 @@
                     <th style="color:white;font-family:Arial" >
                         @Html.DisplayNameFor(model => model.fechaIngreso)
                     </th>
-                    <th></th>
+                    <th style="color:white;font-family:Arial">
+                        Acciones
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -110,7 +110,7 @@
                         </td>
                         <td>
                             @Html.ActionLink("Editar", "Edit", new { id = item.cedula }) |
-                            @Html.ActionLink("Detalles", "Details", new { id = item.cedula })|
+                            @Html.ActionLink("Detalles", "Details", new { id = item.cedula }) |
                             @Html.ActionLink("Eliminar", "Delete", new { id = item.cedula })
                         </td>
                     </tr>

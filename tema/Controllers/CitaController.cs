@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using tema.Models;
 using tema.Models.ViewModels;
@@ -57,29 +58,61 @@ namespace tema.Controllers
 
             return View(Cita);
         }
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
-            CitaViewModel ctavm = new CitaViewModel();
-            using (HttpClient cliente = new HttpClient())
-            {
-                cliente.BaseAddress = new Uri(baseurl);
-                cliente.DefaultRequestHeaders.Clear();
-                cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage resTecnico = await cliente.GetAsync("Taller/Tecnico/ListaTecnicos");
-                HttpResponseMessage resServicio = await cliente.GetAsync("Taller/Servicio/ListaServicios");
-                HttpResponseMessage resClt = await cliente.GetAsync("Taller/Cliente/ListaClientes");
-                if (resTecnico.IsSuccessStatusCode && resClt.IsSuccessStatusCode)
-                {
-                    var auxResTecnico = resTecnico.Content.ReadAsStringAsync().Result;
-                    var auxResClt = resClt.Content.ReadAsStringAsync().Result;
-                    var auxResServicio = resServicio.Content.ReadAsStringAsync().Result;
-                    ctavm.servicio = JsonConvert.DeserializeObject<List<Servicio>>(auxResServicio);
-                    ctavm.tecnico = JsonConvert.DeserializeObject<List<Tecnico>>(auxResTecnico);
-                    ctavm.cliente = JsonConvert.DeserializeObject<List<Cliente>>(auxResClt);
-                }
-            }
-            return View(ctavm);
+            return View();
         }
+
+        //los tres métodos para poblar los selectList
+        #region selectLists
+        public static async Task<List<SelectListItem>> ObtenerListaTecnicos()
+        {
+            List<SelectListItem> ls = new List<SelectListItem>();
+            HttpClient cliente = new HttpClient();
+            cliente.BaseAddress = new Uri("https://localhost:44300/");
+            cliente.DefaultRequestHeaders.Clear();
+            cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage resTecnico = await cliente.GetAsync("Taller/Tecnico/ListaTecnicos");
+            List<Tecnico> tnc = JsonConvert.DeserializeObject<List<Tecnico>>(await resTecnico.Content.ReadAsStringAsync());
+            foreach (Tecnico temp in tnc)
+            {
+                ls.Add(new SelectListItem() { Text = temp.nombre, Value = Convert.ToString(temp.IDTecnico) });
+            }
+            return ls;
+        }
+
+        public static async Task<List<SelectListItem>> ObtenerListaClientes()
+        {
+            List<SelectListItem> ls = new List<SelectListItem>();
+            HttpClient cliente = new HttpClient();
+            cliente.BaseAddress = new Uri("https://localhost:44300/");
+            cliente.DefaultRequestHeaders.Clear();
+            cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage resCliente = await cliente.GetAsync("Taller/Cliente/ListaClientes");
+            List<Cliente> clt = JsonConvert.DeserializeObject<List<Cliente>>(await resCliente.Content.ReadAsStringAsync());
+            foreach (Cliente temp in clt)
+            {
+                ls.Add(new SelectListItem() { Text = temp.nombre, Value = temp.cedula });
+            }
+            return ls;
+        }
+
+        public static async Task<List<SelectListItem>> ObtenerListaServicios()
+        {
+            List<SelectListItem> ls = new List<SelectListItem>();
+            HttpClient cliente = new HttpClient();
+            cliente.BaseAddress = new Uri("https://localhost:44300/");
+            cliente.DefaultRequestHeaders.Clear();
+            cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage resCliente = await cliente.GetAsync("Taller/Servicio/ListaServicios");
+            List<Servicio> svc = JsonConvert.DeserializeObject<List<Servicio>>(await resCliente.Content.ReadAsStringAsync());
+            foreach (Servicio temp in svc)
+            {
+                ls.Add(new SelectListItem() { Text = temp.descripcion, Value = temp.descripcion });
+            }
+            return ls;
+        }
+        #endregion selectLists 
 
         [HttpPost]
         public async Task<IActionResult> Create([Bind("IDTecnico,cedulaCliente,fecha,hora,asunto,descripcion,citaConfirmada")] CitaViewModel cta)
@@ -115,7 +148,7 @@ namespace tema.Controllers
                     }
                 }
             }
-            return View(ctapost);
+            return View(cta);
         }
 
         public async Task<IActionResult> Edit(int? id)

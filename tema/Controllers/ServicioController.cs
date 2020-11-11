@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using tema.Models;
 using tema.Models.ViewModels;
@@ -17,10 +18,31 @@ namespace tema.Controllers
     {
         string baseurl = "https://localhost:44300/";
 
-        [HttpPost]
-        public async Task<IActionResult> Create([Bind("IDVehiculo,descripcion")] CitaViewModel ctavm)
+        public static async Task<List<SelectListItem>> ObtenerLista()
         {
-            Servicio srv = new Servicio { IDVehiculo = ctavm.IDVehiculo, descripcion = ctavm.descripcion };
+            List<SelectListItem> ls = new List<SelectListItem>();
+            HttpClient cliente = new HttpClient();
+            cliente.BaseAddress = new Uri("https://localhost:44300/");
+            cliente.DefaultRequestHeaders.Clear();
+            cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage resVehiculo = await cliente.GetAsync("Taller/Vehiculo/ListaVehiculos");
+            List<Vehiculo> vhl = JsonConvert.DeserializeObject<List<Vehiculo>>(await resVehiculo.Content.ReadAsStringAsync());
+            foreach (Vehiculo temp in vhl)
+            {
+                ls.Add(new SelectListItem() { Text = temp.marca, Value = Convert.ToString(temp.IDVehiculo) });
+            }
+            return ls;
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([Bind("IDVehiculo,descripcion")] Servicio svcm)
+        {
+            Servicio srv = new Servicio { IDVehiculo = svcm.IDVehiculo, descripcion = svcm.descripcion };
             if (ModelState.IsValid)
             {
                 using (HttpClient cliente = new HttpClient())
@@ -38,7 +60,7 @@ namespace tema.Controllers
                     }
                 }
             }
-            return null;
+            return View(svcm);
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -107,7 +129,7 @@ namespace tema.Controllers
 
         private async Task<Servicio> GetOneById(int? id, Servicio aux)
         {
-            using (var client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(baseurl);
                 client.DefaultRequestHeaders.Clear();
@@ -115,11 +137,10 @@ namespace tema.Controllers
                 HttpResponseMessage res = await client.GetAsync("Taller/Servicio/ListaServicios");
                 if (res.IsSuccessStatusCode)
                 {
-                    var auxRes = res.Content.ReadAsStringAsync().Result;
-                    var coleccionSvc = JsonConvert.DeserializeObject<IEnumerable<Servicio>>(auxRes);
+                    IEnumerable<Servicio> coleccionSvc = JsonConvert.DeserializeObject<IEnumerable<Servicio>>(res.Content.ReadAsStringAsync().Result);
                     for(int k = 0;k < coleccionSvc.Count();k++)
                     {
-                        var svcquery = from svc in coleccionSvc where svc.IDServicio == id select svc;
+                        IEnumerable<Servicio> svcquery = from svc in coleccionSvc where svc.IDServicio == id select svc;
                         aux = svcquery.First();
                     }
                 }

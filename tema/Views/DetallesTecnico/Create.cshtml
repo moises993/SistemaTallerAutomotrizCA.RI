@@ -4,16 +4,63 @@
     ViewData["Title"] = "Crear";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    * {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+</style>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $("select").change(function () {
+            $("select option:selected").each(function () {
+                if ($(this).attr("value") == "nac") {
+                    $("#extranjero").addClass("d-none");
+                    $("#ninguna").addClass("d-none");
+                    $("#nacional").removeClass("d-none");
+                    $('#boton_guardar').addClass("d-none");
+                    $('#numero_ext').val("");
+                }
+                if ($(this).attr("value") == "ext") {
+                    $("#nacional").addClass("d-none");
+                    $("#ninguna").addClass("d-none");
+                    $("#extranjero").removeClass("d-none");
+                    $('#boton_guardar').removeClass("d-none");
+                    $('#numero_nac').val("");
+                }
+                if ($(this).attr("value") == "escoja") {
+                    $("#nacional").addClass("d-none");
+                    $("#extranjero").addClass("d-none");
+                    $("#ninguna").removeClass("d-none");
+                    $('#boton_guardar').addClass("d-none");
+                    $('#numero_nac').val("");
+                    $('#numero_ext').val("");
+                }
+            });
+        }).change();
+    });
 
+    $(document).ready(function () {
+        var $regexname = /(506-[0-9]{4}-[0-9]{4})/;
+        $('#numero_nac').on('keypress keydown keyup mouseout mouseover', function () {
+            if (!$(this).val().match($regexname)) {
+                $('#error_msg').removeClass('d-none');
+                $('#error_msg').addClass('text-danger');
+                $('#boton_guardar').addClass('d-none');
+            }
+            else {
+                $('#error_msg').addClass('d-none');
+                $('#error_msg').removeClass('text-danger');
+                $('#boton_guardar').removeClass('d-none');
+            }
+        });
+    });
+</script>
 <div class="content-wrapper">
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
             <li><a href="../Tecnico/Index" style="color:aliceblue">Inicio</a></li>
             <li><a class="active" style="color:aliceblue">Ingresar detalles del técnico</a></li>
-            @*<li><a href="#">Home</a></li>
-            <li><a href="#">Private</a></li>
-            <li><a href="#">Pictures</a></li>
-            <li class="active">Vacation</li>*@
         </ol>
         <h1>Ingresar detalles</h1>
 
@@ -25,26 +72,43 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="direccion" class="control-label"></label>
-                        <input asp-for="direccion" class="form-control" />
+                        <input asp-for="direccion" type="text" class="form-control" /> <!--dirección-->
                         <span asp-validation-for="direccion" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="telefono" class="control-label"></label>
-                        <input asp-for="telefono" class="form-control" />
-                        <span asp-validation-for="telefono" class="text-danger"></span>
+                        <div>
+                            <select class="form-control">
+                                <!--Bloque selección de validaciones-->
+                                <option value="escoja">Escoja el formato</option>
+                                <option value="nac">Nacional (con formato)</option>
+                                <option value="ext">Extranjero (sin formato)</option>
+                            </select>
+                        </div>
+                        <div id="ninguna" class="d-none">
+                            <label class="control-label text-danger">No se seleccionó ninguna opción</label>
+                        </div>
+                        <div id="nacional" class="d-none">
+                            <!--Nacional-->
+                            <label class="control-label">Ingrese un número nacional</label>
+                            <input id="numero_nac" asp-for="telefono" type="text" class="form-control" />
+                            <p><span id="error_msg" class="text-danger d-none">Formato inválido (ingrese el número así: 506-0000-0000)</span></p>
+                        </div>
+                        <div id="extranjero" class="d-none">
+                            <!--Extranjero-->
+                            <label class="control-label">Ingrese un número extranjero</label>
+                            <input id="numero_ext" asp-for="telefonoExt" type="text" class="form-control" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="correo" class="control-label"></label>
-                        <input asp-for="correo" class="form-control" />
+                        <input asp-for="correo" type="text" class="form-control" /> <!--Correo-->
                         <span asp-validation-for="correo" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Guardar" class="btn btn-primary" />
-                    </div>
+                    <button id="boton_guardar" type="submit" class="btn btn-primary d-none">Guardar</button>
                 </form>
             </div>
         </div>
-
         <div>
             <a asp-controller="Tecnico" asp-action="Index">Regresar</a>
         </div>

@@ -4,49 +4,49 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="content-wrapper">
-        <div class="container">
-            <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-                <li><a href="../Vehiculo/Index" style="color:aliceblue">Inicio </a></li>
-                <li><a class="active" style="color:aliceblue">/ Editar Vehículo</a></li>
-                @*<li><a href="#">Home</a></li>
-            <li><a href="#">Private</a></li>
-           *@
-            </ol>
-            <h1>Editar Vehículo</h1>
-
-
-            <hr />
-            <div class="row">
-                <div class="col-md-4">
-                    <form asp-action="Edit">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                        <div class="form-group">
-                            <label asp-for="marca" class="control-label"></label>
-                            <input asp-for="marca" class="form-control" />
-                            <span asp-validation-for="marca" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="modelo" class="control-label"></label>
-                            <input asp-for="modelo" class="form-control" />
-                            <span asp-validation-for="modelo" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="placa" class="control-label"></label>
-                            <input asp-for="placa" class="form-control" />
-                            <span asp-validation-for="placa" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Save" class="btn btn-primary" />
-                        </div>
-                    </form>
-                </div>
+<div class="content-wrapper">
+    <div class="container">
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a asp-controller="Vehiculo" asp-action="Index" style="color:aliceblue">Inicio </a></li>
+            <li><a class="active" style="color:aliceblue">/ Editar Vehículo</a></li>
+            @*<li><a href="#">Home</a></li>
+                <li><a href="#">Private</a></li>
+            *@
+        </ol>
+        <h1>Editar Vehículo</h1>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group" hidden>
+                        <label asp-for="IDVehiculo" class="control-label"></label>
+                        <input asp-for="IDVehiculo" class="form-control" />
+                        <span asp-validation-for="IDVehiculo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="marca" class="control-label"></label>
+                        <input asp-for="marca" class="form-control" />
+                        <span asp-validation-for="marca" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="modelo" class="control-label"></label>
+                        <input asp-for="modelo" class="form-control" />
+                        <span asp-validation-for="modelo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" hidden>
+                        <label asp-for="placa" class="control-label"></label>
+                        <input asp-for="placa" class="form-control" />
+                        <span asp-validation-for="placa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-
-            <div>
-                <a asp-action="Index" class="Boton">Ver lista de Vehículos</a>
-            </div>
-
         </div>
+        <div>
+            <a asp-action="Index" class="Boton">Ver lista de Vehículos</a>
+        </div>
+    </div>
 </div>

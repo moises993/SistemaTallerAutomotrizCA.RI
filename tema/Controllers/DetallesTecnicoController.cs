@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using tema.Models;
+using tema.Models.ViewModels;
 
 namespace tema.Controllers
 {
@@ -22,9 +23,13 @@ namespace tema.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(int id, [Bind("IDTecnico,direccion,telefono,correo")] DetallesTecnico dtt)
+        public ActionResult Create(int id, [Bind("IDTecnico,direccion,telefono,telefonoExt,correo")] DetallesTecnico dtt)
         {
             DetallesTecnico dttPost;
+            string tel = string.Empty;
+            if (string.IsNullOrEmpty(dtt.telefono) && !string.IsNullOrEmpty(dtt.telefonoExt)) tel = dtt.telefonoExt;
+            if (!string.IsNullOrEmpty(dtt.telefono) && string.IsNullOrEmpty(dtt.telefonoExt)) tel = dtt.telefono;
+            else if (tel == string.Empty) ModelState.AddModelError("", "El campo de teléfono está vacío");
             if (ModelState.IsValid)
             {
                 using (HttpClient cliente = new HttpClient())
@@ -33,7 +38,7 @@ namespace tema.Controllers
                     {
                         IDTecnico = id,
                         direccion = dtt.direccion,
-                        telefono = dtt.telefono,
+                        telefono = tel,
                         correo = dtt.correo
                     };
                     cliente.BaseAddress = new Uri(baseurl);
@@ -57,14 +62,14 @@ namespace tema.Controllers
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
-            DetallesTecnico dtt = await GetDetalle(id, new DetallesTecnico());
+            DttEditViewModel dtt = await GetDetalleEdit(id, new DttEditViewModel());
             if (dtt == null) return NotFound();
             return View(dtt);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int? id, [Bind("direccion,telefono,correo,codDet")] DetallesTecnico dtt)
+        public ActionResult Edit(int? id, [Bind("direccion,telefono,correo,codDet")] DttEditViewModel dtt)
         {
             if (id != dtt.codDet) return NotFound();
             if (ModelState.IsValid)
@@ -111,6 +116,7 @@ namespace tema.Controllers
             return RedirectToAction("Index", "Tecnico");
         }
 
+        #region bloqueConsultas
         private async Task<DetallesTecnico> GetDetalle(int? id, DetallesTecnico aux)
         {
             using (HttpClient client = new HttpClient())
@@ -130,5 +136,26 @@ namespace tema.Controllers
             }
             return aux;
         }
+
+        private async Task<DttEditViewModel> GetDetalleEdit(int? id, DttEditViewModel aux)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client.GetAsync
+                    (
+                        "Taller/Tecnico/ObtenerDetalleIndividual/" + id
+                    );
+                if (res.IsSuccessStatusCode)
+                {
+                    string auxRes = res.Content.ReadAsStringAsync().Result;
+                    aux = JsonConvert.DeserializeObject<DttEditViewModel>(auxRes);
+                }
+            }
+            return aux;
+        }
+        #endregion bloqueConsultas
     }
 }

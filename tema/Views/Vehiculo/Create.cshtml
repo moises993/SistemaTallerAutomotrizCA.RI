@@ -1,53 +1,124 @@
-﻿@model tema.Models.Vehiculo
+﻿@model tema.Models.ViewModels.VehiculoViewModel
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="content-wrapper">
-        <div class="container">
-            <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-                <li><a href="../Vehiculo/Index" style="color:aliceblue">Inicio </a></li>
-                <li><a class="active" style="color:aliceblue">/ Crear Vehículo</a></li>
-                @*<li><a href="#">Home</a></li>
-        <li><a href="#">Private</a></li>*@
-            </ol>
-            <h4>Vehículo</h4>
-            <hr />
-            <div class="row">
-                <div class="col-md-4">
-                    <form asp-action="Create">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <label class="control-label">Indique la cédula del cliente (puede obtenerla en <a asp-controller="Cliente" asp-action="Index">la sección de clientes</a>)</label>
-                            <input asp-for="cedclt" class="form-control" />
-                            <span asp-validation-for="cedclt" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="marca" class="control-label"></label>
-                            <input asp-for="marca" class="form-control" />
-                            <span asp-validation-for="marca" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="modelo" class="control-label"></label>
-                            <input asp-for="modelo" class="form-control" />
-                            <span asp-validation-for="modelo" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="placa" class="control-label"></label>
-                            <input asp-for="placa" class="form-control" />
-                            <span asp-validation-for="placa" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Create" class="btn btn-primary" />
-                        </div>
-                    </form>
-                </div>
-            </div>
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $("select").change(function () {
+            $("select option:selected").each(function () {
+                if ($(this).attr("value") == "nac") {
+                    $("#extranjero").addClass("d-none");
+                    $("#ninguna").addClass("d-none");
+                    $("#nacional").removeClass("d-none");
+                    $('#boton_guardar').addClass("d-none");
+                    $('#placa_ext').val("");
+                }
+                if ($(this).attr("value") == "ext") {
+                    $("#nacional").addClass("d-none");
+                    $("#ninguna").addClass("d-none");
+                    $("#extranjero").removeClass("d-none");
+                    $('#boton_guardar').removeClass("d-none");
+                    $('#placa_nac').val("");
+                }
+                if ($(this).attr("value") == "escoja") {
+                    $("#nacional").addClass("d-none");
+                    $("#extranjero").addClass("d-none");
+                    $("#ninguna").removeClass("d-none");
+                    $('#boton_guardar').addClass("d-none");
+                    $('#placa_nac').val("");
+                    $('#placa_ext').val("");
+                }
+            });
+        }).change();
+    });
 
-            <div>
-                <a asp-action="Index">Ver lista de Vehículos</a>
+    $(document).ready(function () {
+        var $regexname = /^[a-zA-Z0-9]{5,6}$/;
+        $('#placa_nac').on('keypress keydown keyup mouseout mouseover', function () {
+            if (!$(this).val().match($regexname)) {
+                $('#error_msg').removeClass('d-none');
+                $('#error_msg').addClass('text-danger');
+                $('#boton_guardar').addClass('d-none');
+            }
+            else {
+                $('#error_msg').addClass('d-none');
+                $('#error_msg').removeClass('text-danger');
+                $('#boton_guardar').removeClass('d-none');
+            }
+        });
+    });
+</script>
+<div class="content-wrapper">
+    <div class="container">
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a href="../Vehiculo/Index" style="color:aliceblue">Inicio </a></li>
+            <li><a class="active" style="color:aliceblue">/ Crear Vehículo</a></li>
+            @*<li><a href="#">Home</a></li>
+                <li><a href="#">Private</a></li>*@
+        </ol>
+        <h4>Vehículo</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">Seleccione al cliente al que corresponde el vehículo</label>
+                        @Html.DropDownListFor(x => x.cedclt, await tema.Controllers.VehiculoController.ObtenerLista(), "Seleccione una opción", new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="marca" class="control-label"></label>
+                        <input asp-for="marca" class="form-control" />
+                        <span asp-validation-for="marca" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="modelo" class="control-label"></label>
+                        <input asp-for="modelo" type="text" class="form-control" />
+                        <span asp-validation-for="modelo" class="text-danger"></span>
+                    </div>
+                    <!--BLOQUE VALIDACIÓN CÉDULA-->
+                    <div class="form-group">
+                        <label class="control-label">Placa</label>
+                        <div>
+                            <select class="form-control">
+                                <!--Bloque selección de validaciones-->
+                                <option value="escoja">Escoja el formato</option>
+                                <option value="nac">Nacional (con formato)</option>
+                                <option value="ext">Extranjera (sin formato)</option>
+                            </select>
+                        </div>
+                        <div id="ninguna" class="d-none">
+                            <label class="control-label text-danger">No se seleccionó ninguna opción</label>
+                        </div>
+                        <div id="nacional" class="d-none">
+                            <!--Nacional-->
+                            <label class="control-label">Ingrese una placa nacional</label>
+                            <input id="placa_nac" asp-for="placa" type="text" class="form-control" />
+                            <p><span id="error_msg" class="text-danger d-none">Formato inválido (ingrese entre 5 y 6 caracteres incluyendo letras o solo números)</span></p>
+                        </div>
+                        <div id="extranjero" class="d-none">
+                            <!--Extranjera-->
+                            <label class="control-label">Ingrese una placa extranjera o con formato diferente</label>
+                            <input id="placa_ext" asp-for="placaExt" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <!--FIN BLOQUE VALIDACIÓN CÉDULA-->
+                    <div class="form-group">
+                        <input id="boton_guardar" type="submit" value="Crear" class="btn btn-primary d-none" />
+                    </div>
+                </form>
             </div>
-
         </div>
+        <div>
+            <a asp-action="Index">Regresar</a>
+        </div>
+    </div>
 </div>

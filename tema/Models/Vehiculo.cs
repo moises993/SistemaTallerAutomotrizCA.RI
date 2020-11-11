@@ -1,9 +1,4 @@
-﻿using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace tema.Models
 {
@@ -12,7 +7,12 @@ namespace tema.Models
         public string cedclt{ get; set; }
         public int IDVehiculo { get; set; }
         public int IDCliente { get; set; }
+        [Display(Name = "Marca del vehículo")]
+        [Required(ErrorMessage = "Debe proveer un valor para este campo")]
         public string marca { get; set; }
+        [Required(ErrorMessage = "Se requiere el modelo del vehículo")]
+        [Display(Name = "Modelo del vehículo")]
+        [RegularExpression(@"^[0-9]{1,4}$", ErrorMessage = "Solo puede ingresar números enteros, máximo 4")]
         public int modelo { get; set; }
         public string placa { get; set; }
     }

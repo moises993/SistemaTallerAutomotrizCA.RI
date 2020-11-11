@@ -1,22 +1,31 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using tema.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace tema.Models.ViewModels
 {
     public class CitaViewModel
     {
-        private DateTime _returnDate = DateTime.MinValue;
+        private DateTime? _returnDate = DateTime.MinValue;
         #region propiedadesServicio
-        public int IDVehiculo { get; set; }
-        public string descripcion { get; set; }
+        [Required(ErrorMessage = "Debe seleccionar un vehículo")]
+        public int? IDVehiculo { get; set; }
+        #nullable enable
+        [Required(ErrorMessage = "Debe seleccionar un servicio")]
+        public string? descripcion { get; set; }
+        #nullable disable
         #endregion propiedadesServicio
         #region propiedadesCrearCita
-        public int IDTecnico { get; set; }
-        public string cedulaCliente { get; set; }
-        public DateTime fecha 
+        [Required(ErrorMessage = "Debe seleccionar un técnico")]
+        public int? IDTecnico { get; set; }
+        #nullable enable
+        [Required(ErrorMessage = "Debe seleccionar un cliente")]
+        public string? cedulaCliente { get; set; }
+        #nullable disable
+        [Display(Name = "Fecha de la cita")]
+        [Required(ErrorMessage = "Debe indicar la fecha de la cita")]
+        public DateTime? fecha 
         { 
             get
             {
@@ -27,7 +36,11 @@ namespace tema.Models.ViewModels
                 _returnDate = value;
             }   
         }
+        [Display(Name = "Hora de la cita")]
+        [Required(ErrorMessage = "No se indicó la hora de la cita")]
         public string hora { get; set; }
+        [Display(Name = "Asunto de la cita")]
+        [Required(ErrorMessage = "No se indicó el asunto de la cita")]
         public string asunto { get; set; }
         public bool citaConfirmada { get; set; }
         #endregion propiedadesCrearCita

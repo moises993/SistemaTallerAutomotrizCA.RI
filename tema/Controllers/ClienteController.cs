@@ -19,22 +19,13 @@ namespace tema.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<Cliente> aux = new List<Cliente>();
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("Taller/Cliente/ListaClientes");
-
-                if (res.IsSuccessStatusCode)
-                {
-                    var auxRes = res.Content.ReadAsStringAsync().Result;
-
-                    aux = JsonConvert.DeserializeObject<List<Cliente>>(auxRes);
-                }
-            }
+            IEnumerable<Cliente> aux = new List<Cliente>();
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(baseurl);
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage res = await client.GetAsync("Taller/Cliente/ListaClientes");
+            if (res.IsSuccessStatusCode) aux = JsonConvert.DeserializeObject<IEnumerable<Cliente>>(res.Content.ReadAsStringAsync().Result);
             return View(aux);
         }
 
@@ -68,14 +59,27 @@ namespace tema.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("nombre,pmrApellido,sgndApellido,cedula,cltFrecuente,fechaIngreso")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("nombre,pmrApellido,sgndApellido,cedula,cedExt,cltFrecuente,fechaIngreso")] Cliente cliente)
         {
+            Cliente cltpost = null;
+            string ced = string.Empty;
+            if (string.IsNullOrEmpty(cliente.cedula) && !string.IsNullOrEmpty(cliente.cedExt)) ced = cliente.cedExt;
+            if (!string.IsNullOrEmpty(cliente.cedula) && string.IsNullOrEmpty(cliente.cedExt)) ced = cliente.cedula;
+            else if (ced == string.Empty) ModelState.AddModelError("", "El campo de la cédula está vacío");
             if (ModelState.IsValid)
             {
                 using (HttpClient client = new HttpClient())
                 {
+                    cltpost = new Cliente
+                    {
+                        nombre = cliente.nombre,
+                        pmrApellido = cliente.pmrApellido,
+                        sgndApellido = cliente.sgndApellido,
+                        cedula = ced,
+                        cltFrecuente = cliente.cltFrecuente
+                    };
                     client.BaseAddress = new Uri(baseurl);
-                    var myContent = JsonConvert.SerializeObject(cliente);
+                    var myContent = JsonConvert.SerializeObject(cltpost);
                     var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
                     var byteContent = new ByteArrayContent(buffer);
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -93,7 +97,7 @@ namespace tema.Controllers
                     }
                 }
             }
-            return View(cliente);
+            return View(cltpost);
         }
 
         public async Task<IActionResult> Edit(string id)

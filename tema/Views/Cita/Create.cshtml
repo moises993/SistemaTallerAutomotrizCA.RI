@@ -23,16 +23,12 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label class="control-label">Técnico de la cita (el nombre corresponde al código generado por el sistema)</label>
-                        <select asp-for="IDTecnico" asp-items="@(new SelectList(Model.tecnico,"IDTecnico","nombre"))">
-                            <option>Seleccione un técnico</option>
-                        </select>
+                        @Html.DropDownListFor(x => x.IDTecnico, await tema.Controllers.CitaController.ObtenerListaTecnicos(), "Seleccione una opción", new { @class = "form-control" })
                         <span asp-validation-for="IDTecnico" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Cliente (el nombre corresponde a la cédula registrada en el sistema)</label>
-                        <select asp-for="cedulaCliente" asp-items="@(new SelectList(Model.cliente,"cedula","nombre"))">
-                            <option>Seleccione un cliente</option>
-                        </select>
+                        @Html.DropDownListFor(x => x.cedulaCliente, await tema.Controllers.CitaController.ObtenerListaClientes(), "Seleccione una opción", new { @class = "form-control" })
                         <span asp-validation-for="cedulaCliente" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -52,9 +48,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Seleccione la descripción del servicio (si no observa alguna, agregue una en la pantalla principal de <a asp-action="Index">citas</a>)</label>
-                        <select asp-for="descripcion" asp-items="@(new SelectList(Model.servicio,"descripcion","descripcion"))">
-                            <option>Seleccione el servicio a aplicar</option>
-                        </select>
+                        @Html.DropDownListFor(x => x.descripcion, await tema.Controllers.CitaController.ObtenerListaServicios(), "Seleccione una opción", new { @class = "form-control" })
                         <span asp-validation-for="descripcion" class="text-danger"></span>
                     </div>
                     <div class="form-group form-check">

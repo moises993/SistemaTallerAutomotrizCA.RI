@@ -9,12 +9,12 @@
 <div class="content-wrapper">
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a href="../Vehiculo/Index" style="color:aliceblue">Inicio</a></li>
+            <li><a class="active" style="color:aliceblue">Inicio</a></li>
             @*<li><a class="active" style="color:aliceblue">Editar Orden</a></li>*@
             @*<li><a href="#">Home</a></li>
-            <li><a href="#">Private</a></li>
-            <li><a href="#">Pictures</a></li>
-            <li class="active">Vacation</li>*@
+                <li><a href="#">Private</a></li>
+                <li><a href="#">Pictures</a></li>
+                <li class="active">Vacation</li>*@
         </ol>
         <h1>Vehículos</h1>
         @section Scripts
@@ -69,7 +69,7 @@
                     <th style="color:white;font-family:Arial;">
                         @Html.DisplayNameFor(model => model.placa)
                     </th>
-                    <th class="text-center" style="color:white;;font-family:Arial;">
+                    <th class="text-center" style="color:white;font-family:Arial;">
                         Acciones
                     </th>
                 </tr>
@@ -89,9 +89,9 @@
                             @Html.DisplayFor(modelItem => item.placa)
                         </td>
                         <td style="text-align:center; font-family:Arial">
-                            @Html.ActionLink("Editar", "Edit", new { id = item.placa }) |
+                            @Html.ActionLink("Editar", "Edit", new { id = item.IDVehiculo }) |
                             @Html.ActionLink("Detalles", "Details", new { id = item.placa }) |
-                            @Html.ActionLink("Eliminar", "Delete", new { id = item.placa }) |
+                            @Html.ActionLink("Eliminar", "Delete", new { id = item.IDVehiculo }) |
                             @Html.ActionLink("Crear expediente", "CreateExpediente", "Expediente", new { id = item.IDVehiculo }) |
                             @Html.ActionLink("Ver expediente", "Details", "Expediente", new { id = item.placa })
                         </td>
@@ -105,3 +105,12 @@
         </p>
     </div>
 </div>
+
+@*@if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+                window.onload = function () {
+                    alert("@ViewBag.Message");
+                };
+        </script>
+    }*@

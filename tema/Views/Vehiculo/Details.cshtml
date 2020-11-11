@@ -4,57 +4,55 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="content-wrapper">
-        <div class="container">
-            <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-                <li><a href="../Vehiculo/Index" style="color:aliceblue">Inicio </a></li>
-                <li><a class="active" style="color:aliceblue">/ Detalles de Vehículo</a></li>
-                @*<li><a href="#">Home</a></li>
-            <li><a href="#">Private</a></li>
-            <li><a href="#">Pictures</a></li>
-            <li class="active">Vacation</li>*@
-            </ol>
-            <h1>Detalles de Vehículo</h1>
-
-            <div>
-
-                <hr />
-                <dl class="row">
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.IDVehiculo)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.IDVehiculo)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.IDCliente)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.IDCliente)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.marca)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.marca)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.modelo)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.modelo)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.placa)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.placa)
-                    </dd>
-                </dl>
-            </div>
-            <div>
-                @Html.ActionLink("Editar", "Edit", new { id = Model.placa }) |
-                <a asp-action="Index">Regresar</a>
-            </div>
+<div class="content-wrapper">
+    <div class="container">
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a asp-controller="Vehiculo" asp-action="Index" style="color:aliceblue">Inicio </a></li>
+            <li><a class="active" style="color:aliceblue">/ Detalles de Vehículo</a></li>
+            @*<li><a href="#">Home</a></li>
+                <li><a href="#">Private</a></li>
+                <li><a href="#">Pictures</a></li>
+                <li class="active">Vacation</li>*@
+        </ol>
+        <h1>Detalles de vehículo</h1>
+        <div>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.IDVehiculo)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IDVehiculo)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.IDCliente)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IDCliente)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.marca)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.marca)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.modelo)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.modelo)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.placa)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.placa)
+                </dd>
+            </dl>
         </div>
+        <div>
+            @Html.ActionLink("Editar", "Edit", new { id = Model.IDVehiculo }) |
+            <a asp-action="Index">Regresar</a>
         </div>
+    </div>
+</div>

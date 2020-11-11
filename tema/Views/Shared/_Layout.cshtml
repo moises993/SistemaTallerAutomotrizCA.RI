@@ -8,34 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Taller Automotriz CA.RI</title>
     <!-- Tell the browser to be responsive to screen width -->
-
     <link href="~/Plantilla/plugins/datatables-responsive/css/responsive.bootstrap4.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
     <link href="~/Plantilla/plugins/fontawesome-free/css/all.css" rel="stylesheet" />
-
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Tempusdominus Bbootstrap 4 -->
-    @*<link rel="stylesheet" href="~/Plantilla/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">*@
-    <!-- iCheck -->
-    <!--<link rel="stylesheet" href="~/Plantilla/plugins/icheck-bootstrap/icheck-bootstrap.min.css">-->
-    <!-- JQVMap -->
-    <!--<link rel="stylesheet" href="~/Plantilla/plugins/jqvmap/jqvmap.min.css">-->
-    <!-- Theme style -->
     <link href="~/Plantilla/dist/css/adminlte.css" rel="stylesheet" />
-    <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="~/Plantilla/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <!-- Daterange picker -->
-    <!--<link rel="stylesheet" href="~/Plantilla/plugins/daterangepicker/daterangepicker.css">-->
-    <!-- summernote -->
-    <!--<link rel="stylesheet" href="~/Plantilla/plugins/summernote/summernote-bs4.css">-->
-    <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="~/css/site.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" type="text/css" href="~/DataTables/datatables.css" />
     <link rel="stylesheet" href="~/DataTables/Buttons-1.6.5/css/buttons.bootstrap.min.css" />
     <link rel="stylesheet" href="~/DataTables/Buttons-1.6.5/css/buttons.bootstrap4.min.css" />
@@ -57,9 +34,8 @@ httpAcc.HttpContext.Session.GetString("JWToken").ToString().Length > 0)
                         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a href="../Home/Index" class="nav-link">Inicio</a>
+                        <a asp-controller="Home" asp-action="Index" class="nav-link">Inicio</a>
                     </li>
-
                 </ul>
                 <div class="wrapper">
 
@@ -652,15 +628,16 @@ httpAcc.HttpContext.Session.GetString("JWToken").ToString().Length > 0)
 
     </div>
     <!-- /.content-wrapper -->
-    <footer class="main-footer">
+    @*<footer class="main-footer">
         <p>Edición en desarrollo del sistema.</p>
-    </footer>
+    </footer>*@
 
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
         <!-- Control sidebar content goes here -->
     </aside>
     <!-- /.control-sidebar -->
+    <script>window.$ = window.jquery = module.exports;</script>
     <!-- jQuery -->
     <script src="~/Plantilla/plugins/jquery/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
     <!-- jQuery UI 1.11.4 -->
@@ -696,13 +673,13 @@ httpAcc.HttpContext.Session.GetString("JWToken").ToString().Length > 0)
     <!--<script src="~/Plantilla/dist/js/pages/dashboard.js"></script>-->
     <!-- AdminLTE for demo purposes -->
     @*<script src="dist/js/demo.js"></script>
-    <script src="~/Plantilla/plugins/datatables-responsive/js/responsive.bootstrap4.js"></script>
-    <script src="~/Plantilla/plugins/datatables-responsive/js/dataTables.responsive.js"></script>*@
+        <script src="~/Plantilla/plugins/datatables-responsive/js/responsive.bootstrap4.js"></script>
+        <script src="~/Plantilla/plugins/datatables-responsive/js/dataTables.responsive.js"></script>*@
     @*<script src="~/Plantilla/plugins/bootstrap/js/bootstrap.js"></script>*@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
     <!--DataTables y otras librerías para DataTables-->
     <script type="text/javascript" src="~/DataTables/datatables.js"></script>
     <script type="text/javascript" src="~/DataTables/Buttons-1.6.5/js/buttons.bootstrap.min.js"></script>

@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
-namespace tema.Models
+namespace tema.Models.ViewModels
 {
-    public class DetallesTecnico
+    public class DtcEditViewModel
     {
-        public int IDTecnico { get; set; }
+        public int IDCliente { get; set; }
         [Display(Name = "Dirección")]
         [Required(ErrorMessage = "Debe ingresar una dirección")]
         public string direccion { get; set; }
         [Display(Name = "Número telefónico")]
+        //[RegularExpression(@"^[0-9]$", ErrorMessage = "Solo puede ingresar números enteros")]
+        [Required(ErrorMessage = "Debe ingresar el teléfono")]
         public string telefono { get; set; }
         [Display(Name = "Correo")]
         [EmailAddress(ErrorMessage = "No se ingresó un correo válido")]
@@ -16,6 +17,5 @@ namespace tema.Models
         [Required(ErrorMessage = "Debe ingresar el correo")]
         public string correo { get; set; }
         public int codDet { get; set; }
-        public string telefonoExt { get; set; }
     }
 }

@@ -27,12 +27,6 @@
             <div style="float: left; max-width: 34%;">
                 <dl class="row">
                     <dt class="col-sm-5">
-                        @Html.DisplayNameFor(model => model.cliente.IDCliente)
-                    </dt>
-                    <dd class="col-sm-7">
-                        @Html.DisplayFor(model => model.cliente.IDCliente)
-                    </dd>
-                    <dt class="col-sm-5">
                         @Html.DisplayNameFor(model => model.cliente.nombre)
                     </dt>
                     <dd class="col-sm-7">
@@ -70,7 +64,7 @@
                     </dd>
                 </dl>
                 <div>
-                    @Html.ActionLink("Actualizar", "Edit", new { /* id = Model.PrimaryKey */ }) |
+                    @Html.ActionLink("Actualizar", "Edit", new { id = Model.cliente.cedula }) |
                     <a asp-action="Index">Regresar a la tabla</a>
                 </div>
             </div>

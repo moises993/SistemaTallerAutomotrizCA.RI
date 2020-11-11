@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using tema.Models;
+using tema.Models.ViewModels;
 
 namespace tema.Controllers
 {
@@ -18,10 +19,17 @@ namespace tema.Controllers
             return View();
         }
 
+        [TempData]
+        public string Message { get; set; }
+
         [HttpPost]
-        public ActionResult Create(int id, [Bind("IDCliente,direccion,telefono,correo")] DetallesCliente dtc)
+        public ActionResult Create(int id, [Bind("IDCliente,direccion,telefono,telefonoExt,correo")] DetallesCliente dtc)
         {
             DetallesCliente dtcPost;
+            string tel = string.Empty;
+            if (string.IsNullOrEmpty(dtc.telefono) && !string.IsNullOrEmpty(dtc.telefonoExt)) tel = dtc.telefonoExt; 
+            if (!string.IsNullOrEmpty(dtc.telefono) && string.IsNullOrEmpty(dtc.telefonoExt)) tel = dtc.telefono; 
+            else if(tel == string.Empty) ModelState.AddModelError("", "El campo de teléfono está vacío"); 
             if (ModelState.IsValid)
             {
                 using (var client = new HttpClient())
@@ -30,7 +38,7 @@ namespace tema.Controllers
                     {
                         IDCliente = id,
                         direccion = dtc.direccion,
-                        telefono = dtc.telefono,
+                        telefono = tel,
                         correo = dtc.correo
                     };
                     client.BaseAddress = new Uri(baseurl);
@@ -52,14 +60,14 @@ namespace tema.Controllers
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
-            var dtc = await GetDetalle(id, new DetallesCliente());
+            var dtc = await GetDetalleEdit(id, new DtcEditViewModel());
             if (dtc == null) return NotFound();
             return View(dtc);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int? id, [Bind("direccion,telefono,correo,codDet")] DetallesCliente dtc)
+        public ActionResult Edit(int? id, [Bind("direccion,telefono,correo,codDet")] DtcEditViewModel dtc)
         {
             if (id != dtc.codDet)
             {
@@ -110,6 +118,7 @@ namespace tema.Controllers
             return RedirectToAction("Index", "Cliente");
         }
 
+        #region consultas
         private async Task<DetallesCliente> GetDetalle(int? id, DetallesCliente aux)
         {
             using (var client = new HttpClient())
@@ -130,5 +139,27 @@ namespace tema.Controllers
             }
             return aux;
         }
+
+        private async Task<DtcEditViewModel> GetDetalleEdit(int? id, DtcEditViewModel aux)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client.GetAsync
+                    (
+                        "Taller/Cliente/ObtenerDetalleIndividual/" + id
+                    );
+                if (res.IsSuccessStatusCode)
+                {
+                    var auxRes = res.Content.ReadAsStringAsync().Result;
+
+                    aux = JsonConvert.DeserializeObject<DtcEditViewModel>(auxRes);
+                }
+            }
+            return aux;
+        }
+        #endregion consultas
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -17,16 +18,17 @@ namespace tema.Controllers
     {
         string baseurl = "https://localhost:44300/";
 
-        public ActionResult CreateExpediente(int? id)
+        public async Task<ActionResult> CreateExpediente(int? id)
         {
             if (id != null)
             {
                 using (HttpClient cliente = new HttpClient())
                 {
                     cliente.BaseAddress = new Uri(baseurl);
-                    cliente.PostAsync("Taller/Expediente/RegistrarExpediente/" + id, null).Wait();
-                    return RedirectToAction("Index", "Vehiculo");
-                }
+                    HttpResponseMessage respuesta = await cliente.PostAsync("Taller/Expediente/RegistrarExpediente/" + id, null);
+                    if (respuesta.StatusCode == HttpStatusCode.InternalServerError) ModelState.AddModelError(string.Empty, "");
+                    else if (respuesta.IsSuccessStatusCode) return RedirectToAction("Index", "Vehiculo");
+                } 
             }
             return RedirectToAction("Index", "Vehiculo");
         }
@@ -135,3 +137,7 @@ namespace tema.Controllers
         }
     }
 }
+
+/*
+ ViewBag.Message = "El sistema carece de la información suficiente para crear el expediente. Corrobore que exista al menos una cita para este vehículo y que dicha cita esté confirmada";
+ */
