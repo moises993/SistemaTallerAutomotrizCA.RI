@@ -8,14 +8,14 @@ namespace tema.Models.ViewModels
     public class CitaViewModel
     {
         private DateTime? _returnDate = DateTime.MinValue;
-        #region propiedadesServicio
-        [Required(ErrorMessage = "Debe seleccionar un vehículo")]
-        public int? IDVehiculo { get; set; }
+        //#region propiedadesServicio
+        //[Required(ErrorMessage = "Debe seleccionar un vehículo")]
+        //public int? IDVehiculo { get; set; }
         #nullable enable
         [Required(ErrorMessage = "Debe seleccionar un servicio")]
         public string? descripcion { get; set; }
         #nullable disable
-        #endregion propiedadesServicio
+        //#endregion propiedadesServicio
         #region propiedadesCrearCita
         [Required(ErrorMessage = "Debe seleccionar un técnico")]
         public int? IDTecnico { get; set; }
