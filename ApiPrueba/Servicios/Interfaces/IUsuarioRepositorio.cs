@@ -11,8 +11,7 @@ namespace ApiPrueba.Servicios.Interfaces
         bool ExisteEnElSistema(string correo);
         Usuario IniciarSesion(string correo, string clave);
         Task<bool> RegistrarUsuario(string correo, string rol);
-        void RecuperarContrasena(string correo);
-        void IniciarRecuperacion();
+        Task<bool> CambiarContrasena(string correo);
         bool EsUsuarioUnico(string pcorreo);
         int EliminarUsuario(int? id);
     }

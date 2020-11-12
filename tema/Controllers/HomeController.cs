@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -349,6 +351,49 @@ namespace tema.Controllers
             HttpResponseMessage res = await client.GetAsync("Taller/Usuario/ListaUsuarios");
             if (res.IsSuccessStatusCode) aux = JsonConvert.DeserializeObject<IEnumerable<Usuario>>(res.Content.ReadAsStringAsync().Result);
             return View(aux);
+        }
+
+        [HttpGet]
+        public IActionResult RecuperarAcceso()
+        {
+            return View();
+        } 
+
+        [HttpPost]
+        public async Task<IActionResult> RecuperarAcceso([Bind("correo")] UsuarioRecAccess usr)
+        {
+            if(ModelState.IsValid)
+            {
+                Usuario usrpost = new Usuario { correo = usr.correo };
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(baseurl);
+                string myContent = JsonConvert.SerializeObject(usrpost);
+                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+                ByteArrayContent byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                HttpResponseMessage postTask = await client.PostAsync("Taller/Usuario/RecuperarAcceso", byteContent);
+                HttpResponseMessage result = postTask;
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    ModelState.AddModelError("", "No se halló el correo ingresado");
+                }
+                if (result.StatusCode == HttpStatusCode.InternalServerError)
+                {
+                    ModelState.AddModelError("", "No se pudo cambiar la contraseña");
+                }
+                if(result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+            }
+            return View(usr);
+        }
+
+        public class UsuarioRecAccess
+        {
+            [DataType(DataType.EmailAddress, ErrorMessage = "El correo tiene un formato inválido")]
+            [Required(ErrorMessage = "No se ingresó el correo")]
+            public string correo { get; set; }
         }
     }
 }

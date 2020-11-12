@@ -66,5 +66,17 @@ namespace ApiPrueba.Controllers
             if(resultado == 0) return BadRequest(new { message = "No se eliminó a este usuario" });
             return Ok();
         }
+
+        [AllowAnonymous]
+        [HttpPost("RecuperarAcceso")]
+        public async Task<IActionResult> RecuperarAcceso([FromBody] Usuario modelo)
+        {
+            bool resultado;
+            bool Existe = _usrRepo.ExisteEnElSistema(modelo.correo);
+            if (!Existe) return NotFound(new { message = "El correo suministrado no existe" });
+            else resultado = await _usrRepo.CambiarContrasena(modelo.correo);
+            if (resultado) return Ok();
+            else return StatusCode(500, "Error cambiando la clave");
+        }
     }
 }

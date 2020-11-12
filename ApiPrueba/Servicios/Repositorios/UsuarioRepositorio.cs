@@ -29,11 +29,6 @@ namespace ApiPrueba.Servicios.Repositorios
             connectionString = _configuration.GetConnectionString("pginstConexion");
         }
 
-        public void IniciarRecuperacion()
-        {
-            throw new NotImplementedException();
-        }
-
         public Usuario IniciarSesion(string correo, string clave)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
@@ -44,13 +39,13 @@ namespace ApiPrueba.Servicios.Repositorios
             {
                 conexion.Open();
 
-                using(var comando1 = new NpgsqlCommand("\"Taller\".\"usrObtenerSal\"", conexion))
+                using (var comando1 = new NpgsqlCommand("\"Taller\".\"usrObtenerSal\"", conexion))
                 {
                     comando1.CommandType = CommandType.StoredProcedure;
                     comando1.Parameters.AddWithValue("pcorreo", correo);
 
                     sal = (string)comando1.ExecuteScalar();
-                   
+
                     conexion.Close();
                 }
 
@@ -98,15 +93,10 @@ namespace ApiPrueba.Servicios.Repositorios
 
                 return usr;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return null;
             }
-        }
-
-        public void RecuperarContrasena(string correo)
-        {
-            throw new NotImplementedException();
         }
 
         #region bloqueValidacionesRegistro
@@ -126,9 +116,9 @@ namespace ApiPrueba.Servicios.Repositorios
                     comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue("pcorreo", pcorreo);
 
-                    using(var lector = comando.ExecuteReader())
+                    using (var lector = comando.ExecuteReader())
                     {
-                        while(lector.Read())
+                        while (lector.Read())
                         {
                             resultado = lector.GetBoolean(0); //el contenido de la respuesta, sea true o false
                         }
@@ -156,7 +146,7 @@ namespace ApiPrueba.Servicios.Repositorios
             {
                 conexion.Open();
 
-                using(var comando = new NpgsqlCommand("\"Taller\".\"usrValidarUsuarioUnico\"", conexion))
+                using (var comando = new NpgsqlCommand("\"Taller\".\"usrValidarUsuarioUnico\"", conexion))
                 {
                     comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue("pcorreo", pcorreo);
@@ -187,7 +177,7 @@ namespace ApiPrueba.Servicios.Repositorios
             try
             {
                 conexion.Open();
-                using(NpgsqlCommand comando = new NpgsqlCommand("CALL \"Taller\".\"usrCrearUsuario\"(@pcorreo, @phash, @psal, @prol);", conexion))
+                using (NpgsqlCommand comando = new NpgsqlCommand("CALL \"Taller\".\"usrCrearUsuario\"(@pcorreo, @phash, @psal, @prol);", conexion))
                 {
                     string claveGenerada = _gen.GenerarClave(8);
                     string sal = Cifrado.GenerarSal();
@@ -221,8 +211,35 @@ namespace ApiPrueba.Servicios.Repositorios
                 comando.Parameters.AddWithValue("pid", id);
                 resultado = comando.ExecuteNonQuery();
                 conexion.Close();
-            } 
-            catch(Exception)
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return resultado;
+        }
+
+        public async Task<bool> CambiarContrasena(string correo)
+        {
+            bool resultado = false;
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            try
+            {
+                conexion.Open();
+                NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"usrRenovarContra\"", conexion);
+                comando.CommandType = CommandType.StoredProcedure;
+                string claveGenerada = _gen.GenerarClave(8);
+                string sal = Cifrado.GenerarSal();
+                await Correos.EnviarCorreo(correo, claveGenerada);
+                string hash = Cifrado.GenerarHash(claveGenerada, sal);
+                comando.Parameters.AddWithValue("pcorreo", correo);
+                comando.Parameters.AddWithValue("pnuevohash", hash);
+                comando.Parameters.AddWithValue("pnuevasal", sal);
+                NpgsqlDataReader lector = comando.ExecuteReader();
+                while (lector.Read()) resultado = lector.GetBoolean(0);
+                conexion.Close();
+            }
+            catch (Exception)
             {
                 throw;
             }
