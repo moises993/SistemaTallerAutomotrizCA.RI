@@ -6,13 +6,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net.Mail;
-using System.Net.Mime;
-using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -186,30 +181,25 @@ namespace ApiPrueba.Servicios.Repositorios
         }
 
         //efectúa el registro con clave autogenerada y encriptado SHA256
-        public async Task<bool> RegistrarUsuario(string correoForm, string contra, string correo, string rol)
+        public async Task<bool> RegistrarUsuario(string correo, string rol)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
-
             try
             {
                 conexion.Open();
-
-                using(var comando = new NpgsqlCommand("CALL \"Taller\".\"usrCrearUsuario\"(@pcorreo, @phash, @psal, @prol);", conexion))
+                using(NpgsqlCommand comando = new NpgsqlCommand("CALL \"Taller\".\"usrCrearUsuario\"(@pcorreo, @phash, @psal, @prol);", conexion))
                 {
                     string claveGenerada = _gen.GenerarClave(8);
-                    var sal = Cifrado.GenerarSal();
-                    await Correos.EnviarCorreo(correoForm, contra, correo, claveGenerada, rol);
-                    var hash = Cifrado.GenerarHash(claveGenerada, sal);
+                    string sal = Cifrado.GenerarSal();
+                    await Correos.EnviarCorreo(correo, claveGenerada);
+                    string hash = Cifrado.GenerarHash(claveGenerada, sal);
                     comando.Parameters.AddWithValue(":pcorreo", correo);
                     comando.Parameters.AddWithValue(":prol", rol);
                     comando.Parameters.AddWithValue(":phash", hash);
                     comando.Parameters.AddWithValue(":psal", sal);
-
                     comando.ExecuteNonQuery();
-
                     conexion.Close();
                 }
-
                 return true;
             }
             catch (Exception)
@@ -218,5 +208,25 @@ namespace ApiPrueba.Servicios.Repositorios
             }
         }
         #endregion bloqueValidacionesRegistro
+
+        public int EliminarUsuario(int? id)
+        {
+            int resultado = 0;
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            try
+            {
+                conexion.Open();
+                NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"usrEliminarUsuario\"", conexion);
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.Parameters.AddWithValue("pid", id);
+                resultado = comando.ExecuteNonQuery();
+                conexion.Close();
+            } 
+            catch(Exception)
+            {
+                throw;
+            }
+            return resultado;
+        }
     }
 }

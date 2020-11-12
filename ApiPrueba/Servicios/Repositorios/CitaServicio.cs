@@ -153,25 +153,23 @@ namespace ApiPrueba.Servicios.Repositorios
         public bool RegistrarCita(string cedclt, int idtec, DateTime fecha, string hora, string asunto, string desc, bool conf)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
-
+            bool resultado = false;
             try
             {
                 conexion.Open();
-                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"ctaCrearCita\"(@pced, @pidtec, @pfecha, @phora, @pasunto, @pdesc, @pconf)", conexion))
-                {
-                    comando.Parameters.AddWithValue(":pced", cedclt);
-                    comando.Parameters.AddWithValue(":pidtec", idtec);
-                    comando.Parameters.AddWithValue(":pfecha", NpgsqlDbType.Date, fecha);
-                    comando.Parameters.AddWithValue(":phora", hora);
-                    comando.Parameters.AddWithValue(":pasunto", asunto);
-                    comando.Parameters.AddWithValue(":pdesc", desc);
-                    comando.Parameters.AddWithValue(":pconf", conf);
-
-                    comando.ExecuteNonQuery();
-
-                    conexion.Close();
-                }
-                return true;
+                NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"ctaFnCrearCita\"", conexion);
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.Parameters.AddWithValue("pced", cedclt);
+                comando.Parameters.AddWithValue("pidtec", idtec);
+                comando.Parameters.AddWithValue("pfecha", NpgsqlDbType.Date, fecha);
+                comando.Parameters.AddWithValue("phora", hora);
+                comando.Parameters.AddWithValue("pasunto", asunto);
+                comando.Parameters.AddWithValue("pdesc", desc);
+                comando.Parameters.AddWithValue("pconf", conf);
+                NpgsqlDataReader lector = comando.ExecuteReader();
+                while (lector.Read()) resultado = lector.GetBoolean(0);
+                conexion.Close();
+                return resultado;
             }
             catch (Exception)
             {

@@ -75,15 +75,28 @@ namespace tema.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("nombre,pmrApellido,sgndApellido,cedula,fechaIngreso")] Tecnico Tecnico)
+        public IActionResult Create([Bind("nombre,pmrApellido,sgndApellido,cedula,cedExt,fechaIngreso")] Tecnico Tecnico)
         {
+            Tecnico tncpost = null;
+            string ced = string.Empty;
+            if (string.IsNullOrEmpty(Tecnico.cedula) && !string.IsNullOrEmpty(Tecnico.cedExt)) ced = Tecnico.cedExt;
+            if (!string.IsNullOrEmpty(Tecnico.cedula) && string.IsNullOrEmpty(Tecnico.cedExt)) ced = Tecnico.cedula;
+            else if (ced == string.Empty) ModelState.AddModelError("", "El campo de la cédula está vacío");
             if (ModelState.IsValid)
             {
                 using (var client = new HttpClient())
                 {
+                    tncpost = new Tecnico
+                    {
+                        nombre = Tecnico.nombre,
+                        pmrApellido = Tecnico.pmrApellido,
+                        sgndApellido = Tecnico.sgndApellido,
+                        cedula = ced
+                    };
+
                     client.BaseAddress = new Uri(baseurl);
 
-                    var myContent = JsonConvert.SerializeObject(Tecnico);
+                    var myContent = JsonConvert.SerializeObject(tncpost);
                     var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
                     var byteContent = new ByteArrayContent(buffer);
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -102,7 +115,7 @@ namespace tema.Controllers
                     }
                 }
             }
-            return View(Tecnico);
+            return View(tncpost);
         }
 
         [Authorize]

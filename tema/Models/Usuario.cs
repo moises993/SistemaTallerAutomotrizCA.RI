@@ -9,6 +9,7 @@ namespace tema.Models
     public class Usuario
     {
         public int IDUsuario { get; set; }
+        [DataType(DataType.EmailAddress, ErrorMessage = "El correo tiene un formato inválido")]
         [Required(ErrorMessage = "No se ingresó el correo")]
         public string correo { get; set; }
         [Required(ErrorMessage = "No se ingresó una contraseña")]

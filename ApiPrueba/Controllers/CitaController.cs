@@ -55,7 +55,7 @@ namespace ApiPrueba.Controllers
 
             if (!_citaServicio.RegistrarCita(cta.cedulaCliente, cta.IDTecnico, cta.fecha, cta.hora, cta.asunto, cta.descripcion, cta.citaConfirmada))
             {
-                ModelState.AddModelError("", "Ocurrió un error creando la cita. Por favor, inténtelo en un momento");
+                ModelState.AddModelError("", "Error al crear: posible conflicto con el técnico a asignar (ya tiene cita en la fecha y hora asignada)");
                 return StatusCode(500, ModelState);
             }
 

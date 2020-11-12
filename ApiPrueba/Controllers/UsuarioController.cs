@@ -49,13 +49,21 @@ namespace ApiPrueba.Controllers
                 return BadRequest(new { message = "Existe un usuario con este correo" });
             }
 
-            bool seCreoUsuario = await _usrRepo.RegistrarUsuario(modelo.correoForm, modelo.contra, modelo.correo, modelo.rol);
+            bool seCreoUsuario = await _usrRepo.RegistrarUsuario(modelo.correo, modelo.rol);
 
             if (!seCreoUsuario)
             {
                 return Conflict(new { message = "Error registrando este usuario" });
             }
 
+            return Ok();
+        }
+
+        [HttpDelete("EliminarUsuario/{id}")]
+        public IActionResult EliminarUsuario(int? id)
+        {
+            int resultado = _usrRepo.EliminarUsuario(id);
+            if(resultado == 0) return BadRequest(new { message = "No se eliminó a este usuario" });
             return Ok();
         }
     }

@@ -138,9 +138,9 @@ namespace tema.Controllers
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                     var postTask = await cliente.PostAsync("Taller/Cita/RegistrarCita", byteContent);
                     var result = postTask;
-                    if (result.StatusCode == HttpStatusCode.BadRequest)
+                    if (result.StatusCode == HttpStatusCode.InternalServerError)
                     {
-                        ModelState.AddModelError(string.Empty, "Existen errores en la información suministrada");
+                        ModelState.AddModelError(string.Empty, "Este técnico ya tiene cita en la fecha y hora asignada");
                     }
                     if (result.IsSuccessStatusCode)
                     {
