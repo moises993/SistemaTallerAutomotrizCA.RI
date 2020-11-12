@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -244,6 +245,40 @@ namespace ApiPrueba.Servicios.Repositorios
                 throw;
             }
             return resultado;
+        }
+
+        //consulta para ver todos los usuarios
+        public async Task<List<Usuario>> VerUsuarios()
+        {
+            List<Usuario> lista = new List<Usuario>();
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            try
+            {
+                await conexion.OpenAsync();
+                await using (NpgsqlCommand comando = new NpgsqlCommand("SELECT * FROM \"Taller\".\"usrVerUsuarios\"();", conexion))
+                {
+                    using (NpgsqlDataReader lector = await comando.ExecuteReaderAsync())
+                    {
+                        while (await lector.ReadAsync())
+                        {
+                            Usuario usr = new Usuario
+                            {
+                                IDUsuario = lector.GetInt32(0),
+                                correo = lector.GetString(1).Trim(),
+                                rol = lector.GetString(2).Trim()
+                            };
+                            lista.Add(usr);
+                        }
+                        await lector.CloseAsync();
+                    }
+                }
+                await conexion.CloseAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return lista;
         }
     }
 }

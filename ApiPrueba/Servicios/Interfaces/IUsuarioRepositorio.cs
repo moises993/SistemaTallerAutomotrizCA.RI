@@ -1,7 +1,5 @@
 ﻿using ApiPrueba.Entidades;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ApiPrueba.Servicios.Interfaces
@@ -14,5 +12,6 @@ namespace ApiPrueba.Servicios.Interfaces
         Task<bool> CambiarContrasena(string correo);
         bool EsUsuarioUnico(string pcorreo);
         int EliminarUsuario(int? id);
+        Task<List<Usuario>> VerUsuarios();
     }
 }

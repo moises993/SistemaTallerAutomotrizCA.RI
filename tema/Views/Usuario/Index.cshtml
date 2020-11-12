@@ -1,0 +1,96 @@
+﻿@model IEnumerable<tema.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+<div class="content-wrapper">
+    <div class="container">
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a class="active" style="color:aliceblue">Inicio</a></li>
+
+        </ol>
+        @section Scripts
+        {
+            <script>
+                $(document).ready(function () {
+                    $('#tablaDatos').DataTable({
+                        "language":
+                        {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+                            },
+                            "oAria": {
+                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            },
+                            "buttons": {
+                                "copy": "Copiar",
+                                "colvis": "Visibilidad"
+                            }
+                        },
+                        "pageLength": 5
+                    });
+                });
+            </script>
+        }
+        <h1>Lista de usuarios</h1>
+
+        <table id="tablaDatos" class="tabla">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IDUsuario)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.correo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.rol)
+                    </th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IDUsuario)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.correo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.rol)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Borrar", "Delete", new { id=item.IDUsuario })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

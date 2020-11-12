@@ -2,6 +2,7 @@
 using ApiPrueba.Servicios.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ApiPrueba.Controllers
@@ -78,5 +79,9 @@ namespace ApiPrueba.Controllers
             if (resultado) return Ok();
             else return StatusCode(500, "Error cambiando la clave");
         }
+
+        [AllowAnonymous]
+        [HttpGet("ListaUsuarios")]
+        public async Task<List<Usuario>> VerUsuarios() => await _usrRepo.VerUsuarios();
     }
 }
