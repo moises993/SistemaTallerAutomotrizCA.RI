@@ -9,6 +9,8 @@
         font-family: Arial;
     }
 </style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
     $(document).ready(function () {
@@ -116,13 +118,13 @@
                     </div>
                     <!--FIN BLOQUE VALIDACIÓN CÉDULA-->
                     <div class="form-group">
-                        <input id="boton_guardar" type="submit" value="Crear" class="btn btn-primary d-none" />
+                        <input id="boton_guardar" type="submit" value="Crear" class="Boton" />
                     </div>
                 </form>
             </div>
         </div>
         <div>
-            <a asp-action="Index">Regresar</a>
+            <a asp-action="Index" class="Boton">Regresar</a>
         </div>
     </div>
 </div>

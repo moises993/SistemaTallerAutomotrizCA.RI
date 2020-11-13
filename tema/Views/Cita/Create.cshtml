@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Create";
 }
+
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+
 <div class="content-wrapper">
 
     <div class="container">
@@ -10,9 +18,9 @@
             <li><a asp-controller="Cita" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
             <li><a class="active" style="color:aliceblue">Crear cita</a></li>
             @*<li><a href="#">Home</a></li>
-            <li><a href="#">Private</a></li>
-            <li><a href="#">Pictures</a></li>
-            <li class="active">Vacation</li>*@
+                <li><a href="#">Private</a></li>
+                <li><a href="#">Pictures</a></li>
+                <li class="active">Vacation</li>*@
         </ol>
         <h1>Cita</h1>
         <h4>Crear cita</h4>
@@ -57,13 +65,13 @@
                         </label>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Crear" class="btn btn-primary" />
+                        <input type="submit" value="Crear" class="Boton" />
                     </div>
                 </form>
             </div>
         </div>
         <div>
-            <a asp-action="Index">Regresar</a>
+            <a asp-action="Index" class="Boton">Regresar</a>
         </div>
     </div>
 </div>

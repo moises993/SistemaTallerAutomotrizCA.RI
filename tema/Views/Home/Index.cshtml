@@ -1,8 +1,161 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
+<link href="~/Plantilla/dist/css/Notas.css" rel="stylesheet" />
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+<!DOCTYPE html>
+<div class="content-wrapper">
 
-    <div class="content-wrapper"><!--Línea que se necesita para aplicar la plantilla a todas las páginas -->
-        <img src="~/Imagenes/WhatsApp Image 2020-09-23 at 10.03.19 AM.jpeg" />
-        <p>EN PROCESO DE CONSTRUCCIÓN</p>
-    </div><!-- /.container-fluid -->
+    <div class="container">
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+            <title>Notas rápidas</title>
+            <link type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.js"></script>
+            <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        </head>
+        <body class="bggrey">
+            <h1 style="position:center">Cosas por hacer</h1>
+            <div class="container-fluid" style="height: 95vh">
+                <div class="row content" style="height: 100%">
+                    <div class="col-sm-6" style="height: 100%">
+                        <h1>Notas</h1>
+                        <div class="row border" style="height: 50%; overflow:auto">
+                            <div class="col-sm-12" id="container">
+
+                            </div>
+                        </div>
+                        <div class="row" style="height: 50%; overflow:auto">
+                            <div class="col-sm-12">
+                                <h1>Eliminadas</h1>
+                                <div class="row" id="deletedContainer">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6" style="height: 100%; border-left: 1px solid #eee;">
+                        <h1 style="margin-top:15px">Añadir notas rápidas</h1>
+                        <div class="col-sm-7 border">
+                            <form role="form" name="addNote" id="addSticky">
+                                <div class="control-group form-group">
+                                    <div class="controls">
+                                        <br /><br />
+                                        <label for="title">Título de la nota</label>
+                                        <input type="text" class="form-control" id="notename" required data-validation-required-message="Debe ingresar un título" />
+                                    </div>
+                                </div>
+                                <div class="control-group form-group">
+                                    <div class="controls">
+                                        <label for="content">Contenido</label>
+                                        <textarea id="notecontent" class="form-control" maxlength="999" rows="10" cols="100" required style="resize: none;"></textarea>
+                                    </div>
+                                </div>
+                                <div id="success"></div>
+                                <button type="submit" class="Boton" id="saveButton" style="margin-bottom:10px">Añadir nota</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="modal fade" id="deleteModal" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Eliminar</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Está seguro de que desea eliminar esta nota?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="deleteButton" data-dismiss="modal">Si</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="okModal" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Guardar</h4>
+
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de que no necesitas esta nota más?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="yesButton" data-dismiss="modal">Sí</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="restoreModal" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Restaurar</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Quieres restaurar esta nota?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="restoreYes" data-dismiss="modal">Sí</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="modal fade" id="editModal" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Editar</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" name="editNote" id="editSticky">
+                                <div class="control-group form-group">
+                                    <div class="controls">
+                                        <label for="title">Título</label>
+                                        <input type="text" class="form-control" id="editname" required />
+                                    </div>
+                                </div>
+                                <div class="control-group form-group">
+                                    <div class="controls">
+                                        <label for="content">Content</label>
+                                        <textarea id="editcontent" class="form-control" maxlength="999" rows="10" cols="100" required style="resize: none;"></textarea>
+                                    </div>
+                                </div>
+                                <div id="success"></div>
+                                <button type="button" class="Boton" id="editButton" style="margin-bottom:10px" data-dismiss="modal">Guardar</button>
+                                <button type="button" class="Boton" data-dismiss="modal">Cancelar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </body>
+
+    </html>
+</div>
+</div>
+<script src="~/Plantilla/dist/js/Notas.js"></script>

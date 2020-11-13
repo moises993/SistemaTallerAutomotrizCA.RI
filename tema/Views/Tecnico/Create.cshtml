@@ -9,54 +9,8 @@
         font-family: Arial;
     }
 </style>
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script>
-    $(document).ready(function () {
-        $("select").change(function () {
-            $("select option:selected").each(function () {
-                if ($(this).attr("value") == "nac") {
-                    $("#extranjero").addClass("d-none");
-                    $("#ninguna").addClass("d-none");
-                    $("#nacional").removeClass("d-none");
-                    $('#boton_guardar').addClass("d-none");
-                    $('#cedula_ext').val("");
-                }
-                if ($(this).attr("value") == "ext") {
-                    $("#nacional").addClass("d-none");
-                    $("#ninguna").addClass("d-none");
-                    $("#extranjero").removeClass("d-none");
-                    $('#boton_guardar').removeClass("d-none");
-                    $('#cedula_nac').val("");
-                }
-                if ($(this).attr("value") == "escoja") {
-                    $("#nacional").addClass("d-none");
-                    $("#extranjero").addClass("d-none");
-                    $("#ninguna").removeClass("d-none");
-                    $('#boton_guardar').addClass("d-none");
-                    $('#cedula_nac').val("");
-                    $('#cedula_ext').val("");
-                }
-            });
-        }).change();
-    });
-
-    $(document).ready(function () {
-        var $regexname = /([1-7]-[0-9]{4}-[0-9]{4})/;
-        $('#cedula_nac').on('keypress keydown keyup mouseout mouseover', function () {
-            if (!$(this).val().match($regexname)) {
-                $('#error_msg').removeClass('d-none');
-                $('#error_msg').addClass('text-danger');
-                $('#boton_guardar').addClass('d-none');
-            }
-            else {
-                $('#error_msg').addClass('d-none');
-                $('#error_msg').removeClass('text-danger');
-                $('#boton_guardar').removeClass('d-none');
-            }
-        });
-    });
-</script>
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+
 <div class="content-wrapper">
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
@@ -89,39 +43,21 @@
                         <input asp-for="sgndApellido" class="form-control" />
                         <span asp-validation-for="sgndApellido" class="text-danger"></span>
                     </div>
-                    <!--BLOQUE VALIDACIÓN CÉDULA-->
                     <div class="form-group">
                         <label asp-for="cedula" class="control-label"></label>
-                        <div>
-                            <select class="form-control">
-                                <!--Bloque selección de validaciones-->
-                                <option value="escoja">Escoja el formato</option>
-                                <option value="nac">Nacional (con formato)</option>
-                                <option value="ext">Extranjera (sin formato)</option>
-                            </select>
-                        </div>
-                        <div id="ninguna" class="d-none">
-                            <label class="control-label text-danger">No se seleccionó ninguna opción</label>
-                        </div>
-                        <div id="nacional" class="d-none">
-                            <!--Nacional-->
-                            <label class="control-label">Ingrese una cédula nacional</label>
-                            <input id="cedula_nac" asp-for="cedula" type="text" class="form-control" />
-                            <p><span id="error_msg" class="text-danger d-none">Formato inválido (siga el patrón 0-0000-0000)</span></p>
-                        </div>
-                        <div id="extranjero" class="d-none">
-                            <!--Extranjera-->
-                            <label class="control-label">Ingrese una cédula extranjera o con formato diferente</label>
-                            <input id="cedula_ext" asp-for="cedExt" type="text" class="form-control" />
-                        </div>
+                        <input asp-for="cedula" class="form-control" />
+                        <span asp-validation-for="cedula" class="text-danger"></span>
                     </div>
-                    <!--FIN BLOQUE VALIDACIÓN CÉDULA-->
-                    <button id="boton_guardar" type="submit" class="Boton d-none">Guardar</button>
+                    <div class="form-group">
+                        <input type="submit" value="Crear" class="Boton" />
+                    </div>
                 </form>
             </div>
         </div>
+
         <div>
-            <a asp-action="Index">Regresar</a>
+            <a asp-action="Index" class="Boton">Ver lista de Técnicos</a>
         </div>
+
     </div>
 </div>

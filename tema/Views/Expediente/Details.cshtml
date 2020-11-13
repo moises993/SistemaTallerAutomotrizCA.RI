@@ -4,132 +4,107 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <style>
     * {
         font-family: Arial;
     }
 </style>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script>
-    function CreatePDFfromHTML() {
-        $("#migaja").hide();
-        $("#botones").hide();
-        var HTML_Width = $("#html-content").width();
-        var HTML_Height = $("#html-content").height();
-        var top_left_margin = 20;
-        var PDF_Width = HTML_Width + (top_left_margin * 2);
-        var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
-        var canvas_image_width = HTML_Width;
-        var canvas_image_height = HTML_Height;
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 
-        var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+<div class="content-wrapper">
+    <div class="container">
 
-        html2canvas($("#html-content")[0]).then(function (canvas) {
-            var imgData = canvas.toDataURL("image/jpeg", 1.0);
-            var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-            pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
-            for (var i = 1; i <= totalPDFPages; i++) {
-                pdf.addPage(PDF_Width, PDF_Height);
-                pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
-            }
-            pdf.save("exp.pdf");
-        });
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a href="../Expediente/Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+            <li><a class="active" style="color:aliceblue">Expediente</a></li>
+            @*<li><a href="#">Home</a></li>
+                <li><a href="#">Private</a></li>
+                <li><a href="#">Pictures</a></li>
+                <li class="active">Vacation</li>*@
+        </ol>
+        <h1>Expediente</h1>
 
-        setTimeout(function () {
-            $("#migaja").show();
-            $("#botones").show();
-        }, 0);
-    }
-</script>
-
-<div id="html-content">
-    <div class="content-wrapper">
-        <div class="container">
-
-            <ol id="migaja" class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-                <li><a href="../Expediente/Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
-                <li><a class="active" style="color:aliceblue">Expediente</a></li>
-            </ol>
-            <h1>Expediente</h1>
-
-            <div>
-                <h4>Datos del documento</h4>
-                <hr />
-                @if (Model != null)
-                {
-                    <dl class="row">
-                        <dt class="col-sm-5">
+        <div>
+            <h4>Datos del documento</h4>
+            <hr />
+            @if (Model != null)
+            {
+                <dl class="row">
+                    @*<dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.IDExpediente)
                         </dt>
-                        <dd class="col-sm-7">
+                        <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.IDExpediente)
                         </dd>
-                        <dt class="col-sm-5">
-                            @Html.DisplayNameFor(model => model.nombreTecnico)
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.IDVehiculo)
                         </dt>
-                        <dd class="col-sm-7">
-                            @Html.DisplayFor(model => model.nombreTecnico)
-                        </dd>
-                        <dt class="col-sm-5">
-                            @Html.DisplayNameFor(model => model.asunto)
-                        </dt>
-                        <dd class="col-sm-7">
-                            @Html.DisplayFor(model => model.asunto)
-                        </dd>
-                        <dt class="col-sm-5">
-                            @Html.DisplayNameFor(model => model.descripcion)
-                        </dt>
-                        <dd class="col-sm-7">
-                            @Html.DisplayFor(model => model.descripcion)
-                        </dd>
-                        <dt class="col-sm-5">
-                            @Html.DisplayNameFor(model => model.fechaCreacionExp)
-                        </dt>
-                        <dd class="col-sm-7">
-                            @Model.fechaCreacionExp.Date.ToString("dd/MM/yyyy")
-                        </dd>
-                        <dt class="col-sm-5">
-                            @Html.DisplayNameFor(model => model.nombreCliente)
-                        </dt>
-                        <dd class="col-sm-7">
-                            @Html.DisplayFor(model => model.nombreCliente)
-                        </dd>
-                        <dt class="col-sm-5">
-                            @Html.DisplayNameFor(model => model.marca)
-                        </dt>
-                        <dd class="col-sm-7">
-                            @Html.DisplayFor(model => model.marca)
-                        </dd>
-                        <dt class="col-sm-5">
-                            @Html.DisplayNameFor(model => model.modelo)
-                        </dt>
-                        <dd class="col-sm-7">
-                            @Html.DisplayFor(model => model.modelo)
-                        </dd>
-                        <dt class="col-sm-5">
-                            @Html.DisplayNameFor(model => model.placa)
-                        </dt>
-                        <dd class="col-sm-7">
-                            @Html.DisplayFor(model => model.placa)
-                        </dd>
-                    </dl>
-                }
-            </div>
-            <div id="botones">
-                <a asp-controller="Vehiculo" asp-action="Index">Regresar</a> |
-                <a asp-controller="Expediente" asp-action="Edit" asp-route-id="@Model.IDExpediente">Actualizar</a> |
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.IDVehiculo)
+                        </dd>*@
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.nombreTecnico)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.nombreTecnico)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.asunto)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.asunto)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.descripcion)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.descripcion)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.fechaCreacionExp)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Model.fechaCreacionExp.Date.ToString("dd/MM/yyyy")
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.nombreCliente)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.nombreCliente)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.marca)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.marca)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.modelo)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.modelo)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.placa)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.placa)
+                    </dd>
+                </dl>
+            }
+        </div>
+        <div>
+            <a asp-controller="Vehiculo" asp-action="Index" class="Boton">Regresar</a> |
+            <a asp-controller="Expediente" asp-action="Edit" asp-route-id="@Model.IDExpediente" class="Boton">Actualizar</a> |
 
-                <a asp-controller="Expediente"
-                   asp-action="Delete"
-                   asp-route-id="@Model.IDExpediente"
-                   class="text-danger"
-                   onclick="alert('Se ha eliminado el expediente exitosamente')">
-                    Eliminar expediente
-                </a> |
-                <button onclick="CreatePDFfromHTML()" class="btn btn-primary">Generar PDF</button>
-            </div>
+            <a asp-controller="Expediente"
+               asp-action="Delete"
+               asp-route-id="@Model.IDExpediente"
+               class="Boton"
+               onclick="alert('Se ha eliminado el expediente exitosamente')">
+                Eliminar expediente
+            </a>
         </div>
     </div>
 </div>

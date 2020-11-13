@@ -60,23 +60,23 @@
         <table id="tablaDatos" class="tabla">
             <thead>
                 <tr>
-                    <th>
+                    <th style="color:white">
                         @Html.DisplayNameFor(model => model.IDUsuario)
                     </th>
-                    <th>
+                    <th style="color:white">
                         @Html.DisplayNameFor(model => model.correo)
                     </th>
-                    <th>
+                    <th style="color:white">
                         @Html.DisplayNameFor(model => model.rol)
                     </th>
-                    <th>Acciones</th>
+                    <th style="color:white">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        <td >
                             @Html.DisplayFor(modelItem => item.IDUsuario)
                         </td>
                         <td>

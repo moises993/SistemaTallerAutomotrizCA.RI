@@ -5,6 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 
 <div class="content-wrapper">
     <div class="container">
@@ -12,9 +18,9 @@
             <li><a href="../Vehiculo/Index" style="color:aliceblue">Inicio </a></li>
             @*<li><a class="active" style="color:aliceblue">/ Crear Vehículo</a></li>*@
             @*<li><a href="#">Home</a></li>
-            <li><a href="#">Private</a></li>
-            <li><a href="#">Pictures</a></li>
-            <li class="active">Vacation</li>*@
+                <li><a href="#">Private</a></li>
+                <li><a href="#">Pictures</a></li>
+                <li class="active">Vacation</li>*@
         </ol>
         <h1>Técnico</h1>
         @section Scripts
@@ -60,8 +66,8 @@
             <thead>
                 <tr>
                     @*<th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.IDTecnico)
-                    </th>*@
+                            @Html.DisplayNameFor(model => model.IDTecnico)
+                        </th>*@
                     <th style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.nombre)
                     </th>
@@ -85,8 +91,8 @@
                 {
                     <tr>
                         @*<td>
-                            @Html.DisplayFor(modelItem => item.IDTecnico)
-                        </td>*@
+                                @Html.DisplayFor(modelItem => item.IDTecnico)
+                            </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.nombre)
                         </td>

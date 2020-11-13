@@ -4,6 +4,11 @@
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <style>
+        * {
+            font-family: Arial;
+        }
+    </style>
     <div class="content-wrapper">
 
         <h1>Delete</h1>
@@ -34,8 +39,8 @@
             </dl>
 
             <form asp-action="Delete">
-                <input type="submit" value="Delete" class="btn btn-danger" /> |
-                <a asp-action="Index">Back to List</a>
+                <input type="submit" value="Delete" class="Boton" /> |
+                <a asp-action="Index" class="Boton">Ver lista de servicios</a>
             </form>
         </div>
         </div>

@@ -4,6 +4,12 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+    <style>
+        * {
+            font-family: Arial;
+        }
+    </style>
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -69,14 +75,14 @@
                         <span asp-validation-for="placa" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <input type="submit" value="Create" class="Boton" />
                     </div>
                 </form>
             </div>
         </div>
 
         <div>
-            <a asp-action="Index">Back to List</a>
+            <a asp-action="Index" class="Boton">Ver lista de expedientest</a>
         </div>
 
     </div>

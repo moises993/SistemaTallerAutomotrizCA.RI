@@ -3,6 +3,12 @@
     ViewData["Title"] = "NoExisteElExpediente";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 
 <div class="content-wrapper">
     <div class="container">
@@ -12,7 +18,7 @@
         </ol>
         <h4>No se ha creado el expediente para este vehículo.</h4>
         <br />
-        <a asp-controller="Vehiculo" asp-action="Index">Regresar</a>
+        <a asp-controller="Vehiculo" asp-action="Index" class="Boton">Regresar</a>
     </div>
 </div>
 

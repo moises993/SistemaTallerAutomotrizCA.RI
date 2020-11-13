@@ -119,10 +119,13 @@
                             <input class="checked" asp-for="cltFrecuente" /> @Html.DisplayNameFor(model => model.cltFrecuente)
                         </label>
                     </div>
-                    <button id="boton_guardar" type="submit" class="Boton d-none">Guardar</button>
-                    @*<div class="form-group">
-                        <input id="boton_guardar" type="submit" value="Crear" class="Boton d-none" />
-                    </div>*@
+                    <div class="form-group">
+                        <input type="submit" value="Crear" class="Boton" />
+                    </div>
+                    @* <button id="boton_guardar" type="submit" class="Boton">Crear</button>
+        <div class="form-group">
+             <input id="boton_guardar" type="submit" value="Crear" class="Boton d-none" />
+         </div>*@
 
                     <div>
                         <a asp-action="Index" class="Boton" style="font-family:Arial">Ver lista de Clientes</a>
