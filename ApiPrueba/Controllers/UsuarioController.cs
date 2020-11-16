@@ -45,7 +45,7 @@ namespace ApiPrueba.Controllers
                 return NotFound(new { message = "El correo suministrado no existe" });
             }
 
-            if(!EsUnico)
+            if (!EsUnico)
             {
                 return BadRequest(new { message = "Existe un usuario con este correo" });
             }
@@ -64,7 +64,7 @@ namespace ApiPrueba.Controllers
         public IActionResult EliminarUsuario(int? id)
         {
             int resultado = _usrRepo.EliminarUsuario(id);
-            if(resultado == 0) return BadRequest(new { message = "No se eliminó a este usuario" });
+            if (resultado == 0) return BadRequest(new { message = "No se eliminó a este usuario" });
             return Ok();
         }
 
@@ -83,5 +83,9 @@ namespace ApiPrueba.Controllers
         [AllowAnonymous]
         [HttpGet("ListaUsuarios")]
         public async Task<List<Usuario>> VerUsuarios() => await _usrRepo.VerUsuarios();
+
+        [AllowAnonymous]
+        [HttpPost("InsertarRegistro")]
+        public void InsertarRegistro([FromBody] Bitacora bcr) => _usrRepo.InsertarRegistro(bcr.nombre, bcr.usuarioCrea); 
     }
 }

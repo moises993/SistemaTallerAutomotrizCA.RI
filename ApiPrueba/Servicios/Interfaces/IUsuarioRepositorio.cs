@@ -13,5 +13,6 @@ namespace ApiPrueba.Servicios.Interfaces
         bool EsUsuarioUnico(string pcorreo);
         int EliminarUsuario(int? id);
         Task<List<Usuario>> VerUsuarios();
+        void InsertarRegistro(string nombreAccion, string usuario);
     }
 }

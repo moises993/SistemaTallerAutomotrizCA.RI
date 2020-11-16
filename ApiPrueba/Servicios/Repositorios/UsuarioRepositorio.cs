@@ -280,5 +280,27 @@ namespace ApiPrueba.Servicios.Repositorios
             }
             return lista;
         }
+
+        //específico de la bitácora
+        public async void InsertarRegistro(string nombre, string usuario)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            try
+            {
+                await conexion.OpenAsync();
+                await using (NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"bcrRegistrarAccion\"", conexion))
+                {
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue("pnombre", nombre);
+                    comando.Parameters.AddWithValue("pusrcrea", usuario);
+                    await comando.ExecuteNonQueryAsync();
+                }
+                await conexion.CloseAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
