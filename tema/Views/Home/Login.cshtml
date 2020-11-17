@@ -1,13 +1,9 @@
 ﻿@model tema.Models.Usuario
+
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
-    <style>
-        * {
-            font-family: Arial;
-        }
-    </style>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -81,6 +77,11 @@
                         <button class="login100-form-btn" style="background-color:#01386E;font-family:Arial">
                             Ingresar
                         </button>
+                        <div>
+                            <a asp-controller="Home" asp-action="RecuperarAcceso" class="nav-link">
+                                <p style="font-family:Arial;color:#01386E">Olvidé mi contraseña</p>
+                            </a>
+                        </div>
                     </div>
                 </form>
             </div>

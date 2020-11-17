@@ -4,13 +4,6 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    * {
-        font-family: Arial;
-    }
-</style>
-<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
-
 <div class="content-wrapper">
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
@@ -134,8 +127,8 @@
                         {
                             <tr>
                                 @*<td>
-                                        @dtc.IDCliente
-                                    </td>*@
+                                @dtc.IDCliente
+                            </td>*@
                                 <td>
                                     @dtt.direccion
                                 </td>
@@ -153,7 +146,7 @@
                         }
                     </tbody>
                 </table>
-                <p >
+                <p>
                     @Html.ActionLink("Ingresar datos nuevos", "Create", "DetallesTecnico", new { id = Model.tecnico.IDTecnico })
                 </p>
             </div>

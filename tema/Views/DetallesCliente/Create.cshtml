@@ -1,4 +1,4 @@
-﻿@model tema.Models.DetallesCliente
+﻿@model tema.Models.DetallesCliente 
 
 @{
     ViewData["Title"] = "Create";
@@ -9,8 +9,6 @@
         font-family: Arial, Helvetica, sans-serif;
     }
 </style>
-<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
-
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
     $(document).ready(function () {
@@ -43,7 +41,7 @@
     });
 
     $(document).ready(function () {
-        var $regexname = /(506-[0-9]{4}-[0-9]{4})/;
+        var $regexname = /(506-[0-9]{4}-[0-9]{4})/; 
         $('#numero_nac').on('keypress keydown keyup mouseout mouseover', function () {
             if (!$(this).val().match($regexname)) {
                 $('#error_msg').removeClass('d-none');
@@ -106,12 +104,12 @@
                         <input asp-for="correo" type="text" class="form-control" /> <!--Correo-->
                         <span asp-validation-for="correo" class="text-danger"></span>
                     </div>
-                    <button id="boton_guardar" type="submit" class="Boton">Guardar</button>
+                    <button id="boton_guardar" type="submit" class="btn btn-primary d-none">Guardar</button>
                 </form>
             </div>
         </div>
         <div>
-            <a asp-controller="Cliente" asp-action="Details" class="Boton">Regresar</a>
+            <a asp-controller="Cliente" asp-action="Details">Regresar</a>
         </div>
     </div>
 </div>

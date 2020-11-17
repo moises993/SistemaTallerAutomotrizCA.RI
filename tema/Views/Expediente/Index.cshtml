@@ -5,12 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
-<style>
-    * {
-        font-family: Arial;
-    }
-</style>
-<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 
 <div class="content-wrapper">
     <div class="container">
@@ -18,9 +12,9 @@
             <li><a href="../Expediente/Index" style="color:aliceblue">Inicio</a></li>
 
         </ol>
-        @section Scripts
+               @section Scripts
         {
-            <script>
+                <script>
                 $(document).ready(function () {
                     $('#tablaDatos').DataTable({
                         "language":
@@ -55,34 +49,34 @@
                         "pageLength": 5
                     });
                 });
-            </script>
-        }
-        <table id="tablaDatos" class="Tablas" style="width:100%">
+                </script>
+            }
+            <table id="tablaDatos" class="Tablas" style="width:100%">
             <thead>
                 <tr>
 
-                    <th style="color:white;font-family:Arial">
+                    <th  style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.nombreTecnico)
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th  style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.asunto)
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th  style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.descripcion)
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th  style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.fechaCreacionExp)
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th  style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.nombreCliente)
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th  style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.marca)
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th  style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.modelo)
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th  style="color:white;font-family:Arial">
                         @Html.DisplayNameFor(model => model.placa)
                     </th>
                     <th></th>

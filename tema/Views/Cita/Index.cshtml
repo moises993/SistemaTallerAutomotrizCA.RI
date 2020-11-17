@@ -2,15 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
-
-
 }
-
-    <style>
-        * {
-            font-family: Arial;
-        }
-    </style>
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 <div class="content-wrapper">
 
@@ -25,7 +17,9 @@
         </ol>
         <h1>Módulo de citas</h1>
 
-       
+        <p>
+            <a asp-action="Create">Agregar una nueva cita</a>
+        </p>
         @section ScriptTablaCita
         {
             <script>
@@ -62,11 +56,7 @@
                             }
                         },
                         "lengthChange": false,
-                        "pageLength": 4,
-                        "dom": 'Bfrtip',
-                        "buttons": [
-                            'csv', 'excel', 'pdf'
-                        ]
+                        "pageLength": 4
                     });
                 });
             </script>
@@ -74,28 +64,28 @@
         <table id="tablaDatosCita" class="table table-responsive-md display">
             <thead>
                 <tr>
-                    <th  style="color:white;font-family:Arial">
+                    <th>
                         Código del técnico
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th>
                         Cédula del cliente
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th>
                         Fecha de la cita
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th>
                         Hora de la cita
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th>
                         Asunto
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th>
                         Descripción
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th>
                         ¿Está confirmada?
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th>
                         Acciones
                     </th>
                 </tr>
@@ -131,8 +121,8 @@
                             }
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-controller="Cita"  style="font-family:Arial" asp-route-id="@citas.IDCita">Actualizar</a> |
-                            <a asp-action="Delete" asp-controller="Cita"   style="font-family:Arial" asp-route-id="@citas.IDCita">Cancelar cita</a>
+                            <a asp-action="Edit" asp-controller="Cita" asp-route-id="@citas.IDCita">Actualizar</a> |
+                            <a asp-action="Delete" asp-controller="Cita" asp-route-id="@citas.IDCita">Cancelar cita</a>
                             @if (citas.citaConfirmada == true)
                             {
                                 <p>
@@ -144,14 +134,14 @@
                 }
             </tbody>
         </table>
-        <p  style="font-family:Arial">
+        <p>
             Acciones rápidas:<br />
-            <a asp-controller="Cita"  class="Boton"  asp-action="Create">Crear cita</a> |
-            <a asp-controller="Orden"  class="Boton"  asp-action="Index">Ver órdenes generadas</a>
+            <a asp-controller="Cita" asp-action="Create">Crear cita</a> |
+            <a asp-controller="Orden" asp-action="Index">Ver órdenes generadas</a>
         </p>
         <hr />
-        <h4  style="font-family:Arial">Detalle de servicios</h4>
-        <p style="text-align: justify;font-family:Arial">
+        <h4>Detalle de servicios</h4>
+        <p style="text-align: justify;">
             La siguiente tabla le permitirá agregar información preliminar sobre las tareas que debe hacer
             a un vehículo. Le recomendamos que proceda a ingresar servicios antes de crear una cita
             para automatizar la recolección de información dentro de la creación de citas.
@@ -200,13 +190,13 @@
         <table id="tablaDatosServicio" class="table table-responsive-md">
             <thead>
                 <tr>
-                    <th  style="color:white;font-family:Arial">
+                    <th>
                         Código del vehículo
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th>
                         Descripción del servicio
                     </th>
-                    <th style="color:white;font-family:Arial">
+                    <th>
                         Acciones
                     </th>
                 </tr>
@@ -230,7 +220,7 @@
             </tbody>
         </table>
         <hr />
-        <p  style="font-family:Arial">Acciones rápidas:</p><br />
-        <a asp-controller="Servicio" class="Boton"   asp-action="Create">Crear servicio</a>
+        <p>Acciones rápidas:</p><br />
+        <a asp-controller="Servicio" asp-action="Create">Crear servicio</a>
     </div>
 </div>

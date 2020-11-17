@@ -4,72 +4,65 @@
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    * {
-        font-family: Arial;
-    }
-</style>
-<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
-
-<div class="content-wrapper">
-    <div class="container">
-        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a href="../Tecnico/Index" style="color:aliceblue">Inicio </a></li>
-            <li><a class="active" style="color:aliceblue">/ Eliminar Técnico</a></li>
-            @*<li><a href="#">Home</a></li>
-                <li><a href="#">Private</a></li>
-                <li><a href="#">Pictures</a></li>
-                <li class="active">Vacation</li>*@
-        </ol>
-        <h1>Eliminar Técnico</h1>
+    <div class="content-wrapper">
+        <div class="container">
+            <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+                <li><a href="../Tecnico/Index" style="color:aliceblue">Inicio </a></li>
+                <li><a class="active" style="color:aliceblue">/ Eliminar Técnico</a></li>
+                @*<li><a href="#">Home</a></li>
+            <li><a href="#">Private</a></li>
+            <li><a href="#">Pictures</a></li>
+            <li class="active">Vacation</li>*@
+            </ol>
+            <h1>Eliminar Técnico</h1>
 
 
-        <div>
-            <h4>Tecnico</h4>
-            <hr />
-            <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.IDTecnico)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.IDTecnico)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.nombre)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.nombre)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.pmrApellido)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.pmrApellido)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.sgndApellido)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.sgndApellido)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.cedula)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.cedula)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.fechaIngreso)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.fechaIngreso)
-                </dd>
-            </dl>
+            <div>
+                <h4>Tecnico</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.IDTecnico)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.IDTecnico)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.nombre)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.nombre)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.pmrApellido)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.pmrApellido)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.sgndApellido)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.sgndApellido)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.cedula)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.cedula)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.fechaIngreso)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.fechaIngreso)
+                    </dd>
+                </dl>
 
-            <form asp-action="Delete">
-                <input type="submit" value="Elimnar" class="Boton" /> |
-                <a asp-action="Index" class="Boton">Volver a lista de técnicos</a>
-            </form>
+                <form asp-action="Delete">
+                    <input type="submit" value="Delete" class="btn btn-danger" /> |
+                    <a asp-action="Index">Back to List</a>
+                </form>
+            </div>
         </div>
-    </div>
 </div>

@@ -4,13 +4,6 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    * {
-        font-family: Arial;
-    }
-</style>
-<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
-
 <div class="content-wrapper">
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
@@ -59,7 +52,7 @@
         </div>
         <div>
             @Html.ActionLink("Editar", "Edit", new { id = Model.IDVehiculo }) |
-            <a asp-action="Index" class="Boton">Regresar</a>
+            <a asp-action="Index">Regresar</a>
         </div>
     </div>
 </div>

@@ -4,12 +4,6 @@
     ViewData["Title"] = "Delete";
 }
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
-<style>
-    * {
-        font-family: Arial;
-    }
-</style>
-<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 
 <div class="content-wrapper">
 
@@ -18,9 +12,9 @@
             <li><a asp-controller="Cita" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
             <li><a class="active" style="color:aliceblue">Cancelar cita</a></li>
             @*<li><a href="#">Home</a></li>
-                <li><a href="#">Private</a></li>
-                <li><a href="#">Pictures</a></li>
-                <li class="active">Vacation</li>*@
+            <li><a href="#">Private</a></li>
+            <li><a href="#">Pictures</a></li>
+            <li class="active">Vacation</li>*@
         </ol>
 
         <div>
@@ -84,7 +78,7 @@
             </dl>
 
             <form asp-action="Delete">
-                <input type="submit" value="Cancelar" class="Boton" /> |
+                <input type="submit" value="Cancelar" class="btn btn-danger" /> |
                 <a asp-action="Index" class="Boton">Regresar</a>
             </form>
         </div>

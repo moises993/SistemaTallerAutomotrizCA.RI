@@ -4,11 +4,6 @@
 @{
     ViewData["Title"] = "Details";
 }
-    <style>
-        * {
-            font-family: Arial;
-        }
-    </style>
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 
 <div class="content-wrapper">
@@ -68,9 +63,9 @@
                         @Model.cliente.fechaIngreso.Date.ToString("dd/MM/yyyy")
                     </dd>
                 </dl>
-                <div >
+                <div>
                     @Html.ActionLink("Actualizar", "Edit", new { id = Model.cliente.cedula }) |
-                    <a asp-action="Index" class="Boton">Regresar a la tabla</a>
+                    <a asp-action="Index">Regresar a la tabla</a>
                 </div>
             </div>
             <!--*******************************************************************************************************-->
@@ -118,16 +113,16 @@
                 <table id="tablaDatos" class="table table-responsive-md">
                     <thead class="text-center">
                         <tr>
-                            <th style="color:white">
+                            <th>
                                 Dirección
                             </th>
-                            <th style="color:white">
+                            <th>
                                 Teléfono
                             </th>
-                            <th style="color:white">
+                            <th>
                                 Correo
                             </th>
-                            <th style="color:white">
+                            <th>
                                 Acciones
                             </th>
                         </tr>
@@ -156,7 +151,7 @@
                         }
                     </tbody>
                 </table>
-                <p >
+                <p>
                     @*<a asp-controller="DetallesCliente" asp-action="Create">Ingresar más información</a>*@
                     @Html.ActionLink("Ingresar datos nuevos", "Create", "DetallesCliente", new { id = Model.cliente.IDCliente })
                 </p>
