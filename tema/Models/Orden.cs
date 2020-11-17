@@ -8,7 +8,9 @@ namespace tema.Models
 {
     public class Orden
     {
+        [Display(Name = "Orden")]
         public int IDOrden { get; set; }
+        [Display(Name = "Vehículo")]
         public int IDVehiculo { get; set; }
         [Required(ErrorMessage = "No se ingresó la Cédula")]
         [Display(Name = "Cédula")]

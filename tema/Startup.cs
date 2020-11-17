@@ -10,11 +10,14 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using tema.Utilidades.Interfaces;
 using tema.Utilidades;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 
 namespace tema
 {
     public class Startup
-    {
+    { 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -48,6 +51,10 @@ namespace tema
                 options.Cookie.IsEssential = true;
             });
 
+            string architectureFolder = (IntPtr.Size == 8) ? "64 bit" : "32 bit";
+            CustomAssemblyLoadContext context = new CustomAssemblyLoadContext();
+            context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), $"wkhtmltox\\v0.12.4\\{architectureFolder}\\libwkhtmltox"));
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

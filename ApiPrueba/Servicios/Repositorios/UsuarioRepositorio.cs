@@ -21,13 +21,15 @@ namespace ApiPrueba.Servicios.Repositorios
         private IConfiguration _configuration;
         private readonly AppSettings _appsettings;
         private readonly string connectionString;
+        private readonly ICorreos _correos;
 
-        public UsuarioRepositorio(IConfiguration configuration, IOptions<AppSettings> appsettings, GeneradorClaves gen)
+        public UsuarioRepositorio(IConfiguration configuration, IOptions<AppSettings> appsettings, GeneradorClaves gen, ICorreos correos)
         {
             _configuration = configuration;
             _appsettings = appsettings.Value;
             _gen = gen;
             connectionString = _configuration.GetConnectionString("pginstConexion");
+            _correos = correos;
         }
 
         public Usuario IniciarSesion(string correo, string clave)
@@ -182,7 +184,7 @@ namespace ApiPrueba.Servicios.Repositorios
                 {
                     string claveGenerada = _gen.GenerarClave(8);
                     string sal = Cifrado.GenerarSal();
-                    await Correos.EnviarCorreo(correo, claveGenerada);
+                    await _correos.EnviarCorreo(correo, claveGenerada);
                     string hash = Cifrado.GenerarHash(claveGenerada, sal);
                     comando.Parameters.AddWithValue(":pcorreo", correo);
                     comando.Parameters.AddWithValue(":prol", rol);
@@ -231,7 +233,7 @@ namespace ApiPrueba.Servicios.Repositorios
                 comando.CommandType = CommandType.StoredProcedure;
                 string claveGenerada = _gen.GenerarClave(8);
                 string sal = Cifrado.GenerarSal();
-                await Correos.EnviarCorreo(correo, claveGenerada);
+                await _correos.EnviarCorreo(correo, claveGenerada);
                 string hash = Cifrado.GenerarHash(claveGenerada, sal);
                 comando.Parameters.AddWithValue("pcorreo", correo);
                 comando.Parameters.AddWithValue("pnuevohash", hash);

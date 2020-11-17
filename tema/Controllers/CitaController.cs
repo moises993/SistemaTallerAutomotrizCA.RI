@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using tema.Models;
 using tema.Models.ViewModels;
+using tema.Utilidades;
 
 namespace tema.Controllers
 {
@@ -18,6 +24,13 @@ namespace tema.Controllers
     public class CitaController : Controller
     {
         string baseurl = "https://localhost:44300/";
+        IHttpContextAccessor _httpContextAccessor;
+        MethodBase mb = MethodBase.GetCurrentMethod();
+        public CitaController(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+           //string usuario = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+        }
 
         public async Task<IActionResult> Index()
         {
@@ -117,6 +130,7 @@ namespace tema.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([Bind("IDTecnico,cedulaCliente,fecha,hora,asunto,descripcion,citaConfirmada")] CitaViewModel cta)
         {
+            UtilidadRegistro.Registrar(mb.ReflectedType.Name + ".Create", _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value);
             Cita ctapost = new Cita
             {
                 IDTecnico = cta.IDTecnico,
@@ -170,6 +184,7 @@ namespace tema.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int? id, [Bind("IDCita,IDTecnico,cedulaCliente,fecha,hora,asunto,descripcion,citaConfirmada")] Cita Cita)
         {
+            UtilidadRegistro.Registrar(mb.ReflectedType.Name + ".Edit", _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value);
             if (id != Cita.IDCita)
             {
                 return NotFound();
@@ -220,6 +235,7 @@ namespace tema.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
+            UtilidadRegistro.Registrar(mb.ReflectedType.Name + ".DeleteConfirmed", _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value);
             var Cita = await GetOneById(id, new Cita());
             using (var client = new HttpClient())
             {
@@ -261,6 +277,7 @@ namespace tema.Controllers
         
         public async Task<IActionResult> CreateOrden(int? idCita, int idCliente, string desc)
         {
+            UtilidadRegistro.Registrar(mb.ReflectedType.Name + ".CreateOrden", _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value);
             if (idCita == null)
             {
                 ModelState.AddModelError(string.Empty, "No se brindó un id para generar la orden");

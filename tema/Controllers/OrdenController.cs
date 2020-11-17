@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -16,6 +20,12 @@ namespace tema.Controllers
     public class OrdenController : Controller
     {
         string baseurl = "https://localhost:44300/";
+        IConverter _converter;
+
+        public OrdenController(IConverter converter)
+        {
+            _converter = converter;
+        }
 
         public async Task<IActionResult> Index()
         {
@@ -220,5 +230,139 @@ namespace tema.Controllers
         //    }
         //    return aux;
         //}
+
+        public IActionResult CreatePDF()
+        {
+            var globalSettings = new GlobalSettings
+            {
+                ColorMode = ColorMode.Color,
+                Orientation = Orientation.Portrait,
+                PaperSize = PaperKind.A4,
+                Margins = new MarginSettings { Top = 10 },
+                DocumentTitle = "Ordenes_" + DateTime.Now.Date.ToString("dd/MM/yyyy")
+            };
+            var objectSettings = new ObjectSettings
+            {
+                PagesCount = true,
+                HtmlContent = ObtenerHTML(),
+                //, UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "http://localhost:51301/css/", "expediente.css")
+                WebSettings =
+                {
+                    DefaultEncoding = "utf-8",
+                    LoadImages = true,
+                    UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(),
+                    "wwwroot/Plantilla/dist/css", "Tablas.css")
+                },
+                HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Página [page] de [toPage]", Line = true },
+                FooterSettings = { FontName = "Arial", FontSize = 9, Line = true, Center = "Taller Automotriz CA.RI" }
+            };
+            var pdf = new HtmlToPdfDocument()
+            {
+                GlobalSettings = globalSettings,
+                Objects = { objectSettings }
+            };
+            var file = _converter.Convert(pdf);
+            return File(file, "application/pdf", "Ordenes_" + DateTime.Now.Date.ToString("dd/MM/yyyy") + ".pdf");
+        }
+
+        public string ObtenerHTML()
+        {
+            StringBuilder sb = new StringBuilder();
+            List<Orden> odn = ObtenerOrdenes();
+
+            sb.Append
+            (
+                @"
+                    <html>
+                    <head></head>
+                    <body>
+                        <br />
+                        <img src ='http://localhost:51301/Imagenes/imageonline-co-whitebackgroundremoved.png'/>
+                        <img src ='http://localhost:8001/Imagenes/imageonline-co-whitebackgroundremoved.png'/>
+                        <br />
+                        <br />
+                        <p >
+                            Taller Automotriz CA.RI<br />
+                            San José, León Cortés, San Andrés<br />
+                            Teléfono: 8355-1192<br />
+                            <br />
+                        </p>
+                        <h1 align='center'>Reporte total de órdenes</h1>
+                        <hr />
+                        <table class='tabla'>
+                "
+            );
+
+            sb.Append
+            (
+                @"
+                            <thead>
+                                <tr>
+                                    <th style='color:white;'>Orden</th>
+                                    <th style='color:white;'>Vehículo</th>
+                                    <th style='color:white;'>Cédula del cliente</th>
+                                    <th style='color:white;'>Placa</th>
+                                    <th style='color:white;'>Servicio</th>
+                                </tr>
+                            </thead>
+                "
+            );
+
+            foreach (Orden od in odn)
+            {
+                sb.AppendFormat
+                (
+                    @"
+                            <tbody>
+                                <tr>
+                                    <td>{0}</td>
+                                    <td>{1}</td>
+                                    <td>{2}</td>
+                                    <td>{3}</td>
+                                    <td>{4}</td>
+                                </tr>
+                            </tbody>
+                    ",
+                    od.IDOrden,
+                    od.IDVehiculo,
+                    od.cedulaCliente,
+                    od.placaVehiculo,
+                    od.descServicio
+                );
+            }
+
+            sb.Append
+            (
+                @"
+                        <table>
+                    </body>
+                    </html>
+                "
+            );
+
+            return sb.ToString();
+        }
+
+        private List<Orden> ObtenerOrdenes()
+        {
+            List<Orden> aux = new List<Orden>();
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = client.GetAsync("Taller/Orden/ListaOrdenes").Result;
+
+                if (res.IsSuccessStatusCode)
+                {
+                    string auxRes = res.Content.ReadAsStringAsync().Result;
+
+                    aux = JsonConvert.DeserializeObject<List<Orden>>(auxRes);
+                }
+            }
+
+            return aux;
+        }
     }
 }

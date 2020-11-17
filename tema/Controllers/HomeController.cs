@@ -290,7 +290,7 @@ namespace tema.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(Models.UsuarioViewModel objetoVM)
+        public async Task<IActionResult> Register(UsuarioViewModel objetoVM)
         {
             if (!ModelState.IsValid)
             {
