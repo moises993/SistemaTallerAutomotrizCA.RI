@@ -101,13 +101,21 @@ namespace tema
 
         private async void CreateWindow()
         {
+            var wp = new WebPreferences
+            {
+                ContextIsolation = true
+            };
+
             var window = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
             {
                 Width = 1280,
                 Height = 1024,
-                Show = false
+                Show = false,
+                WebPreferences = wp
             });
+
             await window.WebContents.Session.ClearCacheAsync();
+            window.RemoveMenu();
             window.OnReadyToShow += () => window.Show();
             window.OnClosed += () =>
             {
