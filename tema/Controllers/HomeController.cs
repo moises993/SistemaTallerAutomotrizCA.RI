@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using tema.Models;
@@ -132,7 +133,7 @@ namespace tema.Controllers
                     }  //Fin del menú "Ventana"
                 };
 
-                Electron.Menu.SetApplicationMenu(menu);
+                //Electron.Menu.SetApplicationMenu(menu);
             }
             return View();
         }
@@ -241,7 +242,7 @@ namespace tema.Controllers
                     }  //Fin del menú "Ventana"
                 };
 
-                Electron.Menu.SetApplicationMenu(menu);
+                //Electron.Menu.SetApplicationMenu(menu);
             }
             return View(objeto);
         }
@@ -286,6 +287,14 @@ namespace tema.Controllers
         public IActionResult Register()
         {
             return View();
+        }
+
+        public static List<SelectListItem> ObtenerRoles()
+        {
+            List<SelectListItem> ls = new List<SelectListItem>();
+            ls.Add(new SelectListItem() { Text = "Administrador", Value = "manager" });
+            ls.Add(new SelectListItem() { Text = "Técnico", Value = "tecnico" });
+            return ls;
         }
 
         [HttpPost]

@@ -29,17 +29,13 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="rol" class="control-label" style="font-family:Arial">Seleccione un rol para el nuevo usuario</label>
-                        <select asp-for="rol" class="form-control">
-                            <option>Seleccione una opción</option>
-                            <option value="manager">Administrador</option>
-                            <option value="tecnico">Técnico</option>
-                        </select>
+                        @Html.DropDownListFor(x => x.rol, tema.Controllers.HomeController.ObtenerRoles(), "Seleccione una opción", new { @class = "form-control" })
                         <span asp-validation-for="rol" class="text-danger"></span>
                     </div>
                     <button type="submit" value="Submit" class="Boton" style="text-align: justify; font-family:Arial">Guardar</button>
                 </form>
             </div>
         </div>
-        <a asp-controller="Home" asp-action="Index">Regresar al inicio</a>
+        <a asp-controller="Usuario" asp-action="Index" class="Boton">Regresar</a>
     </div>
 </div>

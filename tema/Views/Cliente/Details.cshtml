@@ -4,13 +4,17 @@
 @{
     ViewData["Title"] = "Details";
 }
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
-
 <div class="content-wrapper">
 
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a href="../Cliente/Index" style="color:aliceblue">Inicio/</a></li>
+            <li><a asp-controller="Cliente" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
             <li><a class="active" style="color:aliceblue">Detalles</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>
@@ -64,8 +68,8 @@
                     </dd>
                 </dl>
                 <div>
-                    @Html.ActionLink("Actualizar", "Edit", new { id = Model.cliente.cedula }) |
-                    <a asp-action="Index">Regresar a la tabla</a>
+                    @Html.ActionLink("Actualizar", "Edit", new { id = Model.cliente.cedula }, new { @class = "Boton" }) |
+                    <a asp-action="Index" class="Boton">Regresar a la tabla</a>
                 </div>
             </div>
             <!--*******************************************************************************************************-->
@@ -113,16 +117,16 @@
                 <table id="tablaDatos" class="table table-responsive-md">
                     <thead class="text-center">
                         <tr>
-                            <th>
+                            <th style="color:white">
                                 Dirección
                             </th>
-                            <th>
+                            <th style="color:white">
                                 Teléfono
                             </th>
-                            <th>
+                            <th style="color:white">
                                 Correo
                             </th>
-                            <th>
+                            <th style="color:white">
                                 Acciones
                             </th>
                         </tr>
@@ -153,7 +157,7 @@
                 </table>
                 <p>
                     @*<a asp-controller="DetallesCliente" asp-action="Create">Ingresar más información</a>*@
-                    @Html.ActionLink("Ingresar datos nuevos", "Create", "DetallesCliente", new { id = Model.cliente.IDCliente })
+                    @Html.ActionLink("Ingresar datos nuevos", "Create", "DetallesCliente", new { id = Model.cliente.IDCliente }, new { @class = "Boton" })
                 </p>
             </div>
             <!--*******************************************************************************************************-->

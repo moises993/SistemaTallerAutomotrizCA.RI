@@ -3,8 +3,12 @@
 @{
     ViewData["Title"] = "Details";
 }
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
-
 <div class="content-wrapper">
 
     <div class="container">
@@ -12,9 +16,9 @@
             <li><a asp-controller="Cita" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
             <li><a class="active" style="color:aliceblue">Detalles de la cita</a></li>
             @*<li><a href="#">Home</a></li>
-            <li><a href="#">Private</a></li>
-            <li><a href="#">Pictures</a></li>
-            <li class="active">Vacation</li>*@
+                <li><a href="#">Private</a></li>
+                <li><a href="#">Pictures</a></li>
+                <li class="active">Vacation</li>*@
         </ol>
         <h1>Detalles de la cita #@Model.IDCita</h1>
         <div>

@@ -4,10 +4,16 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 <div class="content-wrapper">
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a href="../Expediente/Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+            <li><a asp-controller="Expediente" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
             <li><a class="active" style="color:aliceblue">Actualizar información</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>
@@ -31,13 +37,13 @@
                         <span asp-validation-for="descripcion" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Guardar" class="btn btn-primary" />
+                        <input type="submit" value="Guardar" class="Boton" />
                     </div>
                 </form>
             </div>
         </div>
         <div>
-            <a asp-controller="Vehiculo" asp-action="Index">Regresar</a>
+            <a asp-controller="Vehiculo" asp-action="Index" class="Boton">Regresar</a>
         </div>
     </div>
 </div>

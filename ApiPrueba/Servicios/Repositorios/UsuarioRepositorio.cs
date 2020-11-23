@@ -202,24 +202,22 @@ namespace ApiPrueba.Servicios.Repositorios
         }
         #endregion bloqueValidacionesRegistro
 
-        public int EliminarUsuario(int? id)
+        public void EliminarUsuario(int? id)
         {
-            int resultado = 0;
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+
             try
             {
                 conexion.Open();
-                NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"usrEliminarUsuario\"", conexion);
-                comando.CommandType = CommandType.StoredProcedure;
-                comando.Parameters.AddWithValue("pid", id);
-                resultado = comando.ExecuteNonQuery();
+                NpgsqlCommand comando = new NpgsqlCommand("CALL \"Taller\".\"usrEliminarUsuario\"(@pid);", conexion);
+                comando.Parameters.AddWithValue(":pid", id);
+                comando.ExecuteNonQuery();
                 conexion.Close();
             }
             catch (Exception)
             {
                 throw;
             }
-            return resultado;
         }
 
         public async Task<bool> CambiarContrasena(string correo)

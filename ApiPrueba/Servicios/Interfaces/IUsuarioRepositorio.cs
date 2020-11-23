@@ -11,7 +11,7 @@ namespace ApiPrueba.Servicios.Interfaces
         Task<bool> RegistrarUsuario(string correo, string rol);
         Task<bool> CambiarContrasena(string correo);
         bool EsUsuarioUnico(string pcorreo);
-        int EliminarUsuario(int? id);
+        void EliminarUsuario(int? id);
         Task<List<Usuario>> VerUsuarios();
         void InsertarRegistro(string nombreAccion, string usuario);
     }

@@ -73,7 +73,7 @@ namespace ApiPrueba.Controllers
 
             if (!_citaServicio.ActualizarCita(id, cta.fecha, cta.hora, cta.asunto, cta.descripcion, cta.citaConfirmada))
             {
-                ModelState.AddModelError("", "Ocurrió un error durante la actualización. Por favor, inténtelo en un momento");
+                ModelState.AddModelError("", "Error al actualizar: posible conflicto con el técnico a asignar (ya tiene cita en la fecha y hora asignada)");
                 return StatusCode(500, ModelState);
             }
 

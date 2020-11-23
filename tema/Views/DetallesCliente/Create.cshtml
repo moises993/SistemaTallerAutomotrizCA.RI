@@ -1,4 +1,4 @@
-﻿@model tema.Models.DetallesCliente 
+﻿@model tema.Models.DetallesCliente
 
 @{
     ViewData["Title"] = "Create";
@@ -6,10 +6,11 @@
 }
 <style>
     * {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: Arial;
     }
 </style>
-<script src="~/lib/jquery/dist/jquery.js"></script>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+<script src="~/lib/jquery/dist/jquery.js" onload="window.$ = window.jQuery = module.exports;"></script>
 <script>
     $(document).ready(function () {
         $("select").change(function () {
@@ -41,7 +42,7 @@
     });
 
     $(document).ready(function () {
-        var $regexname = /(506-[0-9]{4}-[0-9]{4})/; 
+        var $regexname = /(506-[0-9]{4}-[0-9]{4})/;
         $('#numero_nac').on('keypress keydown keyup mouseout mouseover', function () {
             if (!$(this).val().match($regexname)) {
                 $('#error_msg').removeClass('d-none');
@@ -59,7 +60,7 @@
 <div class="content-wrapper">
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a href="../Cliente/Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+            <li><a asp-controller="DetallesCliente" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
             <li><a class="active" style="color:aliceblue">Crear nuevo detalle</a></li>
         </ol>
         <h1>Ingresar información</h1>
@@ -104,12 +105,12 @@
                         <input asp-for="correo" type="text" class="form-control" /> <!--Correo-->
                         <span asp-validation-for="correo" class="text-danger"></span>
                     </div>
-                    <button id="boton_guardar" type="submit" class="btn btn-primary d-none">Guardar</button>
+                    <button id="boton_guardar" type="submit" class="Boton d-none">Guardar</button>
                 </form>
             </div>
         </div>
         <div>
-            <a asp-controller="Cliente" asp-action="Details">Regresar</a>
+            <a asp-controller="Cliente" asp-action="Details" class="Boton">Regresar</a>
         </div>
     </div>
 </div>

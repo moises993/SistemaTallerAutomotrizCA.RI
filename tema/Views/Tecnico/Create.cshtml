@@ -9,7 +9,7 @@
         font-family: Arial;
     }
 </style>
-<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/jquery.js" onload="window.$ = window.jQuery = module.exports;"></script>
 <script>
     $(document).ready(function () {
         $("select").change(function () {
@@ -60,12 +60,12 @@
 <div class="content-wrapper">
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a href="../Tecnico/Index" style="color:aliceblue">Inicio </a></li>
+            <li><a asp-controller="Tecnico" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
             <li><a class="active" style="color:aliceblue">/ Crear técnico</a></li>
             @*<li><a href="#">Home</a></li>
-                <li><a href="#">Private</a></li>
-                <li><a href="#">Pictures</a></li>
-                <li class="active">Vacation</li>*@
+        <li><a href="#">Private</a></li>
+        <li><a href="#">Pictures</a></li>
+        <li class="active">Vacation</li>*@
         </ol>
         <h1>Crear Técnico</h1>
         <hr />
@@ -121,7 +121,7 @@
             </div>
         </div>
         <div>
-            <a asp-action="Index">Regresar</a>
+            <a asp-action="Index" class="Boton">Regresar</a>
         </div>
     </div>
 </div>

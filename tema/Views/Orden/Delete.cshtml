@@ -4,9 +4,23 @@
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 <div class="content-wrapper">
 
     <div class="container">
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a asp-controller="Orden" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+            <li><a class="active" style="color:aliceblue">Detalles de Orden</a></li>
+            @*<li><a href="#">Home</a></li>
+                <li><a href="#">Private</a></li>
+                <li><a href="#">Pictures</a></li>
+                <li class="active">Vacation</li>*@
+        </ol>
         <h1>Eliminar Orden</h1>
 
         <div>
@@ -45,8 +59,8 @@
             </dl>
 
             <form asp-action="Delete">
-                <input type="submit" value="Delete" class="btn btn-danger" /> |
-                <a asp-action="Index">Back to List</a>
+                <input type="submit" value="Delete" class="Boton" /> |
+                <a asp-action="Index" class="Boton">Ver lista de órdenes</a>
             </form>
         </div>
     </div>

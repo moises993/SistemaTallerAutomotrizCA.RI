@@ -9,13 +9,14 @@
         font-family: Arial;
     }
 </style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 
 <div id="html-content">
     <div class="content-wrapper">
         <div class="container">
 
             <ol id="migaja" class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-                <li><a href="../Expediente/Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+                <li><a asp-controller="Expediente" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
                 <li><a class="active" style="color:aliceblue">Expediente</a></li>
             </ol>
             <h1 align="center">Expediente</h1>
@@ -47,8 +48,8 @@
                         <dt class="col-sm-5">
                             @Html.DisplayNameFor(model => model.descripcion)
                         </dt>
-                        <dd class="col-sm-7">
-                            @Html.DisplayFor(model => model.descripcion)
+                        <dd class="col-sm-7" style="white-space: pre-line">
+                            @Html.Raw(Model.descripcion)
                         </dd>
                         <dt class="col-sm-5">
                             @Html.DisplayNameFor(model => model.fechaCreacionExp)
@@ -84,18 +85,18 @@
                 }
             </div>
             <div id="botones">
-                <a asp-controller="Vehiculo" asp-action="Index">Regresar</a> |
-                <a asp-controller="Expediente" asp-action="Edit" asp-route-id="@Model.IDExpediente">Actualizar</a> |
-                <a asp-controller="Expediente" asp-action="CreatePDF" asp-route-id="@Model.IDExpediente">
+                <a asp-controller="Vehiculo" asp-action="Index" class="Boton">Regresar</a> |
+                <a asp-controller="Expediente" asp-action="Edit" asp-route-id="@Model.IDExpediente" class="Boton">Actualizar</a> |
+                <a asp-controller="Expediente" asp-action="CreatePDF" asp-route-id="@Model.IDExpediente" class="Boton">
                     Crear archivo PDF
                 </a> |
-                <a asp-controller="Expediente"
+                <a  asp-controller="Expediente"
                    asp-action="Delete"
                    asp-route-id="@Model.IDExpediente"
-                   class="text-danger"
+                   class="Boton"
                    onclick="alert('Se ha eliminado el expediente exitosamente')">
                     Eliminar expediente
-                </a> 
+                </a>
             </div>
         </div>
     </div>

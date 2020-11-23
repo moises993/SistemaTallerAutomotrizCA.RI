@@ -60,11 +60,11 @@ namespace ApiPrueba.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpDelete("EliminarUsuario/{id}")]
         public IActionResult EliminarUsuario(int? id)
         {
-            int resultado = _usrRepo.EliminarUsuario(id);
-            if (resultado == 0) return BadRequest(new { message = "No se eliminó a este usuario" });
+            _usrRepo.EliminarUsuario(id);
             return Ok();
         }
 

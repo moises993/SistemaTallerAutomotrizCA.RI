@@ -1,38 +1,50 @@
-﻿@model tema.Models.Servicio
+﻿@model tema.Models.ServicioEdit
 
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 <div class="content-wrapper">
+    <div class="container">
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a asp-controller="Servicio" asp-action="Index" style="color:aliceblue">Servicio&nbsp;/&nbsp;</a></li>
+            <li><a class="active" style="color:aliceblue">Crear servicio</a></li>
+        </ol>
 
-    <h1>Editar servicio</h1>
+        <h1>Editar servicio</h1>
 
-    <h4>Servicio</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-controller="Servicio" asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group" hidden>
-                    <label asp-for="IDServicio" class="control-label"></label>
-                    <input asp-for="IDServicio" type="text" class="form-control" />
-                    <span asp-validation-for="IDServicio" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="descripcion" class="control-label"></label>
-                    <input asp-for="descripcion" class="form-control" />
-                    <span asp-validation-for="descripcion" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Guardar" class="btn btn-primary" />
-                </div>
-            </form>
+        <h4>Servicio</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-controller="Servicio" asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group" hidden>
+                        <label asp-for="IDServicio" class="control-label"></label>
+                        <input asp-for="IDServicio" type="text" class="form-control" />
+                        <span asp-validation-for="IDServicio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="descripcion" class="control-label"></label>
+                        <input asp-for="descripcion" class="form-control" />
+                        <span asp-validation-for="descripcion" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Guardar" class="Boton" />
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <div>
-        <a asp-controller="Cita" asp-action="Index">Regresar</a>
-    </div>
+        <div>
+            <a asp-controller="Cita" asp-action="Index" class="Boton">Regresar</a>
+        </div>
 
+    </div>
 </div>

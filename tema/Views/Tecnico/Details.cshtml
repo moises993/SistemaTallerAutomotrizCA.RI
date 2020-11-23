@@ -4,11 +4,17 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 <div class="content-wrapper">
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a href="../Tecnico/Index" style="color:aliceblue">Inicio </a></li>
-            <li><a class="active" style="color:aliceblue">/ Detalles Técnico</a></li>
+            <li><a asp-controller="Tecnico" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+            <li><a class="active" style="color:aliceblue">Detalles Técnico</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>
                 <li><a href="#">Pictures</a></li>
@@ -56,12 +62,12 @@
                         @Html.DisplayNameFor(model => model.tecnico.fechaIngreso)
                     </dt>
                     <dd class="col-sm-7">
-                        @Html.DisplayFor(model => model.tecnico.fechaIngreso)
+                        @Model.tecnico.fechaIngreso.Date.ToString("dd/MM/yyyy")
                     </dd>
                 </dl>
                 <div>
-                    @Html.ActionLink("Actualizar", "Edit", "Tecnico", new { id = Model.tecnico.cedula }) |
-                    <a asp-action="Index">Regresar</a>
+                    @Html.ActionLink("Actualizar", "Edit", "Tecnico", new { id = Model.tecnico.cedula }, new { @class = "Boton" }) |
+                    <a asp-action="Index"class="Boton">Regresar</a>
                 </div>
             </div>
             <div style="float: right; max-width: 60%;">
@@ -108,16 +114,16 @@
                 <table id="tablaDatosTecnico" class="table table-responsive-md">
                     <thead class="text-center">
                         <tr>
-                            <th>
+                            <th style="color:white">
                                 Dirección
                             </th>
-                            <th>
+                            <th style="color:white">
                                 Teléfono
                             </th>
-                            <th>
+                            <th style="color:white">
                                 Correo
                             </th>
-                            <th>
+                            <th style="color:white">
                                 Acciones
                             </th>
                         </tr>
@@ -127,8 +133,8 @@
                         {
                             <tr>
                                 @*<td>
-                                @dtc.IDCliente
-                            </td>*@
+                                        @dtc.IDCliente
+                                    </td>*@
                                 <td>
                                     @dtt.direccion
                                 </td>
@@ -147,7 +153,7 @@
                     </tbody>
                 </table>
                 <p>
-                    @Html.ActionLink("Ingresar datos nuevos", "Create", "DetallesTecnico", new { id = Model.tecnico.IDTecnico })
+                    @Html.ActionLink("Ingresar datos nuevos", "Create", "DetallesTecnico", new { id = Model.tecnico.IDTecnico }, new { @class = "Boton" })
                 </p>
             </div>
         </div>

@@ -83,13 +83,16 @@ namespace ApiPrueba.Servicios.Repositorios
                     {
                         while (lector.Read())
                         {
+                            //string descripcionF;
+                            //descripcionF = lector.GetString(4);
+                            //descripcionF = descripcionF.Replace(@"\n", Environment.NewLine);
                             salida = new Expediente
                             {
                                 IDExpediente = lector.GetInt32(0),
                                 IDVehiculo = lector.GetInt32(1),
                                 nombreTecnico = lector.GetString(2).Trim(),
                                 asunto = lector.GetString(3).Trim(),
-                                descripcion = lector.GetString(4).Trim(),
+                                descripcion = lector.GetString(4),
                                 fechaCreacionExp = lector.GetDateTime(5),
                                 nombreCliente = lector.GetString(6).Trim(),
                                 marca = lector.GetString(7).Trim(),

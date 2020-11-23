@@ -70,17 +70,22 @@ namespace tema.Controllers
                 return NotFound();
             }
 
-            var Cita = await GetOneById(id, new Servicio());
-            if (Cita == null)
+            Servicio srv = await GetOneById(id, new Servicio());
+            ServicioEdit srvedit = new ServicioEdit
+            {
+                IDServicio = srv.IDServicio,
+                descripcion = srv.descripcion
+            };
+            if (srvedit == null)
             {
                 return NotFound();
             }
-            return View(Cita);
+            return View(srvedit);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int? id, [Bind("IDServicio,descripcion")] Servicio servicio)
+        public IActionResult Edit(int? id, [Bind("IDServicio,descripcion")] ServicioEdit servicio)
         {
             if (id != servicio.IDServicio)
             {

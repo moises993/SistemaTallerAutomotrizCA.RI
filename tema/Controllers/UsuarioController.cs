@@ -40,7 +40,7 @@ namespace tema.Controllers
                     client.BaseAddress = new Uri(baseurl);
                     HttpResponseMessage deleteTask = await client.DeleteAsync
                         (
-                            "Taller/Usuario/Eliminar/" + id
+                            "Taller/Usuario/EliminarUsuario/" + id
                         );
                 }
             }

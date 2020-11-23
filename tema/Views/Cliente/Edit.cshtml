@@ -3,8 +3,12 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
-
 <div class="content-wrapper">
 
     <!--href="../Cliente/Index"-->
@@ -12,7 +16,7 @@
     <h1>Editar Cliente</h1>
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a asp-controller="Cliente" asp-action="Index" style="color:aliceblue">Inicio/</a></li>
+            <li><a asp-controller="Cliente" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
             <li><a class="active" style="color:aliceblue">Editar Cliente</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>

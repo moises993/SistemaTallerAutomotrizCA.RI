@@ -4,11 +4,17 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 <div class="content-wrapper">
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a asp-controller="Vehiculo" asp-action="Index" style="color:aliceblue">Inicio </a></li>
-            <li><a class="active" style="color:aliceblue">/ Detalles de Vehículo</a></li>
+            <li><a asp-controller="Vehiculo" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+            <li><a class="active" style="color:aliceblue">Detalles de Vehículo</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>
                 <li><a href="#">Pictures</a></li>
@@ -51,8 +57,8 @@
             </dl>
         </div>
         <div>
-            @Html.ActionLink("Editar", "Edit", new { id = Model.IDVehiculo }) |
-            <a asp-action="Index">Regresar</a>
+            @Html.ActionLink("Editar", "Edit", new { id = Model.IDVehiculo }, new { @class = "Boton" }) |
+            <a asp-action="Index" class="Boton">Regresar</a>
         </div>
     </div>
 </div>

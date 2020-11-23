@@ -112,21 +112,35 @@ namespace tema.Controllers
         {
             if (id == null) return NotFound();
             Vehiculo vehiculo = await ObtenerVehiculoPorId(id, new Vehiculo());
-            if (vehiculo == null) return NotFound();
-            return View(vehiculo);
+            VehiculoEdit vhledit = new VehiculoEdit
+            {
+                IDVehiculo = vehiculo.IDVehiculo,
+                marca = vehiculo.marca,
+                modelo = vehiculo.modelo.ToString(),
+                placa = vehiculo.placa
+            };
+            if (vhledit == null) return NotFound();
+            return View(vhledit);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("IDVehiculo,marca,modelo,placa")] Vehiculo Vehiculo)
+        public async Task<IActionResult> Edit(int? id, [Bind("IDVehiculo,marca,modelo,placa")] VehiculoEdit Vehiculo)
         {
             if (id != Vehiculo.IDVehiculo) return NotFound();
             if (ModelState.IsValid)
             {
                 using (HttpClient client = new HttpClient())
                 {
+                    Vehiculo vhlpatch = new Vehiculo
+                    {
+                        IDVehiculo = Vehiculo.IDVehiculo,
+                        marca = Vehiculo.marca,
+                        modelo = int.Parse(Vehiculo.modelo),
+                        placa = Vehiculo.placa
+                    };
                     client.BaseAddress = new Uri(baseurl);
-                    string myContent = JsonConvert.SerializeObject(Vehiculo);
+                    string myContent = JsonConvert.SerializeObject(vhlpatch);
                     byte[] buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
                     ByteArrayContent byteContent = new ByteArrayContent(buffer);
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");

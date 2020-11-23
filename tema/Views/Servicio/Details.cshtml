@@ -4,9 +4,20 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="content-wrapper">
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+<div class="content-wrapper">
+    <div class="container">
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a asp-controller="Servicio" asp-action="Index" style="color:aliceblue">Servicio&nbsp;/&nbsp;</a></li>
+            <li><a class="active" style="color:aliceblue">Crear servicio</a></li>
+        </ol>
 
-        <h1>Details</h1>
+        <h1>Detalles</h1>
 
         <div>
             <h4>Servicio</h4>
@@ -34,6 +45,7 @@
         </div>
         <div>
             @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-            <a asp-action="Index">Back to List</a>
+            <a asp-action="Index" class="Boton">Ver lista de servicios</a>
         </div>
+    </div>
 </div>

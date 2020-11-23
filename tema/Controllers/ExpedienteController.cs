@@ -208,7 +208,7 @@ namespace tema.Controllers
                 <img src ='http://localhost:8001/Imagenes/imageonline-co-whitebackgroundremoved.png'/>
                 <br />
                 <br />
-                <p >
+                <p>
                     Taller Automotriz CA.RI<br />
                     San José, León Cortés, San Andrés<br />
                     Teléfono: 8355-1192<br />
@@ -245,7 +245,7 @@ namespace tema.Controllers
                         <dt>
                             Descripción
                         </dt>
-                        <dd>
+                        <dd style='white-space: pre-line;'>
                             {3}
                         </dd>
                         <dt>

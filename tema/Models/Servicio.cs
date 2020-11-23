@@ -12,4 +12,13 @@ namespace tema.Models
         public string? descripcion { get; set; }
         #nullable disable
     }
+
+    public class ServicioEdit
+    {
+        public int IDServicio { get; set; }
+        #nullable enable
+        [Required(ErrorMessage = "La descripción no puede estar vacía")]
+        public string? descripcion { get; set; }
+        #nullable disable
+    }
 }

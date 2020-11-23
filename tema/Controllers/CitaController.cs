@@ -203,14 +203,17 @@ namespace tema.Controllers
                     var postTask = client.PatchAsync("Taller/Cita/ActualizarDatos/" + Cita.IDCita, byteContent).Result;
 
                     var result = postTask;
+
+                    if (result.StatusCode == HttpStatusCode.InternalServerError)
+                    {
+                        ModelState.AddModelError(string.Empty, "Ya existe una cita en la fecha y hora asignada");
+                    }
+
                     if (result.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Index));
                     }
                 }
-                ModelState.AddModelError(string.Empty, "Server Error, Please contact administrator");
-
-
             }
             return View(Cita);
         }

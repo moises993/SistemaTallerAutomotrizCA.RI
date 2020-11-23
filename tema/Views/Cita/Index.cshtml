@@ -3,6 +3,12 @@
 @{
     ViewData["Title"] = "Index";
 }
+
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 <div class="content-wrapper">
 
@@ -11,15 +17,12 @@
             <li><a class="active" style="color:aliceblue">Inicio</a></li>
             @*<li><a class="active" style="color:aliceblue">/ Crear Cita</a></li>*@
             @*<li><a href="#">Home</a></li>
-            <li><a href="#">Private</a></li>
-            <li><a href="#">Pictures</a></li>
-            <li class="active">Vacation</li>*@
+                <li><a href="#">Private</a></li>
+                <li><a href="#">Pictures</a></li>
+                <li class="active">Vacation</li>*@
         </ol>
         <h1>Módulo de citas</h1>
 
-        <p>
-            <a asp-action="Create">Agregar una nueva cita</a>
-        </p>
         @section ScriptTablaCita
         {
             <script>
@@ -64,34 +67,34 @@
         <table id="tablaDatosCita" class="table table-responsive-md display">
             <thead>
                 <tr>
-                    <th>
+                    <th style="color:white">
                         Código del técnico
                     </th>
-                    <th>
+                    <th style="color:white">
                         Cédula del cliente
                     </th>
-                    <th>
+                    <th style="color:white">
                         Fecha de la cita
                     </th>
-                    <th>
+                    <th style="color:white">
                         Hora de la cita
                     </th>
-                    <th>
+                    <th style="color:white">
                         Asunto
                     </th>
-                    <th>
+                    <th style="color:white">
                         Descripción
                     </th>
-                    <th>
+                    <th style="color:white">
                         ¿Está confirmada?
                     </th>
-                    <th>
+                    <th style="color:white">
                         Acciones
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (Cita citas in Model.cita) 
+                @foreach (Cita citas in Model.cita)
                 {
                     <tr>
                         <td>
@@ -113,7 +116,7 @@
                             @citas.descripcion
                         </td>
                         <td>
-                            @{ 
+                            @{
                                 if (citas.citaConfirmada == true)
                                 { <p>Sí</p> }
                                 else
@@ -136,8 +139,8 @@
         </table>
         <p>
             Acciones rápidas:<br />
-            <a asp-controller="Cita" asp-action="Create">Crear cita</a> |
-            <a asp-controller="Orden" asp-action="Index">Ver órdenes generadas</a>
+            <a asp-controller="Cita" asp-action="Create"class="Boton">Crear cita</a> |
+            <a asp-controller="Orden" asp-action="Index" class="Boton">Ver órdenes generadas</a>
         </p>
         <hr />
         <h4>Detalle de servicios</h4>
@@ -190,19 +193,19 @@
         <table id="tablaDatosServicio" class="table table-responsive-md">
             <thead>
                 <tr>
-                    <th>
+                    <th style="color:white">
                         Código del vehículo
                     </th>
-                    <th>
+                    <th style="color:white">
                         Descripción del servicio
                     </th>
-                    <th>
+                    <th style="color:white">
                         Acciones
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (Servicio srv in Model.servicio) 
+                @foreach (Servicio srv in Model.servicio)
                 {
                     <tr>
                         <td>
@@ -220,7 +223,7 @@
             </tbody>
         </table>
         <hr />
-        <p>Acciones rápidas:</p><br />
-        <a asp-controller="Servicio" asp-action="Create">Crear servicio</a>
+        <p >Acciones rápidas:</p><br />
+        <a asp-controller="Servicio" asp-action="Create" class="Boton">Crear servicio</a>
     </div>
 </div>

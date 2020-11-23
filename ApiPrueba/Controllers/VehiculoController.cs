@@ -70,6 +70,9 @@ namespace ApiPrueba.Controllers
                 return StatusCode(400, ModelState);
             }
 
+            //bool EsPlacaUnica = _vhcServicio.PlacaExiste(vhc.placa);
+            //if (!EsPlacaUnica) return BadRequest(new { message = "Existe un vehículo con esta placa" });
+
             if (!_vhcServicio.ActualizarVehiculo(id, vhc.marca, vhc.modelo, vhc.placa))
             {
                 ModelState.AddModelError("", "Ocurrió un error durante la actualización. Por favor, inténtelo en un momento");

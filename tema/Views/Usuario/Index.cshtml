@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<tema.Models.Usuario>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpAcc
 
 @{
     ViewData["Title"] = "Index";
@@ -13,7 +15,7 @@
 <div class="content-wrapper">
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a class="active" style="color:aliceblue">Inicio</a></li>
+            <li><a asp-controller="Usuario" asp-action="Index" style="color:aliceblue">Inicio</a></li>
 
         </ol>
         @section Scripts
@@ -57,7 +59,7 @@
         }
         <h1>Lista de usuarios</h1>
 
-        <table id="tablaDatos" class="tabla">
+        <table id="tablaDatos" class="tabla" style="width:100%">
             <thead>
                 <tr>
                     <th style="color:white">
@@ -75,22 +77,28 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td >
-                            @Html.DisplayFor(modelItem => item.IDUsuario)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.correo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.rol)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Borrar", "Delete", new { id=item.IDUsuario })
-                        </td>
-                    </tr>
+                    if (httpAcc.HttpContext.User.Identity.Name != item.correo)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IDUsuario)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.correo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.rol)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Borrar", "Delete", new { id = item.IDUsuario })
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
+        <div>
+            <a asp-controller="Home" asp-action="Register" class="Boton">Añadir un usuario</a>
+        </div>
     </div>
 </div>
