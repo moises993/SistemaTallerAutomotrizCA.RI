@@ -14,7 +14,7 @@
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
             <li><a asp-controller="Servicio" asp-action="Index" style="color:aliceblue">Servicio&nbsp;/&nbsp;</a></li>
-            <li><a class="active" style="color:aliceblue">Crear servicio</a></li>
+            <li><a class="active" style="color:aliceblue">Editar servicio</a></li>
         </ol>
 
         <h1>Editar servicio</h1>
@@ -35,16 +35,11 @@
                         <input asp-for="descripcion" class="form-control" />
                         <span asp-validation-for="descripcion" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Guardar" class="Boton" />
-                    </div>
+                    <input type="submit" value="Guardar" class="Boton" />&nbsp;|
+                    <a asp-controller="Cita" asp-action="Index" class="Boton">Regresar</a>
+
                 </form>
             </div>
         </div>
-
-        <div>
-            <a asp-controller="Cita" asp-action="Index" class="Boton">Regresar</a>
-        </div>
-
     </div>
 </div>

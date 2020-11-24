@@ -14,7 +14,7 @@
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
             <li><a asp-controller="Expediente" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
-            <li><a class="active" style="color:aliceblue">Actualizar información</a></li>
+            <li><a class="active" style="color:aliceblue">Editar expediente</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>
                 <li><a href="#">Pictures</a></li>
@@ -36,14 +36,11 @@
                         <textarea asp-for="descripcion" cols="40" rows="5" class="form-control"></textarea>
                         <span asp-validation-for="descripcion" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Guardar" class="Boton" />
-                    </div>
+                    <input type="submit" value="Guardar" class="Boton" />&nbsp;|
+                    <a asp-controller="Vehiculo" asp-action="Index" class="Boton">Regresar</a>
+
                 </form>
             </div>
-        </div>
-        <div>
-            <a asp-controller="Vehiculo" asp-action="Index" class="Boton">Regresar</a>
         </div>
     </div>
 </div>

@@ -24,7 +24,7 @@
                 <form asp-controller="Home" asp-action="Register">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <input asp-for="correo" style="font-family:Arial" placeholder="Ingrese el correo" class="form-control" />
+                        <input asp-for="correo"  type="text" style="font-family:Arial" placeholder="Ingrese el correo" class="form-control" />
                         <span asp-validation-for="correo" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -32,10 +32,10 @@
                         @Html.DropDownListFor(x => x.rol, tema.Controllers.HomeController.ObtenerRoles(), "Seleccione una opción", new { @class = "form-control" })
                         <span asp-validation-for="rol" class="text-danger"></span>
                     </div>
-                    <button type="submit" value="Submit" class="Boton" style="text-align: justify; font-family:Arial">Guardar</button>
+
+                    <button type="submit" value="Submit" class="Boton" style="text-align: justify; font-family:Arial">Guardar</button>&nbsp;|
+                    <a asp-controller="Usuario" asp-action="Index" class="Boton">Regresar</a>
+
                 </form>
             </div>
-        </div>
-        <a asp-controller="Usuario" asp-action="Index" class="Boton">Regresar</a>
-    </div>
 </div>

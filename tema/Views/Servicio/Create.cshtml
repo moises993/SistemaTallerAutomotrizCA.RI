@@ -33,14 +33,10 @@
                         <textarea asp-for="descripcion" cols="40" rows="5" class="form-control"></textarea>
                     </div>
                     <span asp-validation-for="descripcion" class="text-danger"></span>
-                    <div class="form-group">
-                        <input type="submit" value="Ingresar" class="Boton" />
-                    </div>
+                    <input type="submit" value="Ingresar" class="Boton" />&nbsp;|
+                    <a asp-controller="Cita" asp-action="Index" class="Boton">Regresar</a>
                 </form>
             </div>
-        </div>
-        <div>
-            <a asp-controller="Cita" asp-action="Index" class="Boton">Regresar</a>
         </div>
     </div>
 </div>

@@ -14,7 +14,7 @@
 
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a class="active" style="color:aliceblue">Inicio</a></li>
+            <li><a class="active" style="color:aliceblue">Citas</a></li>
             @*<li><a class="active" style="color:aliceblue">/ Crear Cita</a></li>*@
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>
@@ -125,7 +125,7 @@
                         </td>
                         <td>
                             <a asp-action="Edit" asp-controller="Cita" asp-route-id="@citas.IDCita">Actualizar</a> |
-                            <a asp-action="Delete" asp-controller="Cita" asp-route-id="@citas.IDCita">Cancelar cita</a>
+                            <a asp-action="Delete" asp-controller="Cita" asp-route-id="@citas.IDCita">Cancelar cita</a> |
                             @if (citas.citaConfirmada == true)
                             {
                                 <p>

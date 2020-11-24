@@ -14,7 +14,7 @@
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
             <li><a asp-controller="Vehiculo" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
-            <li><a class="active" style="color:aliceblue">Editar Vehículo</a></li>
+            <li><a class="active" style="color:aliceblue">Editar vehículo</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>
             *@
@@ -45,14 +45,11 @@
                         <input asp-for="placa" class="form-control" />
                         <span asp-validation-for="placa" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Guardar" class="Boton" />
-                    </div>
+                    <input type="submit" value="Guardar" class="Boton" />&nbsp;|
+                    <a asp-action="Index" class="Boton">Ver lista de vehículos</a>
+
                 </form>
             </div>
-        </div>
-        <div>
-            <a asp-action="Index" class="Boton">Ver lista de Vehículos</a>
         </div>
     </div>
 </div>

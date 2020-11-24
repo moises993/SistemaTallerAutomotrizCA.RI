@@ -60,7 +60,7 @@
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
             <li><a asp-controller="Cliente" asp-action="Index" style="color:aliceblue">Inicio</a></li>
-            <li><a class="active" style="color:aliceblue">Crear Cliente</a></li>
+            <li><a class="active" style="color:aliceblue">Crear cliente</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>
                 <li><a href="#">Pictures</a></li>
@@ -119,14 +119,11 @@
                             <input class="checked" asp-for="cltFrecuente" /> @Html.DisplayNameFor(model => model.cltFrecuente)
                         </label>
                     </div>
-                    <button id="boton_guardar" type="submit" class="Boton d-none">Guardar</button>
-                    @*<div class="form-group">
-                        <input id="boton_guardar" type="submit" value="Crear" class="Boton d-none" />
-                    </div>*@
 
-                    <div>
-                        <a asp-action="Index" class="Boton" style="font-family:Arial">Ver lista de Clientes</a>
-                    </div>
+
+                    <button id="boton_guardar" type="submit" class="Boton d-none">Guardar</button>&nbsp;|
+                    <a asp-action="Index" class="Boton" style="font-family:Arial">Ver lista de clientes</a>
+
                 </form>
             </div>
         </div>

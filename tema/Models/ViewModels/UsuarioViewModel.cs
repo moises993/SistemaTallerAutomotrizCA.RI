@@ -4,6 +4,7 @@ namespace tema.Models.ViewModels
 {
     public class UsuarioViewModel
     {
+        [EmailAddress(ErrorMessage ="El correo no posee el formato correcto")]
         [Required(ErrorMessage = "No se ingresó un correo")]
         public string correo { get; set; }
         #nullable enable

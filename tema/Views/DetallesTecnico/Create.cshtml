@@ -106,14 +106,12 @@
                         <input asp-for="correo" type="text" class="form-control" /> <!--Correo-->
                         <span asp-validation-for="correo" class="text-danger"></span>
                     </div>
-                    <button id="boton_guardar" type="submit" class="Boton d-none">Guardar</button>
+                    <button id="boton_guardar" type="submit" class="Boton d-none">Guardar</button>&nbsp;|
+                    <a asp-controller="Tecnico" asp-action="Index" class="Boton">Regresar</a>
+
                 </form>
             </div>
         </div>
-        <div>
-
-            <a asp-controller="Tecnico" asp-action="Index" class="Boton">Regresar</a>
-        </div>
-    </div>
+       </div>
 </div>
 

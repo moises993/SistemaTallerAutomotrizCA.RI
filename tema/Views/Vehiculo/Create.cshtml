@@ -61,7 +61,7 @@
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
             <li><a asp-controller="Vehiculo" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
-            <li><a class="active" style="color:aliceblue">Crear Vehículo</a></li>
+            <li><a class="active" style="color:aliceblue">Crear vehículo</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>*@
         </ol>
@@ -116,14 +116,11 @@
                         </div>
                     </div>
                     <!--FIN BLOQUE VALIDACIÓN CÉDULA-->
-                    <div class="form-group">
-                        <button id="boton_guardar" type="submit" class="Boton d-none">Crear</button>
-                    </div>
+                    <button id="boton_guardar" type="submit" class="Boton d-none">Crear</button>&nbsp;|
+                    <a asp-action="Index" class="Boton">Regresar</a>
+
                 </form>
             </div>
-        </div>
-        <div>
-            <a asp-action="Index" class="Boton">Regresar</a>
         </div>
     </div>
 </div>
