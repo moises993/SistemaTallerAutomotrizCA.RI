@@ -11,7 +11,7 @@ namespace ApiPrueba.Servicios.Repositorios
 {
     public class TecnicoServicio : ITecnicoServicio
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         private readonly string connectionString;
 
         public TecnicoServicio(IConfiguration configuration)
@@ -33,23 +33,21 @@ namespace ApiPrueba.Servicios.Repositorios
                 using (var comando = new NpgsqlCommand("SELECT * FROM \"Taller\".\"tncVerTecnicos\"();", conexion))
                 {
 
-                    using (var lector = comando.ExecuteReader())
+                    using NpgsqlDataReader lector = comando.ExecuteReader();
+                    while (lector.Read())
                     {
-                        while (lector.Read())
+                        Tecnico tnc = new Tecnico
                         {
-                            Tecnico tnc = new Tecnico
-                            {
-                                IDTecnico = lector.GetInt32(0),
-                                nombre = lector.GetString(1).Trim(),
-                                pmrApellido = lector.GetString(2).Trim(),
-                                sgndApellido = lector.GetString(3).Trim(),
-                                cedula = lector.GetString(4).Trim(),
-                                fechaIngreso = lector.GetDateTime(5)
-                            };
-                            ListaTecnicos.Add(tnc);
-                        }
-                        lector.Close();
+                            IDTecnico = lector.GetInt32(0),
+                            nombre = lector.GetString(1).Trim(),
+                            pmrApellido = lector.GetString(2).Trim(),
+                            sgndApellido = lector.GetString(3).Trim(),
+                            cedula = lector.GetString(4).Trim(),
+                            fechaIngreso = lector.GetDateTime(5)
+                        };
+                        ListaTecnicos.Add(tnc);
                     }
+                    lector.Close();
                 }
                 conexion.Close();
             }
@@ -75,23 +73,21 @@ namespace ApiPrueba.Servicios.Repositorios
                     comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue("pced", pCedula);
 
-                    using (var lector = comando.ExecuteReader())
+                    using NpgsqlDataReader lector = comando.ExecuteReader();
+                    while (lector.Read())
                     {
-                        while (lector.Read())
+                        salida = new Tecnico
                         {
-                            salida = new Tecnico
-                            {
-                                IDTecnico = lector.GetInt32(0),
-                                nombre = lector.GetString(1).Trim(),
-                                pmrApellido = lector.GetString(2).Trim(),
-                                sgndApellido = lector.GetString(3).Trim(),
-                                cedula = lector.GetString(4).Trim(),
-                                fechaIngreso = lector.GetDateTime(5)
-                            };
-                        }
-
-                        lector.Close();
+                            IDTecnico = lector.GetInt32(0),
+                            nombre = lector.GetString(1).Trim(),
+                            pmrApellido = lector.GetString(2).Trim(),
+                            sgndApellido = lector.GetString(3).Trim(),
+                            cedula = lector.GetString(4).Trim(),
+                            fechaIngreso = lector.GetDateTime(5)
+                        };
                     }
+
+                    lector.Close();
                 }
 
                 conexion.Close();
@@ -117,25 +113,23 @@ namespace ApiPrueba.Servicios.Repositorios
                 {
                     comando.CommandType = CommandType.StoredProcedure;
 
-                    using (var lector = comando.ExecuteReader())
+                    using NpgsqlDataReader lector = comando.ExecuteReader();
+                    TecnicoCita objt = null;
+                    while (lector.Read())
                     {
-                        TecnicoCita objt = null;
-                        while (lector.Read())
+                        objt = new TecnicoCita
                         {
-                            objt = new TecnicoCita
-                            {
-                                nombre = lector.GetString(0),
-                                pmrApellido = lector.GetString(1).Trim(),
-                                sgndApellido = lector.GetString(2).Trim(),
-                                cedula = lector.GetString(3).Trim(),
-                                fecha = lector.GetDateTime(4),
-                                hora = lector.GetString(5).Trim(),
-                                asunto = lector.GetString(6).Trim()
-                            };
-                            tc.Add(objt);
-                        }
-                        lector.Close();
+                            nombre = lector.GetString(0),
+                            pmrApellido = lector.GetString(1).Trim(),
+                            sgndApellido = lector.GetString(2).Trim(),
+                            cedula = lector.GetString(3).Trim(),
+                            fecha = lector.GetDateTime(4),
+                            hora = lector.GetString(5).Trim(),
+                            asunto = lector.GetString(6).Trim()
+                        };
+                        tc.Add(objt);
                     }
+                    lector.Close();
                 }
                 conexion.Close();
             }
@@ -249,22 +243,20 @@ namespace ApiPrueba.Servicios.Repositorios
                 {
                     comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue("pcedula", cedula);
-                    using (var lector = comando.ExecuteReader())
+                    using NpgsqlDataReader lector = comando.ExecuteReader();
+                    while (lector.Read())
                     {
-                        while (lector.Read())
+                        DetallesTecnico dtt = new DetallesTecnico
                         {
-                            DetallesTecnico dtt = new DetallesTecnico
-                            {
-                                IDTecnico = lector.GetInt32(0),
-                                direccion = lector.GetString(1).Trim(),
-                                telefono = lector.GetString(2).Trim(),
-                                correo = lector.GetString(3).Trim(),
-                                codDet = lector.GetInt32(4)
-                            };
-                            salida.Add(dtt);
-                        }
-                        lector.Close();
+                            IDTecnico = lector.GetInt32(0),
+                            direccion = lector.GetString(1).Trim(),
+                            telefono = lector.GetString(2).Trim(),
+                            correo = lector.GetString(3).Trim(),
+                            codDet = lector.GetInt32(4)
+                        };
+                        salida.Add(dtt);
                     }
+                    lector.Close();
                 }
                 conexion.Close();
             }
@@ -287,21 +279,19 @@ namespace ApiPrueba.Servicios.Repositorios
                 {
                     comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue("pid", id);
-                    using (var lector = comando.ExecuteReader())
+                    using NpgsqlDataReader lector = comando.ExecuteReader();
+                    while (lector.Read())
                     {
-                        while (lector.Read())
+                        salida = new DetallesTecnico
                         {
-                            salida = new DetallesTecnico
-                            {
-                                IDTecnico = lector.GetInt32(0),
-                                direccion = lector.GetString(1).Trim(),
-                                telefono = lector.GetString(2).Trim(),
-                                correo = lector.GetString(3).Trim(),
-                                codDet = lector.GetInt32(4)
-                            };
-                        }
-                        lector.Close();
+                            IDTecnico = lector.GetInt32(0),
+                            direccion = lector.GetString(1).Trim(),
+                            telefono = lector.GetString(2).Trim(),
+                            correo = lector.GetString(3).Trim(),
+                            codDet = lector.GetInt32(4)
+                        };
                     }
+                    lector.Close();
                 }
                 conexion.Close();
             }

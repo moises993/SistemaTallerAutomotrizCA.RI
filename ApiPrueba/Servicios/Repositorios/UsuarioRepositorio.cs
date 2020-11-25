@@ -18,7 +18,7 @@ namespace ApiPrueba.Servicios.Repositorios
     public class UsuarioRepositorio : IUsuarioRepositorio
     {
         private readonly GeneradorClaves _gen;
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         private readonly AppSettings _appsettings;
         private readonly string connectionString;
         private readonly ICorreos _correos;
@@ -227,8 +227,10 @@ namespace ApiPrueba.Servicios.Repositorios
             try
             {
                 conexion.Open();
-                NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"usrRenovarContra\"", conexion);
-                comando.CommandType = CommandType.StoredProcedure;
+                NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"usrRenovarContra\"", conexion)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
                 string claveGenerada = _gen.GenerarClave(8);
                 string sal = Cifrado.GenerarSal();
                 await _correos.EnviarCorreo(correo, claveGenerada);
@@ -257,20 +259,18 @@ namespace ApiPrueba.Servicios.Repositorios
                 await conexion.OpenAsync();
                 await using (NpgsqlCommand comando = new NpgsqlCommand("SELECT * FROM \"Taller\".\"usrVerUsuarios\"();", conexion))
                 {
-                    using (NpgsqlDataReader lector = await comando.ExecuteReaderAsync())
+                    using NpgsqlDataReader lector = await comando.ExecuteReaderAsync();
+                    while (await lector.ReadAsync())
                     {
-                        while (await lector.ReadAsync())
+                        Usuario usr = new Usuario
                         {
-                            Usuario usr = new Usuario
-                            {
-                                IDUsuario = lector.GetInt32(0),
-                                correo = lector.GetString(1).Trim(),
-                                rol = lector.GetString(2).Trim()
-                            };
-                            lista.Add(usr);
-                        }
-                        await lector.CloseAsync();
+                            IDUsuario = lector.GetInt32(0),
+                            correo = lector.GetString(1).Trim(),
+                            rol = lector.GetString(2).Trim()
+                        };
+                        lista.Add(usr);
                     }
+                    await lector.CloseAsync();
                 }
                 await conexion.CloseAsync();
             }

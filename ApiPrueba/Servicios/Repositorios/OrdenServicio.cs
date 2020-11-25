@@ -12,7 +12,7 @@ namespace ApiPrueba.Servicios.Repositorios
 {
     public class OrdenServicio : IOrdenServicio
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         private readonly string connectionString;
 
         public OrdenServicio(IConfiguration configuration)
@@ -34,23 +34,21 @@ namespace ApiPrueba.Servicios.Repositorios
                 using (var comando = new NpgsqlCommand("SELECT * FROM \"Taller\".\"odnVerOrdenes\"();", conexion))
                 {
 
-                    using (var lector = comando.ExecuteReader())
+                    using NpgsqlDataReader lector = comando.ExecuteReader();
+                    while (lector.Read())
                     {
-                        while (lector.Read())
+                        Orden clt = new Orden
                         {
-                            Orden clt = new Orden
-                            {
-                                IDOrden = lector.GetInt32(0),
-                                IDVehiculo = lector.GetInt32(1),
-                                cedulaCliente = lector.GetString(2).Trim(),
-                                placaVehiculo = lector.GetString(3).Trim(),
-                                descServicio = lector.GetString(4).Trim()
-                            };
+                            IDOrden = lector.GetInt32(0),
+                            IDVehiculo = lector.GetInt32(1),
+                            cedulaCliente = lector.GetString(2).Trim(),
+                            placaVehiculo = lector.GetString(3).Trim(),
+                            descServicio = lector.GetString(4).Trim()
+                        };
 
-                            ListaOrdens.Add(clt);
-                        }
-                        lector.Close();
+                        ListaOrdens.Add(clt);
                     }
+                    lector.Close();
                 }
                 conexion.Close();
             }
@@ -76,22 +74,20 @@ namespace ApiPrueba.Servicios.Repositorios
                     comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue("pcedula", ced);
 
-                    using (var lector = comando.ExecuteReader())
+                    using NpgsqlDataReader lector = comando.ExecuteReader();
+                    while (lector.Read())
                     {
-                        while (lector.Read())
+                        salida = new Orden
                         {
-                            salida = new Orden
-                            {
-                                IDOrden = lector.GetInt32(0),
-                                IDVehiculo = lector.GetInt32(1),
-                                cedulaCliente = lector.GetString(2).Trim(),
-                                placaVehiculo = lector.GetString(3).Trim(),
-                                descServicio = lector.GetString(4).Trim()
-                            };
-                        }
-
-                        lector.Close();
+                            IDOrden = lector.GetInt32(0),
+                            IDVehiculo = lector.GetInt32(1),
+                            cedulaCliente = lector.GetString(2).Trim(),
+                            placaVehiculo = lector.GetString(3).Trim(),
+                            descServicio = lector.GetString(4).Trim()
+                        };
                     }
+
+                    lector.Close();
                 }
 
                 conexion.Close();

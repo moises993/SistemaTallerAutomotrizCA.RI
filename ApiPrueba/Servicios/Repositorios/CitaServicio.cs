@@ -13,7 +13,7 @@ namespace ApiPrueba.Servicios.Repositorios
 {
     public class CitaServicio : ICitaServicio
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         private readonly string connectionString;
 
         public CitaServicio(IConfiguration configuration)
@@ -35,27 +35,25 @@ namespace ApiPrueba.Servicios.Repositorios
                 using (var comando = new NpgsqlCommand("SELECT * FROM \"Taller\".\"ctaVerCitas\"();", conexion))
                 {
 
-                    using (var lector = comando.ExecuteReader())
+                    using NpgsqlDataReader lector = comando.ExecuteReader();
+                    while (lector.Read())
                     {
-                        while (lector.Read())
+                        Cita cta = new Cita
                         {
-                            Cita cta = new Cita
-                            {
-                                IDCita = lector.GetInt32(0),
-                                IDTecnico = lector.GetInt32(1),
-                                cedulaCliente = lector.GetString(2).Trim(),
-                                fecha = lector.GetDateTime(3),
-                                hora = lector.GetString(4).Trim(),
-                                asunto = lector.GetString(5).Trim(),
-                                descripcion = lector.GetString(6).Trim(),
-                                citaConfirmada = lector.GetBoolean(7),
-                                IDCliente = lector.GetInt32(8)
-                            };
+                            IDCita = lector.GetInt32(0),
+                            IDTecnico = lector.GetInt32(1),
+                            cedulaCliente = lector.GetString(2).Trim(),
+                            fecha = lector.GetDateTime(3),
+                            hora = lector.GetString(4).Trim(),
+                            asunto = lector.GetString(5).Trim(),
+                            descripcion = lector.GetString(6).Trim(),
+                            citaConfirmada = lector.GetBoolean(7),
+                            IDCliente = lector.GetInt32(8)
+                        };
 
-                            ListaCitas.Add(cta);
-                        }
-                        lector.Close();
+                        ListaCitas.Add(cta);
                     }
+                    lector.Close();
                 }
                 conexion.Close();
             }
@@ -81,26 +79,24 @@ namespace ApiPrueba.Servicios.Repositorios
                     comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue("pid", id);
 
-                    using (var lector = comando.ExecuteReader())
+                    using NpgsqlDataReader lector = comando.ExecuteReader();
+                    while (lector.Read())
                     {
-                        while (lector.Read())
+                        salida = new Cita
                         {
-                            salida = new Cita
-                            {
-                                IDCita = lector.GetInt32(0),
-                                IDTecnico = lector.GetInt32(1),
-                                cedulaCliente = lector.GetString(2).Trim(),
-                                fecha = lector.GetDateTime(3),
-                                hora = lector.GetString(4).Trim(),
-                                asunto = lector.GetString(5).Trim(),
-                                descripcion = lector.GetString(6).Trim(),
-                                citaConfirmada = lector.GetBoolean(7),
-                                IDCliente = lector.GetInt32(8)
-                            };
-                        }
-
-                        lector.Close();
+                            IDCita = lector.GetInt32(0),
+                            IDTecnico = lector.GetInt32(1),
+                            cedulaCliente = lector.GetString(2).Trim(),
+                            fecha = lector.GetDateTime(3),
+                            hora = lector.GetString(4).Trim(),
+                            asunto = lector.GetString(5).Trim(),
+                            descripcion = lector.GetString(6).Trim(),
+                            citaConfirmada = lector.GetBoolean(7),
+                            IDCliente = lector.GetInt32(8)
+                        };
                     }
+
+                    lector.Close();
                 }
 
                 conexion.Close();
@@ -115,7 +111,7 @@ namespace ApiPrueba.Servicios.Repositorios
 
         public List<string> VerCedulasTecnico()
         {
-            string cedula = "";
+            string cedula;
             List<string> salida = new List<string>();
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
 
@@ -125,16 +121,14 @@ namespace ApiPrueba.Servicios.Repositorios
 
                 using (var comando = new NpgsqlCommand("SELECT * FROM \"Taller\".\"ctaVerCedulasTecnico\"()", conexion))
                 {
-                    using (var lector = comando.ExecuteReader())
+                    using NpgsqlDataReader lector = comando.ExecuteReader();
+                    while (lector.Read())
                     {
-                        while (lector.Read())
-                        {
-                            cedula = lector.GetString(0).Trim();
-                            salida.Add(cedula);
-                        }
-
-                        lector.Close();
+                        cedula = lector.GetString(0).Trim();
+                        salida.Add(cedula);
                     }
+
+                    lector.Close();
                 }
 
                 conexion.Close();
@@ -157,8 +151,10 @@ namespace ApiPrueba.Servicios.Repositorios
             try
             {
                 conexion.Open();
-                NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"ctaFnCrearCita\"", conexion);
-                comando.CommandType = CommandType.StoredProcedure;
+                NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"ctaFnCrearCita\"", conexion)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
                 comando.Parameters.AddWithValue("pced", cedclt);
                 comando.Parameters.AddWithValue("pidtec", idtec);
                 comando.Parameters.AddWithValue("pfecha", NpgsqlDbType.Date, fecha);
