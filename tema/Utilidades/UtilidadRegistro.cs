@@ -10,9 +10,9 @@ namespace tema.Utilidades
     {
         
 
-        public static async void Registrar(string metodo, string usuario)
+        public static async void Registrar(string usuario, string tabla, string controlador, string accion)
         {
-            Bitacora bcr = new Bitacora { nombre = metodo, usuarioCrea = usuario };
+            Bitacora bcr = new Bitacora { usuario = usuario, tabla = tabla, controlador = controlador, accion = accion };
             string baseurl = "https://localhost:44300/";
             HttpClient cliente = new HttpClient();
             cliente.BaseAddress = new Uri(baseurl);

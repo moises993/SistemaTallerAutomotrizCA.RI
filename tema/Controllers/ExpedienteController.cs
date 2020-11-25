@@ -37,7 +37,7 @@ namespace tema.Controllers
 
         public async Task<ActionResult> CreateExpediente(int? id)
         {
-            UtilidadRegistro.Registrar(mb.ReflectedType.Name + ".CreateExpediente", _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value);
+            UtilidadRegistro.Registrar(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value, "Expediente", mb.ReflectedType.Name, "Crear");
             if (id != null)
             {
                 using (HttpClient cliente = new HttpClient())
@@ -73,7 +73,7 @@ namespace tema.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, [Bind("IDExpediente,descripcion")] Expediente exp)
         {
-            UtilidadRegistro.Registrar(mb.ReflectedType?.Name + ".Edit", _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value);
+            UtilidadRegistro.Registrar(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value, "Expediente", mb.ReflectedType.Name, "Editar");
             if (id != exp.IDExpediente) return NotFound();
             Expediente expPatch = new Expediente { IDExpediente = id, descripcion = exp.descripcion };
             if (ModelState.IsValid)
@@ -116,7 +116,7 @@ namespace tema.Controllers
 
         public ActionResult Delete(int? id)
         {
-            UtilidadRegistro.Registrar(mb.ReflectedType?.Name + ".Delete", _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value);
+            UtilidadRegistro.Registrar(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value, "Expediente", mb.ReflectedType?.Name, "Borrar");
             if (id == null) return RedirectToAction("Index", "Vehiculo");
             if (ModelState.IsValid)
             {
@@ -132,7 +132,7 @@ namespace tema.Controllers
         #nullable enable
         private async Task<Expediente> ObtenerExpedientePorId(int? id, Expediente salida)
         {
-            UtilidadRegistro.Registrar(mb.ReflectedType?.Name + ".ObtenerExpedientePorId", _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value);
+            //UtilidadRegistro.Registrar(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value, "Expediente", mb.ReflectedType?.Name, "Ob");
             using (HttpClient cliente = new HttpClient())
             {
                 cliente.BaseAddress = new Uri(baseurl);

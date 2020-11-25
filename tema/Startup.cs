@@ -32,7 +32,7 @@ namespace tema
                 .AddCookie(options =>
                 {
                     options.Cookie.HttpOnly = true;
-                    options.ExpireTimeSpan = TimeSpan.FromHours(24);
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(1); //original: TimeSpan.FromHours(24);
                     options.LoginPath = "/Home/Login";
                     options.AccessDeniedPath = "/Home/AccessDenied";
                     options.SlidingExpiration = true;
@@ -47,6 +47,7 @@ namespace tema
             services.AddControllersWithViews();
             services.AddSession(options =>
             {
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });

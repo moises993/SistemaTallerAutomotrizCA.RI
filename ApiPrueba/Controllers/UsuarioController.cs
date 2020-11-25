@@ -86,6 +86,6 @@ namespace ApiPrueba.Controllers
 
         [AllowAnonymous]
         [HttpPost("InsertarRegistro")]
-        public void InsertarRegistro([FromBody] Bitacora bcr) => _usrRepo.InsertarRegistro(bcr.nombre, bcr.usuarioCrea); 
+        public void InsertarRegistro([FromBody] Bitacora bcr) => _usrRepo.InsertarRegistro(bcr.usuario, bcr.tabla, bcr.controlador, bcr.accion); 
     }
 }

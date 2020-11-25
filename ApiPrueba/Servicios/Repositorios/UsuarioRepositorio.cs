@@ -282,7 +282,7 @@ namespace ApiPrueba.Servicios.Repositorios
         }
 
         //específico de la bitácora
-        public async void InsertarRegistro(string nombre, string usuario)
+        public async void InsertarRegistro(string usuario, string tabla, string controlador, string accion)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
             try
@@ -291,8 +291,10 @@ namespace ApiPrueba.Servicios.Repositorios
                 await using (NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"bcrRegistrarAccion\"", conexion))
                 {
                     comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.AddWithValue("pnombre", nombre);
-                    comando.Parameters.AddWithValue("pusrcrea", usuario);
+                    comando.Parameters.AddWithValue("pusuario", usuario);
+                    comando.Parameters.AddWithValue("ptabla", tabla);
+                    comando.Parameters.AddWithValue("pcontrolador", controlador);
+                    comando.Parameters.AddWithValue("paccion", accion);
                     await comando.ExecuteNonQueryAsync();
                 }
                 await conexion.CloseAsync();

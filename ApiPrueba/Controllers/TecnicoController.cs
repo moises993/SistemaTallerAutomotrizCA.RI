@@ -16,10 +16,12 @@ namespace ApiPrueba.Controllers
     public class TecnicoController : ControllerBase
     {
         private readonly ITecnicoServicio _tecServicio;
+        private readonly IUsuarioRepositorio _usrRepo;
 
-        public TecnicoController(ITecnicoServicio tecServ)
+        public TecnicoController(ITecnicoServicio tecServ, IUsuarioRepositorio usrRepo)
         {
             _tecServicio = tecServ;
+            _usrRepo = usrRepo;
         }
 
         [HttpGet("ListaTecnicos")]
@@ -125,6 +127,13 @@ namespace ApiPrueba.Controllers
             {
                 ModelState.AddModelError("", "La información ingresada presenta errores. Corríjalos e inténtelo otra vez");
                 return StatusCode(400, ModelState);
+            }
+
+            bool existe = _usrRepo.ExisteEnElSistema(tec.correo);
+
+            if(existe)
+            {
+                return Conflict();
             }
 
             if (!_tecServicio.RegistrarDetalleTecnico(tec.IDTecnico, tec.direccion, tec.telefono, tec.correo))

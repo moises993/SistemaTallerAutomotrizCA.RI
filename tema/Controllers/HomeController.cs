@@ -299,40 +299,40 @@ namespace tema.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(Models.UsuarioViewModel objetoVM)
+        public async Task<IActionResult> Register(UsuarioViewModel objetoVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View();
+                Usuario objeto = new Usuario
+                {
+                    correo = objetoVM.correo,
+                    rol = objetoVM.rol
+                };
+
+                await _usRep.RegisterAsync(baseurl + "Taller/Usuario/Registrar", objeto);
+
+                if (_usRep.Error400)
+                {
+                    ModelState.AddModelError(string.Empty, "Este correo le pertenece a un usuario o este técnico ya es un usuario del sistema");
+                    return View();
+                }
+
+                if (_usRep.Error404)
+                {
+                    ModelState.AddModelError(string.Empty, "Este correo no existe en el sistema");
+                    return View();
+                }
+
+                if (_usRep.Error409)
+                {
+                    ModelState.AddModelError(string.Empty, "Error interno");
+                    return View();
+                }
+
+                return RedirectToAction("Index", "Usuario");
             }
 
-            Usuario objeto = new Usuario
-            {
-                correo = objetoVM.correo,
-                rol = objetoVM.rol
-            };
-
-            await _usRep.RegisterAsync(baseurl + "Taller/Usuario/Registrar", objeto);
-
-            if (_usRep.Error400)
-            {
-                ModelState.AddModelError(string.Empty, "Este correo le pertenece a un usuario");
-                return View();
-            }
-
-            if (_usRep.Error404)
-            {
-                ModelState.AddModelError(string.Empty, "Este correo no existe en el sistema");
-                return View();
-            }
-
-            if (_usRep.Error409)
-            {
-                ModelState.AddModelError(string.Empty, "Error interno");
-                return View();
-            }
-
-            return RedirectToAction("Login");
+            return View(objetoVM);
         }
 
         public async Task<IActionResult> Logout()

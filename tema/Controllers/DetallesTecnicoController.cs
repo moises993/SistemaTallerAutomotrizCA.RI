@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -48,6 +49,12 @@ namespace tema.Controllers
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                     HttpResponseMessage postTask = cliente.PostAsync("Taller/Tecnico/RegistrarDetallesTecnico", byteContent).Result;
                     HttpResponseMessage result = postTask;
+
+                    if(result.StatusCode == HttpStatusCode.Conflict)
+                    {
+                        ModelState.AddModelError(string.Empty, "Este correo ya le pertenece a un técnico");
+                    }
+
                     if (result.IsSuccessStatusCode)
                     {
                         return RedirectToAction("Index", "Tecnico");
