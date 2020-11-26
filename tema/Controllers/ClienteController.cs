@@ -149,6 +149,8 @@ namespace tema.Controllers
             return View(cliente);
         }
 
+        [Authorize]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == string.Empty)

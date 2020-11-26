@@ -3,18 +3,23 @@
     ViewData["Title"] = "AccessDenied";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <style>
-        * {
-            font-family: Arial;
-        }
-    </style>
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
 <div class="content-wrapper">
     <div class="container">
+        <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
+            <li><a asp-controller="Home" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+            <li><a class="active" style="color:aliceblue">Acceso denegado</a></li>
+        </ol>
         <h1>Acceso denegado</h1>
 
         <p>
             Lo sentimos, pero su rol en el sistema no cuenta con los privilegios para acceder a esta función.
             Para ingresar a esta sección se debe comunicar con el Administrador del Taller Automotríz CA.RI
         </p>
+        <a asp-controller="Home" asp-action="Index">Regresar a la pantalla principal</a>
     </div>
 </div>

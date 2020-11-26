@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -131,6 +132,17 @@ namespace tema.Controllers
         public async Task<IActionResult> Create([Bind("IDTecnico,cedulaCliente,fecha,hora,asunto,descripcion,citaConfirmada")] CitaViewModel cta)
         {
             UtilidadRegistro.Registrar(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value, "Cita", mb.ReflectedType.Name, "Crear");
+
+            TimeSpan tiempo = TimeSpan.Parse(cta.hora);
+            DateTime fechaIngresada = (DateTime)cta.fecha;
+            DateTime fechaSinHora = fechaIngresada.Date.Add(tiempo);
+            DateTime fechaActual = DateTime.Now;
+
+            if(fechaSinHora < fechaActual)
+            {
+                ModelState.AddModelError(string.Empty, "La fecha o la hora solicitada ya pasó");
+            }
+
             Cita ctapost = new Cita
             {
                 IDTecnico = cta.IDTecnico,
@@ -185,6 +197,17 @@ namespace tema.Controllers
         public IActionResult Edit(int? id, [Bind("IDCita,IDTecnico,cedulaCliente,fecha,hora,asunto,descripcion,citaConfirmada")] Cita Cita)
         {
             UtilidadRegistro.Registrar(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value, "Cita", mb.ReflectedType.Name, "Editar");
+
+            TimeSpan tiempo = TimeSpan.Parse(Cita.hora);
+            DateTime fechaIngresada = (DateTime)Cita.fecha;
+            DateTime fechaSinHora = fechaIngresada.Date.Add(tiempo);
+            DateTime fechaActual = DateTime.Now;
+
+            if (fechaSinHora < fechaActual)
+            {
+                ModelState.AddModelError(string.Empty, "La fecha o la hora solicitada ya pasó");
+            }
+
             if (id != Cita.IDCita)
             {
                 return NotFound();

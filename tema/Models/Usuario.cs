@@ -19,5 +19,6 @@ namespace tema.Models
         public string tokenSesion { get; set; }
         public string correoForm { get; set; }
         public string contra { get; set; }
+        public string nuevaContrasena { get; set; }
     }
 }

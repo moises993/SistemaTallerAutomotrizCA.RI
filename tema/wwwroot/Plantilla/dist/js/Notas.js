@@ -1,205 +1,257 @@
-﻿var id;
-var i = 1;
+﻿window.onload = function () {
+    loadStartEvents();
 
-$(document).ready(function () {
-    document.getElementById("saveButton").onclick = function () {
-        if (CheckNote("notename", "notecontent")) {
-            var element = CreateNote();
-            element.setAttribute("id", i++);
-            var insert = document.getElementById("container");
+    function loadStartEvents() {
+        const howItWorksBtn = document.querySelector("#how-it-works-btn");
+        const deleteAllBtn = document.querySelector("#deleteAll");
+        const createFirstSticky = document.querySelector("#createStickyBtn"); //for first empty existing sticky only
 
-            if (insert != null)
-                insert.insertBefore(element, insert.firstChild);
-            else
-                document.getElementById("container").appendChild(element);
-            return false;
-        }
-        return true;
-    };
+        document.onmouseup = hideDropMenu; //hides color menus when clicked anywhere in the page
+        howItWorksBtn.onclick = toggleHowItWorks; //toggles how it works menu
+        deleteAllBtn.onclick = deleteAllStickies; //deletes all stickies from dom and storage
+        createFirstSticky.onclick = createId; //creates the first sticky, and hides the initial add button
 
-    document.getElementById("deleteButton").onclick = function () {
-        var toRemove = document.getElementById(id);
-        toRemove.parentElement.removeChild(toRemove);
+        let isStorageEmpty = getStoredStickies(createFirstSticky); //retrieves data from local storage, and recreates stored stikies
+    }
 
-        var insert = document.getElementById("deteledContainer");
+    function hideDropMenu(e) {
+        //hides color menus when clicked anywhere in the page
+        let stickies = Array.from(document.querySelectorAll(".sticky"));
+        let stickiesIdArray = stickies.map(el => el.id).filter(el => el); //get array of all sticky ids, if they exist
 
-        if (insert != null)
-            insert.insertBefore(toRemove, insert.firstChild);
-        else
-            document.getElementById("deletedContainer").appendChild(toRemove);
-
-        document.getElementById("g0" + toRemove.id).remove();
-        document.getElementById("g1" + toRemove.id).remove();
-        document.getElementById("g2" + toRemove.id).remove();
-        document.getElementById("glyphContainer" + toRemove.id).appendChild(RestoreGlyph(toRemove.id));
-
-        toRemove.className += " grayout";
-    };
-
-    document.getElementById("yesButton").onclick = function () {
-        var toMove = document.getElementById(id);
-        toMove.parentElement.removeChild(toMove);
-        toMove.className += " grayout";
-
-        document.getElementById("container").appendChild(toMove);
-        var glyph = document.getElementById("g1" + toMove.id);
-        glyph.removeAttribute("data-toggle");
-        glyph.removeAttribute("data-target");
-    };
-
-    document.getElementById("restoreYes").onclick = function () {
-        var toMove = document.getElementById(id);
-        toMove.parentElement.removeChild(toMove);
-        toMove.className = "col-sm-4 margin";
-
-        var insert = document.getElementById("container");
-
-        if (insert != null)
-            insert.insertBefore(toMove, insert.firstChild);
-        else
-            document.getElementById("container").appendChild(toMove);
-
-        document.getElementById("g3" + toMove.id).remove();
-        var cont = document.createElement("div");
-        cont.style.position = "absolute";
-        cont.style.bottom = "0";
-        cont.style.right = "0";
-        cont.style.marginRight = "5px";
-        cont.style.marginBottom = "5px";
-        cont.appendChild(YesGlyph(toMove.id));
-        cont.appendChild(NoGlyph(toMove.id));
-
-        document.getElementById("glyphContainer" + toMove.id).insertBefore(EditGlyph(toMove.id), document.getElementById("glyphContainer" + toMove.id).firstChild);
-        document.getElementById("glyphContainer" + toMove.id).appendChild(cont);
-    };
-
-    document.getElementById("editButton").onclick = function () {
-        if (CheckNote("editname", "editcontent")) {
-            var newTitle = document.getElementById("heading" + id);
-            newTitle.textContent = document.getElementById("editname").value;
-
-            var newBody = document.getElementById("glyphContainer" + id);
-            newBody.textContent = document.getElementById("editcontent").value;
-            newBody.innerHTML += '<br/><br/>';
-
-            if (newBody.parentElement.parentElement.parentElement.id == "container")
-                newBody = createGlyphs(newBody, id);
-            else {
-                newBody.appendChild(RestoreGlyph(id));
+        for (let i = 0; i < stickiesIdArray.length; i++) {
+            let dropContent = document.querySelector(
+                `#${stickiesIdArray[i]} .dropdown-content-hide`
+            );
+            let dropButton = document.querySelector(
+                `#${stickiesIdArray[i]} .drop-button`
+            );
+            if (dropContent != e.target.parentNode && dropButton != e.target) {
+                dropContent.style.display = "none";
             }
-            return false;
+        }
+    }
+
+    function toggleHowItWorks() {
+        //toggles how it works menu
+        let howItWorksDiv = document.querySelector("#how-it-works");
+        howItWorksDiv.style.display != "block"
+            ? (howItWorksDiv.style.display = "block")
+            : (howItWorksDiv.style.display = "none");
+    }
+
+    function deleteAllStickies() {
+        //deletes all stickies from dom and storage
+        localStorage.clear(); //clear all from storage
+        let parent = document.querySelector("#main");
+        while (parent.children.length > 2) {
+            //while parent still has 2 children(sticky template+initial create button)
+            parent.removeChild(parent.lastChild); //remove all children from the end
+        }
+        document.querySelector("#createStickyBtn").style.display = "block"; //and show initial create button
+    }
+
+    function getStoredStickies(createFirstSticky) {
+        //retrieves data from local storage, and recreates stored stikies
+        let stickiesArray = getStickiesArray(); //get the stickiesArray from storage, which contains all the keys used by the program
+
+        if (stickiesArray.length > 0) {
+            //if there were items in storage, hide the inital create button
+            createFirstSticky.style.display = "none";
+        } else {
+            createFirstSticky.style.display = "block";
+        }
+
+        for (let i = 0; i < stickiesArray.length; i++) {
+            //using the keys stored in the array, get all the stored sticky objects
+            let key = stickiesArray[i];
+            let stickyObject = JSON.parse(localStorage[key]);
+            addStoredStickiesToDom(stickyObject, key); //call func that handles the creation of elements for the stored objects
+        }
+    }
+
+    function getStickiesArray() {
+        "use strict";
+        let stickiesArray = localStorage.getItem("stickiesArray");
+
+        if (!stickiesArray) {
+            //if no item in storage yet, returns null
+            stickiesArray = []; //so i create an new empty array
+            localStorage.setItem("stickiesArray", JSON.stringify(stickiesArray)); //and I store a new key stickiesArray that has as value a JSON string array copy of stickiesArray
+        } else {
+            stickiesArray = JSON.parse(stickiesArray); //else we found an array of keys, and we parse it to get an actual array
+        }
+        return stickiesArray; //which we return to the calling stack
+    }
+
+    function addStoredStickiesToDom(stickyObject, key) {
+        // handles the creation of elements for the stored objects
+        let stickyClone = setIdToStoredObjects(key); //asks for dom sticky to be created and sets their key as id
+        Array.from(stickyClone.children).filter(
+            el => el.className == "sticky-content"
+        )[0].value =
+            stickyObject.value; //adds stored value to new element
+        stickyClone.style.backgroundImage = stickyObject.color; //adds stored color to new element
+    }
+
+    function setIdToStoredObjects(key) {
+        //asks for dom sticky to be created and sets their key as id
+        let stickyClone = createSticky(); //create actual dom sticky
+        if (key) {
+            stickyClone.setAttribute("id", key); //for all the already stored items, set ID=stored key. else no id new sticky is created
+        }
+        return stickyClone; //returns created element to calling stack
+    }
+
+    function createSticky() {
+        let parent = document.querySelector("#main");
+        let sticky = document.querySelector(".sticky");
+        let stickyClone = sticky.cloneNode(true); //creates a clone from sticky div template
+        parent.appendChild(stickyClone);
+        stickyClone.style.display = "block";
+
+        let newAddBtn = Array.from(
+            Array.from(stickyClone.children).filter(
+                el => el.className == "sticky-header"
+            )[0].children
+        ).filter(el => el.classList.contains("add-button"))[0];
+        newAddBtn.onclick = createId; //adds createID handler to new dom sticky
+
+        let removeBtn = Array.from(
+            Array.from(stickyClone.children).filter(
+                el => el.className == "sticky-header"
+            )[0].children
+        ).filter(el => el.classList.contains("remove-button"))[0];
+        removeBtn.onclick = deleteSticky; //adds delete sticky handler to new dom sticky
+
+        let dropBtn = Array.from(
+            Array.from(stickyClone.children).filter(
+                el => el.className == "sticky-header"
+            )[0].children
+        ).filter(el => el.classList.contains("drop-button"))[0];
+        dropBtn.onclick = toggleDropMenuClick; //adds color dropdown toggle handler to new dom sticky
+
+        let dropMenus = Array.from(
+            document.querySelectorAll(".dropdown-content-hide")
+        );
+        for (let dropMenu of dropMenus) {
+            dropMenu.onclick = changeColor; //adds changeColor handler to color dropdown menu
+        }
+
+        let stickyCloneContent = Array.from(stickyClone.children).filter(
+            el => el.className == "sticky-content"
+        )[0];
+        stickyCloneContent.value = ""; //new clone has no text on creation
+
+        stickyCloneContent.onchange = storeSticky; //when sticky text is changed, save content to storage
+        stickyCloneContent.oninput = notSavedNotification; //when new text is being writtern, show not saved notification
+
+        return stickyClone;
+    }
+
+    function createId(e) {
+        //creates unique IDs for dom sticky
+        if (e.target.id == "createStickyBtn") {
+            //if triggered by first button, then hide that button
+            e.target.style.display = "none";
+        }
+
+        let currentDate = new Date();
+        let key = "sticky_" + currentDate.getTime();
+
+        let stickyClone = createSticky();
+        stickyClone.setAttribute("id", key);
+    }
+
+    function deleteSticky(e) {
+        const createFirstSticky = document.querySelector("#createStickyBtn");
+        const main = document.querySelector("#main");
+        let key = e.target.parentNode.parentNode.id; //using sticky id as key for storage removal
+
+        localStorage.removeItem(key); //remove key from storage
+
+        let stickiesArray = getStickiesArray(); //remove key from stikie array
+        if (stickiesArray) {
+            for (let i = 0; i < stickiesArray.length; i++) {
+                if (key == stickiesArray[i]) {
+                    stickiesArray.splice(i, 1);
+                }
+            }
+            localStorage.setItem("stickiesArray", JSON.stringify(stickiesArray));
+        }
+
+        removeStickyFromDOM(key); //remove sticky from dom
+
+        if (stickiesArray.length > 0 || main.children.length > 2) {
+            //show createFirst button
+            createFirstSticky.style.display = "none";
+        } else {
+            createFirstSticky.style.display = "block";
+        }
+    }
+
+    function removeStickyFromDOM(key) {
+        var sticky = document.getElementById(key);
+        sticky.parentNode.removeChild(sticky);
+    }
+
+    function toggleDropMenuClick(e) {
+        //toggle color menu on click
+        let parentId = e.target.parentNode.parentNode.id;
+        let stickyContent = document.querySelector(`#${parentId} .sticky-content`);
+        let dropMenu = document.querySelector(
+            `#${parentId} .dropdown-content-hide`
+        );
+        dropMenu.style.display != "flex"
+            ? (dropMenu.style.display = "flex")
+            : (dropMenu.style.display = "none");
+    }
+
+    function changeColor(e) {
+        let colorBtn = e.target;
+        let sticky = e.target.parentNode.parentNode.parentNode;
+        let key = sticky.id;
+        let newColor = getComputedStyle(colorBtn).backgroundImage;
+        let stickyObject = JSON.parse(localStorage.getItem(key));
+
+        sticky.style.backgroundImage = newColor;
+        if (stickyObject) {
+            stickyObject.color = newColor;
+            localStorage.setItem(key, JSON.stringify(stickyObject));
+        }
+    }
+
+    function storeSticky(e) {
+        let stickiesArray = getStickiesArray(); //get array of keys from storage, and add new keys to it
+        let sticky = e.target.parentNode;
+
+        let key = sticky.id; //for all items, set as key their ID
+        let stickyContent = e.target.value;
+
+        let oldColor = getComputedStyle(sticky).backgroundImage;
+        let stickyObject = {
+            value: stickyContent,
+            color: oldColor
         };
-        return true;
-    };
 
-    document.getElementById("notecontent").onkeypress = function (e) {
-        if (e.keyCode == 13)
-            document.getElementById("saveButton").click();
-    };
-});
+        localStorage.setItem(key, JSON.stringify(stickyObject)); //store textarea value+color in localstorage
 
-function YesGlyph(currentId) {
-    var span1 = document.createElement("span");
-    span1.className = "glyphicon glyphicon-ok pull-right";
-    span1.setAttribute("id", 'g1' + currentId);
-    span1.setAttribute("onclick", "okGlyphInDiv(this)");
-    span1.setAttribute("data-toggle", "modal");
-    span1.setAttribute("data-target", "#okModal");
-    return span1;
-};
+        if (!stickiesArray.includes(key)) {
+            stickiesArray.push(key); //and save this key/id to the stickie array, if it doesn't already exist
+            localStorage.setItem("stickiesArray", JSON.stringify(stickiesArray)); //store the new array key items int he stickiesarray
+        }
 
-function NoGlyph(currentId) {
-    var span2 = document.createElement("span");
-    span2.className = "glyphicon glyphicon-remove pull-right";
-    span2.setAttribute("id", 'g2' + currentId);
-    span2.setAttribute("onclick", "okGlyphInDiv(this)");
-    span2.setAttribute("data-toggle", "modal");
-    span2.setAttribute("data-target", "#deleteModal");
-    return span2;
-};
+        let notSaved = document.querySelector(`#${key} .notSaved`);
+        notSaved.style.display = "inline-block";
+        notSaved.style.color = "black";
+        notSaved.title = "saved";
+    }
 
-function RestoreGlyph(currentId) {
-    var glyph = document.createElement("span");
-    glyph.className = "glyphicon glyphicon-refresh pull-right";
-    glyph.setAttribute("id", 'g3' + currentId);
-    glyph.setAttribute("onclick", "okGlyph(this)");
-    glyph.setAttribute("data-toggle", "modal");
-    glyph.setAttribute("data-target", "#restoreModal");
-    glyph.style.position = "absolute";
-    glyph.style.top = "initial";
-    glyph.style.bottom = "0";
-    glyph.style.right = "0";
-    glyph.style.marginRight = "5px";
-    glyph.style.marginBottom = "5px";
-    return glyph;
-};
-
-function EditGlyph(currentId) {
-    var glyph = document.createElement("span");
-    glyph.className = "glyphicon glyphicon-edit pull-right";
-    glyph.setAttribute("id", 'g0' + currentId);
-    glyph.setAttribute("onclick", "okGlyph(this)");
-    glyph.setAttribute("data-toggle", "modal");
-    glyph.setAttribute("data-target", "#editModal");
-    glyph.style.position = "absolute";
-    glyph.style.top = "0";
-    glyph.style.right = "0";
-    glyph.style.marginRight = "5px";
-    glyph.style.marginTop = "5px";
-
-    return glyph;
-};
-
-function okGlyph(that) {
-    id = that.parentElement.parentElement.parentElement.id;
-};
-
-function okGlyphInDiv(that) {
-    id = that.parentElement.parentElement.parentElement.parentElement.id;
-};
-
-function CreateNote() {
-    var note = document.createElement("div");
-    note.className = "col-sm-4 margin";
-    note.setAttribute("id", "notehover");
-    var panel = document.createElement("div");
-    panel.className = "panel panel-default";
-    panel.style.height = "200px";
-    var heading = document.createElement("div");
-    heading.className = "panel-body headingcolor";
-    heading.setAttribute("id", "heading" + i);
-    heading.textContent = document.getElementById("notename").value;
-    var body = document.createElement("div");
-    body.className = "panel-body";
-    body.setAttribute("id", "glyphContainer" + i);
-    body.style.overflow = "hidden";
-    body.style.position = "relative";
-    body.style.height = "73%";
-    body.textContent = document.getElementById("notecontent").value;
-    body.innerHTML += '<br/><br/>';
-    body = createGlyphs(body, i);
-    panel.appendChild(heading);
-    panel.appendChild(body);
-    note.appendChild(panel);
-    return note;
-};
-
-function createGlyphs(body, id) {
-    var cont = document.createElement("div");
-    cont.style.position = "absolute";
-    cont.style.bottom = "0";
-    cont.style.right = "0";
-    cont.style.marginRight = "5px";
-    cont.style.marginBottom = "5px";
-    body.insertBefore(EditGlyph(id), body.firstChild);
-    cont.appendChild(YesGlyph(id));
-    cont.appendChild(NoGlyph(id));
-    body.appendChild(cont);
-    return body;
-};
-
-function CheckNote(nameId, contentId) {
-    if (document.getElementById(nameId).value == "" || document.getElementById(contentId).value == "")
-        return false;
-    return true;
+    function notSavedNotification(e) {
+        let stickyId = e.target.parentNode.id;
+        let notSaved = document.querySelector(`#${stickyId} .notSaved`);
+        notSaved.style.display = "inline-block";
+        notSaved.style.color = "red";
+        notSaved.title = "not saved";
+    }
 };

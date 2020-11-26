@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<tema.Models.Cliente>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpAcc
 
 @{
     ViewData["Title"] = "Index";
@@ -114,8 +116,11 @@
                         </td>
                         <td>
                             @Html.ActionLink("Editar", "Edit", new { id = item.cedula }) |
-                            @Html.ActionLink("Detalles", "Details", new { id = item.cedula }) |
-                            @Html.ActionLink("Eliminar", "Delete", new { id = item.cedula })
+                            @Html.ActionLink("Detalles", "Details", new { id = item.cedula }) 
+                            @if (User.IsInRole("manager"))
+                            {
+                                @Html.Raw("&#124;&nbsp;") @Html.ActionLink("Eliminar", "Delete", new { id = item.cedula })
+                            }
                         </td>
                     </tr>
                 }

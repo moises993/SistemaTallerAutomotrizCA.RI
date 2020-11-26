@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<tema.Models.Vehiculo>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpAcc
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <style>
-        * {
-            font-family: Arial;
-        }
-    </style>
+<style>
+    * {
+        font-family: Arial;
+    }
+</style>
 <link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 
 <div class="content-wrapper">
@@ -95,8 +97,11 @@
                         </td>
                         <td style="text-align:center; font-family:Arial">
                             @Html.ActionLink("Editar", "Edit", new { id = item.IDVehiculo }) |
-                            @Html.ActionLink("Detalles", "Details", new { id = item.placa }) |
-                            @Html.ActionLink("Eliminar", "Delete", new { id = item.IDVehiculo }) |
+                            @Html.ActionLink("Detalles", "Details", new { id = item.placa })
+                            @if (User.IsInRole("manager"))
+                            {
+                                @Html.Raw("&#124;&nbsp;") @Html.ActionLink("Eliminar", "Delete", new { id = item.IDVehiculo })
+                            } |
                             @Html.ActionLink("Crear expediente", "CreateExpediente", "Expediente", new { id = item.IDVehiculo }) |
                             @Html.ActionLink("Ver expediente", "Details", "Expediente", new { id = item.placa })
                         </td>

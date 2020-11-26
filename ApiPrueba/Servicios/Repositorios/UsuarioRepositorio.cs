@@ -224,6 +224,7 @@ namespace ApiPrueba.Servicios.Repositorios
         {
             bool resultado = false;
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+
             try
             {
                 conexion.Open();
@@ -279,6 +280,56 @@ namespace ApiPrueba.Servicios.Repositorios
                 throw;
             }
             return lista;
+        }
+
+        //Específico del usuario
+        public bool CambiarContrasena(string correo, string contrasenaActual, string contrasenaNueva)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            string salComp;
+            bool resultado = false;
+
+            try
+            {
+                conexion.Open();
+                using (NpgsqlCommand comando1 = new NpgsqlCommand("\"Taller\".\"usrObtenerSal\"", conexion))
+                {
+                    comando1.CommandType = CommandType.StoredProcedure;
+                    comando1.Parameters.AddWithValue("pcorreo", correo);
+
+                    salComp = (string)comando1.ExecuteScalar();
+
+                    conexion.Close();
+                }
+
+                conexion.Open();
+                NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"usrCambiarContrasena\"", conexion)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                string hashcomp = Cifrado.GenerarHash(contrasenaActual, salComp);
+                string salnueva = Cifrado.GenerarSal();
+                string hash = Cifrado.GenerarHash(contrasenaNueva, salnueva);
+
+                comando.Parameters.AddWithValue("pcorreo", correo);
+                comando.Parameters.AddWithValue("phashcomp", hashcomp);
+                comando.Parameters.AddWithValue("pnuevohash", hash);
+                comando.Parameters.AddWithValue("pnuevasal", salnueva);
+
+                NpgsqlDataReader lector = comando.ExecuteReader();
+                while(lector.Read())
+                {
+                    resultado = lector.GetBoolean(0);
+                }
+
+                conexion.Close();
+                return resultado;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         //específico de la bitácora

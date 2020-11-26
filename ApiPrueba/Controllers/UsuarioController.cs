@@ -81,6 +81,20 @@ namespace ApiPrueba.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost("CambiarContrasena")]
+        public IActionResult CambiarContrasena([FromBody] Usuario usr)
+        {
+            bool resultado = _usrRepo.CambiarContrasena(usr.correo, usr.clave, usr.nuevaContrasena);
+
+            if(!resultado)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        [AllowAnonymous]
         [HttpGet("ListaUsuarios")]
         public async Task<List<Usuario>> VerUsuarios() => await _usrRepo.VerUsuarios();
 

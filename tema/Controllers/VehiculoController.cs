@@ -152,6 +152,8 @@ namespace tema.Controllers
             return View(Vehiculo);
         }
 
+        [Authorize]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();

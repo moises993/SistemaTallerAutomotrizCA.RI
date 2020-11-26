@@ -220,23 +220,31 @@ httpAcc.HttpContext.Session.GetString("JWToken").ToString().Length > 0)
                                     </ul>
                                 </li>
                             }
-                            <li class="nav-item has-treeview lnr-menu">
-                                <a href="#" class="nav-link ">
-                                    <i class="nav-icon fas fa-archive"></i>
-                                    <p style="font-family:Arial">
-                                        Cuenta
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a asp-controller="Home" asp-action="Logout" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p style="font-family:Arial">Cerrar sesión</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <li class="nav-item has-treeview lnr-menu">
+                            <a href="#" class="nav-link ">
+                                <i class="nav-icon fas fa-archive"></i>
+                                <p style="font-family:Arial">
+                                    Cuenta
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-controller="Usuario" asp-action="CambiarContrasena" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p style="font-family:Arial">Cambiar la contraseña</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-controller="Home" asp-action="Logout" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p style="font-family:Arial">Cerrar sesión</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         </ul>
                     </nav>
                 </div>

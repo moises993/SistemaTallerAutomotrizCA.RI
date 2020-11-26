@@ -17,5 +17,7 @@ namespace ApiPrueba.Entidades
         public string tokenSesion { get; set; }
         public string correoForm { get; set; }
         public string contra { get; set; }
+
+        public string nuevaContrasena { get; set; }
     }
 }
