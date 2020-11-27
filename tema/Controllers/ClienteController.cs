@@ -29,10 +29,12 @@ namespace tema.Controllers
             return View(aux);
         }
 
+        #nullable enable
         public async Task<IActionResult> Details(string id)
         {
             if (id == string.Empty) return NotFound();
-            ClienteViewModel cltvm = new ClienteViewModel();
+            ClienteViewModel? cltvm = new ClienteViewModel();
+
             cltvm.cliente = await GetOneById(id, new Cliente());
             using (var client = new HttpClient())
             {
@@ -51,8 +53,11 @@ namespace tema.Controllers
                     return RedirectToAction("Index", "Cliente");
                 }
             }
+
             return View(cltvm);
         }
+        #nullable disable
+
         public IActionResult Create()
         {
             return View();
@@ -204,6 +209,7 @@ namespace tema.Controllers
                     var auxRes = res.Content.ReadAsStringAsync().Result;
 
                     aux = JsonConvert.DeserializeObject<Cliente>(auxRes);
+
                 }
             }
             return aux;

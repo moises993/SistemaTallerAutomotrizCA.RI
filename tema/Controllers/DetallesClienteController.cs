@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -50,7 +51,12 @@ namespace tema.Controllers
                     var result = postTask;
                     if (result.IsSuccessStatusCode)
                     {
-                        return RedirectToAction("Index", "Cliente");
+                        return RedirectToAction("Details", "Cliente");
+                    }
+
+                    if(result.StatusCode == HttpStatusCode.InternalServerError)
+                    {
+                        ModelState.AddModelError(string.Empty, "El correo o el teléfono ya existen para otro cliente");
                     }
                 }
             }
@@ -67,7 +73,7 @@ namespace tema.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int? id, [Bind("direccion,telefono,correo,codDet")] DtcEditViewModel dtc)
+        public ActionResult Edit(int? id, [Bind("IDCliente,direccion,telefono,correo,codDet")] DtcEditViewModel dtc)
         {
             if (id != dtc.codDet)
             {
@@ -77,6 +83,7 @@ namespace tema.Controllers
             {
                 DetallesCliente dtcPatch = new DetallesCliente
                 {
+                    IDCliente = dtc.IDCliente,
                     direccion = dtc.direccion,
                     telefono = dtc.telefono,
                     correo = dtc.correo,
@@ -94,6 +101,11 @@ namespace tema.Controllers
                     if (result.IsSuccessStatusCode)
                     {
                         return RedirectToAction("Index", "Cliente");
+                    }
+
+                    if (result.StatusCode == HttpStatusCode.InternalServerError)
+                    {
+                        ModelState.AddModelError(string.Empty, "El correo o el teléfono ya existen para otro cliente");
                     }
                 }
             }

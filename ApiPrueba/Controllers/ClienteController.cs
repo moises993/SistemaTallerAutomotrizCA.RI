@@ -28,9 +28,9 @@ namespace ApiPrueba.Controllers
         public async Task<List<Cliente>> VerClientes() =>
             await _clienteServicio.VerClientes();
 
-        [HttpGet("ClientesConCita")]
-        public async Task<List<ClienteCita>> VerClientesConCita() =>
-            await _clienteServicio.MostrarClientesConCita();
+        //[HttpGet("ClientesConCita")]
+        //public async Task<List<ClienteCita>> VerClientesConCita() =>
+        //    await _clienteServicio.MostrarClientesConCita();
 
         [HttpGet("BuscarCliente/{cedula}")] 
         public async Task<Cliente> VerClientePorCedula(string cedula)
@@ -136,7 +136,7 @@ namespace ApiPrueba.Controllers
 
             if (!_clienteServicio.RegistrarDetalleCliente(clt.IDCliente, clt.direccion, clt.telefono, clt.correo))
             {
-                ModelState.AddModelError("", "Ocurrió un error insertando los detalles. Por favor, inténtelo en un momento");
+                ModelState.AddModelError("", "Correo o teléfono ingresados ya existen para otro cliente");
                 return StatusCode(500, ModelState);
             }
 
@@ -152,9 +152,9 @@ namespace ApiPrueba.Controllers
                 return StatusCode(400, ModelState);
             }
 
-            if (!_clienteServicio.ActualizarDetalleCliente(clt.codDet, clt.direccion, clt.telefono, clt.correo))
+            if (!_clienteServicio.ActualizarDetalleCliente(clt.IDCliente, clt.direccion, clt.telefono, clt.correo, clt.codDet))
             {
-                ModelState.AddModelError("", "Ocurrió un error durante la actualización. Por favor, inténtelo en un momento");
+                ModelState.AddModelError("", "Correo o teléfono ingresados ya existen para otro cliente");
                 return StatusCode(500, ModelState);
             }
 

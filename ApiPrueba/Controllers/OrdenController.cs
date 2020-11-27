@@ -50,7 +50,7 @@ namespace ApiPrueba.Controllers
                 return StatusCode(400, ModelState);
             }
 
-            if ((bool)_odn.RegistrarOrden(odn.IDCita, odn.IDCliente, odn.descripcion) == false)
+            if (!_odn.RegistrarOrden(odn.IDCliente, odn.descripcionAnterior, odn.descripcionNueva))
             {
                 HttpResponseMessage mensaje = new HttpResponseMessage();
                 mensaje.Content = new StringContent("ya_existe");

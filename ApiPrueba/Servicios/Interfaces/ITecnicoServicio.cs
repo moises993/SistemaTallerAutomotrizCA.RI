@@ -11,14 +11,14 @@ namespace ApiPrueba.Servicios.Interfaces
     {
         List<Tecnico> VerTecnicos();
         Tecnico ConsultarTecnicoCedula(string ced);
-        List<TecnicoCita> MostrarTecnicosConCita();
+        //List<TecnicoCita> MostrarTecnicosConCita();
         bool RegistrarTecnico(string nmb, string ap1, string ap2, string ced);
         bool ActualizarTecnico(string nmb, string ap1, string ap2, string ced);
         bool BorrarTecnico(string id);
         List<DetallesTecnico> VerDetallesTecnico(string cedula);
         DetallesTecnico VerDetalleIndividual(int id);
         bool RegistrarDetalleTecnico(int id, string pdireccion, string ptelefono, string pcorreo);
-        bool ActualizarDetalleTecnico(int id, string pdireccion, string ptelefono, string pcorreo);
+        bool ActualizarDetalleTecnico(int idtecnico, string pdireccion, string ptelefono, string pcorreo, int id);
         bool BorrarDetalleTecnico(int id);
     }
 }

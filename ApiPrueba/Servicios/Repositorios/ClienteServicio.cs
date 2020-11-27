@@ -15,7 +15,7 @@ namespace ApiPrueba.Servicios.Repositorios
 {
     public class ClienteServicio : IClienteServicio
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         private readonly string connectionString;
 
         public ClienteServicio(IConfiguration configuration)
@@ -34,24 +34,22 @@ namespace ApiPrueba.Servicios.Repositorios
                 await conexion.OpenAsync();
                 await using (NpgsqlCommand comando = new NpgsqlCommand("SELECT * FROM \"Taller\".\"cltVerClientes\"();", conexion)) //
                 {
-                    using (var lector = await comando.ExecuteReaderAsync())
+                    using var lector = await comando.ExecuteReaderAsync();
+                    while (await lector.ReadAsync())
                     {
-                        while (await lector.ReadAsync())
+                        Cliente clt = new Cliente
                         {
-                            Cliente clt = new Cliente
-                            {
-                                IDCliente = lector.GetInt32(0),
-                                nombre = lector.GetString(1).Trim(),
-                                pmrApellido = lector.GetString(2).Trim(),
-                                sgndApellido = lector.GetString(3).Trim(),
-                                cedula = lector.GetString(4).Trim(),
-                                cltFrecuente = lector.GetBoolean(5),
-                                fechaIngreso = lector.GetDateTime(6)
-                            };
-                            ListaClientes.Add(clt);
-                        }
-                        await lector.CloseAsync();
+                            IDCliente = lector.GetInt32(0),
+                            nombre = lector.GetString(1).Trim(),
+                            pmrApellido = lector.GetString(2).Trim(),
+                            sgndApellido = lector.GetString(3).Trim(),
+                            cedula = lector.GetString(4).Trim(),
+                            cltFrecuente = lector.GetBoolean(5),
+                            fechaIngreso = lector.GetDateTime(6)
+                        };
+                        ListaClientes.Add(clt);
                     }
+                    await lector.CloseAsync();
                 }
                 await conexion.CloseAsync();
             }
@@ -74,23 +72,21 @@ namespace ApiPrueba.Servicios.Repositorios
                     comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue("pcedula", pCedula);
                     await comando.PrepareAsync();
-                    using (var lector = await comando.ExecuteReaderAsync())
+                    using var lector = await comando.ExecuteReaderAsync();
+                    while (await lector.ReadAsync())
                     {
-                        while (await lector.ReadAsync())
+                        salida = new Cliente
                         {
-                            salida = new Cliente
-                            {
-                                IDCliente = lector.GetInt32(0),
-                                nombre = lector.GetString(1).Trim(),
-                                pmrApellido = lector.GetString(2).Trim(),
-                                sgndApellido = lector.GetString(3).Trim(),
-                                cedula = lector.GetString(4).Trim(),
-                                cltFrecuente = lector.GetBoolean(5),
-                                fechaIngreso = lector.GetDateTime(6)
-                            };
-                        }
-                        await lector.CloseAsync();
+                            IDCliente = lector.GetInt32(0),
+                            nombre = lector.GetString(1).Trim(),
+                            pmrApellido = lector.GetString(2).Trim(),
+                            sgndApellido = lector.GetString(3).Trim(),
+                            cedula = lector.GetString(4).Trim(),
+                            cltFrecuente = lector.GetBoolean(5),
+                            fechaIngreso = lector.GetDateTime(6)
+                        };
                     }
+                    await lector.CloseAsync();
                 }
                 await conexion.CloseAsync();
             }
@@ -101,44 +97,44 @@ namespace ApiPrueba.Servicios.Repositorios
             return salida;
         }
 
-        public async Task<List<ClienteCita>> MostrarClientesConCita()
-        {
-            await using NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
-            List<ClienteCita> cc = new List<ClienteCita>();
-            try
-            {
-                await conexion.OpenAsync();
-                using (var comando = new NpgsqlCommand("\"Taller\".\"cltVerClientesConCita\"", conexion))
-                {
-                    comando.CommandType = CommandType.StoredProcedure;
-                    using (var lector = await comando.ExecuteReaderAsync())
-                    {
-                        ClienteCita objt = null;
-                        while (await lector.ReadAsync())
-                        {
-                            objt = new ClienteCita
-                            {
-                                nombre = lector.GetString(0),
-                                pmrApellido = lector.GetString(1),
-                                sgndApellido = lector.GetString(2),
-                                cedula = lector.GetString(3),
-                                fecha = lector.GetDateTime(4),
-                                hora = lector.GetString(5),
-                                asunto = lector.GetString(6)
-                            };
-                            cc.Add(objt);
-                        }
-                        await lector.CloseAsync();
-                    }
-                }
-                await conexion.CloseAsync();
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-            return cc;
-        }
+        //public async Task<List<ClienteCita>> MostrarClientesConCita()
+        //{
+        //    await using NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+        //    List<ClienteCita> cc = new List<ClienteCita>();
+        //    try
+        //    {
+        //        await conexion.OpenAsync();
+        //        using (var comando = new NpgsqlCommand("\"Taller\".\"cltVerClientesConCita\"", conexion))
+        //        {
+        //            comando.CommandType = CommandType.StoredProcedure;
+        //            using (var lector = await comando.ExecuteReaderAsync())
+        //            {
+        //                ClienteCita objt = null;
+        //                while (await lector.ReadAsync())
+        //                {
+        //                    objt = new ClienteCita
+        //                    {
+        //                        nombre = lector.GetString(0),
+        //                        pmrApellido = lector.GetString(1),
+        //                        sgndApellido = lector.GetString(2),
+        //                        cedula = lector.GetString(3),
+        //                        fecha = lector.GetDateTime(4),
+        //                        hora = lector.GetString(5),
+        //                        asunto = lector.GetString(6)
+        //                    };
+        //                    cc.Add(objt);
+        //                }
+        //                await lector.CloseAsync();
+        //            }
+        //        }
+        //        await conexion.CloseAsync();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return null;
+        //    }
+        //    return cc;
+        //}
         #endregion consultas
 
         //Métodos que devuelven true siempre y cuando se cumplan las validaciones para cada parámetro
@@ -271,22 +267,20 @@ namespace ApiPrueba.Servicios.Repositorios
                 {
                     comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue("pcedula", cedula);
-                    using (var lector = comando.ExecuteReader())
+                    using var lector = comando.ExecuteReader();
+                    while (lector.Read())
                     {
-                        while (lector.Read())
+                        DetallesCliente dtc = new DetallesCliente
                         {
-                            DetallesCliente dtc = new DetallesCliente
-                            {
-                                IDCliente = lector.GetInt32(0),
-                                direccion = lector.GetString(1).Trim(),
-                                telefono = lector.GetString(2).Trim(),
-                                correo = lector.GetString(3).Trim(),
-                                codDet = lector.GetInt32(4)
-                            };
-                            salida.Add(dtc);
-                        }
-                        lector.Close();
+                            IDCliente = lector.GetInt32(0),
+                            direccion = lector.GetString(1).Trim(),
+                            telefono = lector.GetString(2).Trim(),
+                            correo = lector.GetString(3).Trim(),
+                            codDet = lector.GetInt32(4)
+                        };
+                        salida.Add(dtc);
                     }
+                    lector.Close();
                 }
                 conexion.Close();
             }
@@ -309,21 +303,19 @@ namespace ApiPrueba.Servicios.Repositorios
                 {
                     comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue("pid", id);
-                    using (var lector = comando.ExecuteReader())
+                    using var lector = comando.ExecuteReader();
+                    while (lector.Read())
                     {
-                        while (lector.Read())
+                        dtc = new DetallesCliente
                         {
-                            dtc = new DetallesCliente
-                            {
-                                IDCliente = lector.GetInt32(0),
-                                direccion = lector.GetString(1).Trim(),
-                                telefono = lector.GetString(2).Trim(),
-                                correo = lector.GetString(3).Trim(),
-                                codDet = lector.GetInt32(4)
-                            };
-                        }
-                        lector.Close();
+                            IDCliente = lector.GetInt32(0),
+                            direccion = lector.GetString(1).Trim(),
+                            telefono = lector.GetString(2).Trim(),
+                            correo = lector.GetString(3).Trim(),
+                            codDet = lector.GetInt32(4)
+                        };
                     }
+                    lector.Close();
                 }
                 conexion.Close();
             }
@@ -337,21 +329,28 @@ namespace ApiPrueba.Servicios.Repositorios
         public bool RegistrarDetalleCliente(int id, string pdireccion, string ptelefono, string pcorreo)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            bool resultado = false;
+
             try
             {
                 conexion.Open();
-                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"dtcIngresarDetalles\"(@pid, @pdireccion, @ptelefono, @pcorreo)", conexion))
+                using (var comando = new NpgsqlCommand("\"Taller\".\"dtcFnIngresarDetalle\"", conexion))
                 {
-                    comando.Parameters.AddWithValue(":pid", id);
-                    comando.Parameters.AddWithValue(":pdireccion", pdireccion);
-                    comando.Parameters.AddWithValue(":ptelefono", ptelefono);
-                    comando.Parameters.AddWithValue(":pcorreo", pcorreo);
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue("pid", id);
+                    comando.Parameters.AddWithValue("pdireccion", pdireccion);
+                    comando.Parameters.AddWithValue("ptelefono", ptelefono);
+                    comando.Parameters.AddWithValue("pcorreo", pcorreo);
 
-                    comando.ExecuteNonQuery();
+                    NpgsqlDataReader lector = comando.ExecuteReader();
+                    while(lector.Read())
+                    {
+                        resultado = lector.GetBoolean(0);
+                    }
 
                     conexion.Close();
                 }
-                return true;
+                return resultado;
             }
             catch (Exception)
             {
@@ -359,24 +358,32 @@ namespace ApiPrueba.Servicios.Repositorios
             }
         }
 
-        public bool ActualizarDetalleCliente(int id, string pdireccion, string ptelefono, string pcorreo)
+        public bool ActualizarDetalleCliente(int idcliente, string pdireccion, string ptelefono, string pcorreo, int id)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            bool resultado = false;
+
             try
             {
                 conexion.Open();
-                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"dtcActualizarDetalles\"(@pid, @pdireccion, @ptelefono, @pcorreo)", conexion))
+                using (var comando = new NpgsqlCommand("\"Taller\".\"dtcFnActualizarDetalles\"", conexion))
                 {
-                    comando.Parameters.AddWithValue(":pid", id);
-                    comando.Parameters.AddWithValue(":pdireccion", pdireccion);
-                    comando.Parameters.AddWithValue(":ptelefono", ptelefono);
-                    comando.Parameters.AddWithValue(":pcorreo", pcorreo);
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue("pidcliente", idcliente);
+                    comando.Parameters.AddWithValue("pdireccion", pdireccion);
+                    comando.Parameters.AddWithValue("ptelefono", ptelefono);
+                    comando.Parameters.AddWithValue("pcorreo", pcorreo);
+                    comando.Parameters.AddWithValue("pid", id);
 
-                    comando.ExecuteNonQuery();
+                    NpgsqlDataReader lector = comando.ExecuteReader();
+                    while (lector.Read())
+                    {
+                        resultado = lector.GetBoolean(0);
+                    }
 
                     conexion.Close();
                 }
-                return true;
+                return resultado;
             }
             catch (Exception)
             {

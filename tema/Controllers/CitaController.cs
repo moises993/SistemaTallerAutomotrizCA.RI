@@ -27,6 +27,10 @@ namespace tema.Controllers
         string baseurl = "https://localhost:44300/";
         IHttpContextAccessor _httpContextAccessor;
         MethodBase mb = MethodBase.GetCurrentMethod();
+
+        /*Necesito esta variable para conservar la descripción de la cita a editar*/
+        string descripcionAnterior = string.Empty; 
+
         public CitaController(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
@@ -189,6 +193,9 @@ namespace tema.Controllers
             {
                 return NotFound();
             }
+
+            descripcionAnterior = Cita.descripcion;
+
             return View(Cita);
         }
 
@@ -301,20 +308,21 @@ namespace tema.Controllers
             return aux;
         }
         
-        public async Task<IActionResult> CreateOrden(int? idCita, int idCliente, string desc)
+        public async Task<IActionResult> CreateOrden(int idCliente, string desc)
         {
             UtilidadRegistro.Registrar(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value, "Orden", mb.ReflectedType.Name, "Crear");
-            if (idCita == null)
-            {
-                ModelState.AddModelError(string.Empty, "No se brindó un id para generar la orden");
-            }
+            //if (idCita == null)
+            //{
+            //    ModelState.AddModelError(string.Empty, "No se brindó un id para generar la orden");
+            //}
             if (ModelState.IsValid)
             {
                 ParametrosOrden odnPost = new ParametrosOrden
                 {
-                    IDCita = idCita,
+                    //IDCita = idCita,
                     IDCliente = idCliente,
-                    descripcion = desc
+                    descripcionAnterior = descripcionAnterior,
+                    descripcionNueva = desc
                 };
                 using (HttpClient cliente = new HttpClient())
                 {
@@ -344,9 +352,10 @@ namespace tema.Controllers
          */
         private class ParametrosOrden
         {
-            public int? IDCita { get; set; }
+            //public int? IDCita { get; set; }
             public int IDCliente { get; set; }
-            public string descripcion { get; set; }
+            public string descripcionAnterior { get; set; }
+            public string descripcionNueva { get; set; }
         }
     }
 }

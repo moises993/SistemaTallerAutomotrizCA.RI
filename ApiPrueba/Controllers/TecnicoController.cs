@@ -28,9 +28,9 @@ namespace ApiPrueba.Controllers
         public List<Tecnico> VerTecnicos() =>
             _tecServicio.VerTecnicos();
 
-        [HttpGet("TecnicosConCita")]
-        public List<TecnicoCita> VerTecnicosConCita() =>
-            _tecServicio.MostrarTecnicosConCita();
+        //[HttpGet("TecnicosConCita")]
+        //public List<TecnicoCita> VerTecnicosConCita() =>
+        //    _tecServicio.MostrarTecnicosConCita();
 
         [HttpGet("BuscarTecnico/{cedula}")]
         public Tecnico VerTecnicoPorCedula(string cedula)
@@ -138,7 +138,7 @@ namespace ApiPrueba.Controllers
 
             if (!_tecServicio.RegistrarDetalleTecnico(tec.IDTecnico, tec.direccion, tec.telefono, tec.correo))
             {
-                ModelState.AddModelError("", "Ocurrió un error insertando los detalles. Por favor, inténtelo en un momento");
+                ModelState.AddModelError("", "El teléfono ingresado ya existe para otro técnico");
                 return StatusCode(500, ModelState);
             }
 
@@ -154,9 +154,9 @@ namespace ApiPrueba.Controllers
                 return StatusCode(400, ModelState);
             }
 
-            if (!_tecServicio.ActualizarDetalleTecnico(tec.codDet, tec.direccion, tec.telefono, tec.correo))
+            if (!_tecServicio.ActualizarDetalleTecnico(tec.IDTecnico, tec.direccion, tec.telefono, tec.correo, tec.codDet))
             {
-                ModelState.AddModelError("", "Ocurrió un error durante la actualización. Por favor, inténtelo en un momento");
+                ModelState.AddModelError("", "El teléfono o el correo ingresado ya existe para otro técnico");
                 return StatusCode(500, ModelState);
             }
 

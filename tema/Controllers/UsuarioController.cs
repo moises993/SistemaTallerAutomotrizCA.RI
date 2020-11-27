@@ -52,7 +52,7 @@ namespace tema.Controllers
             [Required(ErrorMessage = "Escriba su contraseña")]
             public string contrasenaActual { get; set; }
             [Display(Name = "Contraseña nueva")]
-            [RegularExpression("^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$", ErrorMessage = "La contraseña no cumple con los requisitos solicitados")]
+            [RegularExpression("^(?=.[A-Z].[A-Z])(?=.[!@#$&])(?=.[0-9].[0-9])(?=.[a-z].[a-z].*[a-z]).{8,10}$", ErrorMessage = "La contraseña no cumple con los requisitos solicitados")]
             [Required(ErrorMessage = "Escriba una contraseña")]
             public string nuevaContrasena { get; set; }
         }

@@ -55,6 +55,11 @@ namespace tema.Controllers
                         ModelState.AddModelError(string.Empty, "Este correo ya le pertenece a un técnico");
                     }
 
+                    if (result.StatusCode == HttpStatusCode.InternalServerError)
+                    {
+                        ModelState.AddModelError(string.Empty, "El correo o el teléfono ya existen para otro técnico");
+                    }
+
                     if (result.IsSuccessStatusCode)
                     {
                         return RedirectToAction("Index", "Tecnico");
@@ -100,6 +105,11 @@ namespace tema.Controllers
                     if (result.IsSuccessStatusCode)
                     {
                         return RedirectToAction("Index", "Tecnico");
+                    }
+
+                    if (result.StatusCode == HttpStatusCode.InternalServerError)
+                    {
+                        ModelState.AddModelError(string.Empty, "El correo o el teléfono ya existen para otro técnico");
                     }
                 }
             }

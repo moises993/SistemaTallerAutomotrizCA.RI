@@ -23,7 +23,7 @@
     </div>
 
     <div class="container">
-        <h1>Detalles del técnico @Model.tecnico.nombre @Model.tecnico.pmrApellido</h1>
+        <h1>Detalles del técnico</h1>
         <div style="display: inline-block; ">
             <hr />
             <div style="float: left; max-width: 34%;">
@@ -62,7 +62,7 @@
                         @Html.DisplayNameFor(model => model.tecnico.fechaIngreso)
                     </dt>
                     <dd class="col-sm-7">
-                        @Model.tecnico.fechaIngreso.Date.ToString("dd/MM/yyyy")
+                        @Convert.ToString(Model.tecnico.fechaIngreso.Date.ToString("dd/MM/yyyy"))
                     </dd>
                 </dl>
                 <div>

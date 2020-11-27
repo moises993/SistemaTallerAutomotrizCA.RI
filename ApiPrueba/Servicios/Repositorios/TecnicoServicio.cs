@@ -100,46 +100,46 @@ namespace ApiPrueba.Servicios.Repositorios
             return salida;
         }
 
-        public List<TecnicoCita> MostrarTecnicosConCita()
-        {
-            List<TecnicoCita> tc = new List<TecnicoCita>();
-            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+        //public List<TecnicoCita> MostrarTecnicosConCita()
+        //{
+        //    List<TecnicoCita> tc = new List<TecnicoCita>();
+        //    NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
 
-            try
-            {
-                conexion.Open();
+        //    try
+        //    {
+        //        conexion.Open();
 
-                using (var comando = new NpgsqlCommand("\"Taller\".\"tncVerTecnicosConCita\"", conexion))
-                {
-                    comando.CommandType = CommandType.StoredProcedure;
+        //        using (var comando = new NpgsqlCommand("\"Taller\".\"tncVerTecnicosConCita\"", conexion))
+        //        {
+        //            comando.CommandType = CommandType.StoredProcedure;
 
-                    using NpgsqlDataReader lector = comando.ExecuteReader();
-                    TecnicoCita objt = null;
-                    while (lector.Read())
-                    {
-                        objt = new TecnicoCita
-                        {
-                            nombre = lector.GetString(0),
-                            pmrApellido = lector.GetString(1).Trim(),
-                            sgndApellido = lector.GetString(2).Trim(),
-                            cedula = lector.GetString(3).Trim(),
-                            fecha = lector.GetDateTime(4),
-                            hora = lector.GetString(5).Trim(),
-                            asunto = lector.GetString(6).Trim()
-                        };
-                        tc.Add(objt);
-                    }
-                    lector.Close();
-                }
-                conexion.Close();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+        //            using NpgsqlDataReader lector = comando.ExecuteReader();
+        //            TecnicoCita objt = null;
+        //            while (lector.Read())
+        //            {
+        //                objt = new TecnicoCita
+        //                {
+        //                    nombre = lector.GetString(0),
+        //                    pmrApellido = lector.GetString(1).Trim(),
+        //                    sgndApellido = lector.GetString(2).Trim(),
+        //                    cedula = lector.GetString(3).Trim(),
+        //                    fecha = lector.GetDateTime(4),
+        //                    hora = lector.GetString(5).Trim(),
+        //                    asunto = lector.GetString(6).Trim()
+        //                };
+        //                tc.Add(objt);
+        //            }
+        //            lector.Close();
+        //        }
+        //        conexion.Close();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
 
-            return tc;
-        }
+        //    return tc;
+        //}
 
         #endregion consultas
 
@@ -305,19 +305,28 @@ namespace ApiPrueba.Servicios.Repositorios
         public bool RegistrarDetalleTecnico(int id, string pdireccion, string ptelefono, string pcorreo)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            bool resultado = false;
+
             try
             {
                 conexion.Open();
-                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"dttIngresarDetalles\"(@pid, @pdireccion, @ptelefono, @pcorreo)", conexion))
+                using (var comando = new NpgsqlCommand("\"Taller\".\"dttFnIngresarDetalle\"", conexion))
                 {
-                    comando.Parameters.AddWithValue(":pid", id);
-                    comando.Parameters.AddWithValue(":pdireccion", pdireccion);
-                    comando.Parameters.AddWithValue(":ptelefono", ptelefono);
-                    comando.Parameters.AddWithValue(":pcorreo", pcorreo);
-                    comando.ExecuteNonQuery();
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue("pid", id);
+                    comando.Parameters.AddWithValue("pdireccion", pdireccion);
+                    comando.Parameters.AddWithValue("ptelefono", ptelefono);
+                    comando.Parameters.AddWithValue("pcorreo", pcorreo);
+
+                    NpgsqlDataReader lector = comando.ExecuteReader();
+                    while (lector.Read())
+                    {
+                        resultado = lector.GetBoolean(0);
+                    }
+
                     conexion.Close();
                 }
-                return true;
+                return resultado;
             }
             catch (Exception)
             {
@@ -325,22 +334,32 @@ namespace ApiPrueba.Servicios.Repositorios
             }
         }
 
-        public bool ActualizarDetalleTecnico(int id, string pdireccion, string ptelefono, string pcorreo)
+        public bool ActualizarDetalleTecnico(int idtecnico, string pdireccion, string ptelefono, string pcorreo, int id)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            bool resultado = false;
+
             try
             {
                 conexion.Open();
-                using (var comando = new NpgsqlCommand("CALL \"Taller\".\"dttActualizarDetalles\"(@pid, @pdireccion, @ptelefono, @pcorreo)", conexion))
+                using (var comando = new NpgsqlCommand("\"Taller\".\"dttFnActualizarDetalles\"", conexion))
                 {
-                    comando.Parameters.AddWithValue(":pid", id);
-                    comando.Parameters.AddWithValue(":pdireccion", pdireccion);
-                    comando.Parameters.AddWithValue(":ptelefono", ptelefono);
-                    comando.Parameters.AddWithValue(":pcorreo", pcorreo);
-                    comando.ExecuteNonQuery();
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue("pidtecnico", idtecnico);
+                    comando.Parameters.AddWithValue("pdireccion", pdireccion);
+                    comando.Parameters.AddWithValue("ptelefono", ptelefono);
+                    comando.Parameters.AddWithValue("pcorreo", pcorreo);
+                    comando.Parameters.AddWithValue("pid", id);
+
+                    NpgsqlDataReader lector = comando.ExecuteReader();
+                    while (lector.Read())
+                    {
+                        resultado = lector.GetBoolean(0);
+                    }
+
                     conexion.Close();
                 }
-                return true;
+                return resultado;
             }
             catch (Exception)
             {

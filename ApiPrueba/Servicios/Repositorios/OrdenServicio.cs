@@ -102,7 +102,7 @@ namespace ApiPrueba.Servicios.Repositorios
         #endregion consultas
 
         #region operaciones
-        public bool? RegistrarOrden(int pidcita, int pidcliente, string pdesc)
+        public bool RegistrarOrden(int pidcliente, string pdescanterior, string pdesc)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
             bool resultado = false;
@@ -112,8 +112,8 @@ namespace ApiPrueba.Servicios.Repositorios
                 using (NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"odnGenerarOrden\"", conexion))
                 {
                     comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.AddWithValue("pidcita", pidcita);
                     comando.Parameters.AddWithValue("pidcliente", pidcliente);
+                    comando.Parameters.AddWithValue("pdescanterior", pdescanterior);
                     comando.Parameters.AddWithValue("pdesc", pdesc);
                     using(NpgsqlDataReader lector = comando.ExecuteReader())
                     {
@@ -125,7 +125,7 @@ namespace ApiPrueba.Servicios.Repositorios
             }
             catch (Exception)
             {
-                return null;
+                throw;
             }
         }
 
