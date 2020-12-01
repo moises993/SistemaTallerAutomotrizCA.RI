@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "xJXi8KVEWyRFZ5yneVtd6kKy4Xv8iCyo//OItDomD3X7ogltSRtTZn9C0cILKnuXJ+1kt9Dy4firXP6GAyvupQ==",
+  "success": true,
+  "projectFilePath": "D:\\Desarrollo\\TareaProgramada\\TareaProgramada.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\moises\\.nuget\\packages\\npgsql\\5.0.0\\npgsql.5.0.0.nupkg.sha512",
+    "C:\\Users\\moises\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.6.0\\system.runtime.compilerservices.unsafe.4.6.0.nupkg.sha512"
+  ],
+  "logs": []
+}

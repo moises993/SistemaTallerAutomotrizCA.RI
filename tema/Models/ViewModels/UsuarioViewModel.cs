@@ -7,6 +7,7 @@ namespace tema.Models.ViewModels
         [EmailAddress(ErrorMessage = "No se ingresó un correo válido")]
         [DataType(DataType.EmailAddress)]
         [Required(ErrorMessage = "No se ingresó un correo")]
+        [StringLength(35, ErrorMessage = "El nombre ingresado excede el límite de caracteres permitido")]
         public string correo { get; set; }
         #nullable enable
         [Required(ErrorMessage = "Debe seleccionar un rol")]

@@ -19,7 +19,7 @@ namespace ApiPrueba.Servicios.Utilidades
         public async Task EnviarCorreo(string emailDestino, string contrasenaGenerada)
         {
             const string correo = "tallerautomotrizcari@gmail.com";
-            const string contra = "tallerCarrion";
+            const string contra = "eLtALlerAut0CA.RI";
 
             string ruta = Path.Combine(Directory.GetCurrentDirectory(),
                     "wwwroot", "imageonline-co-whitebackgroundremoved.jpeg");
@@ -32,7 +32,8 @@ namespace ApiPrueba.Servicios.Utilidades
                       San José, León Cortés, San Andrés<br/>
                       Teléfono: 8355 - 1192<br/>
                   </p> " +
-                "<p>Reciba un cordial saludo de parte del taller.<br />Su contraseña para ingresar al sistema es: " + contrasenaGenerada + "</p>";
+                "<p>Reciba un cordial saludo de parte del taller.<br />Su contraseña para ingresar al sistema es: " + contrasenaGenerada + "</p>"
+                + "<p>Esta contraseña tiene validez durante 1 hora. Debe cambiarla en cuanto acceda al sistema.</p>";
 
             AlternateView altView = AlternateView.CreateAlternateViewFromString(mensaje, null, MediaTypeNames.Text.Html);
             altView.LinkedResources.Add(imagen);

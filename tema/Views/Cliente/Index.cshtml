@@ -67,25 +67,25 @@
                             @Html.DisplayNameFor(model => model.IDCliente)
                         </th>*@
                     <th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.nombre)
+                        <font size="3"> @Html.DisplayNameFor(model => model.nombre)</font>
                     </th>
                     <th style="color:white;font-family:Arial ">
-                        @Html.DisplayNameFor(model => model.pmrApellido)
+                        <font size="3"> @Html.DisplayNameFor(model => model.pmrApellido)</font>
                     </th>
                     <th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.sgndApellido)
+                        <font size="3">  @Html.DisplayNameFor(model => model.sgndApellido)</font>
                     </th>
                     <th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.cedula)
+                        <font size="3">  @Html.DisplayNameFor(model => model.cedula)</font>
                     </th>
                     <th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.cltFrecuente)
+                        <font size="3">  @Html.DisplayNameFor(model => model.cltFrecuente)</font>
                     </th>
                     <th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.fechaIngreso)
+                        <font size="3"> @Html.DisplayNameFor(model => model.fechaIngreso)</font>
                     </th>
                     <th style="color:white;font-family:Arial">
-                        Acciones
+                        <font size="3"> Acciones</font>
                     </th>
                 </tr>
             </thead>
@@ -116,7 +116,7 @@
                         </td>
                         <td>
                             @Html.ActionLink("Editar", "Edit", new { id = item.cedula }) |
-                            @Html.ActionLink("Detalles", "Details", new { id = item.cedula }) 
+                            @Html.ActionLink("Detalles", "Details", new { id = item.cedula })
                             @if (User.IsInRole("manager"))
                             {
                                 @Html.Raw("&#124;&nbsp;") @Html.ActionLink("Eliminar", "Delete", new { id = item.cedula })
@@ -125,8 +125,8 @@
                     </tr>
                 }
             </tbody>
-
         </table>
+        <hr />
         <p>
             <a asp-action="Create" class="Boton" style="font-family: Arial;color: white">Crear cliente</a>
         </p>

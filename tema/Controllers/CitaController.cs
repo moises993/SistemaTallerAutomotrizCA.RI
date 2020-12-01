@@ -24,7 +24,7 @@ namespace tema.Controllers
     [Authorize]
     public class CitaController : Controller
     {
-        string baseurl = "https://localhost:44300/";
+        string baseurl = "https://localhost:44300/"; 
         IHttpContextAccessor _httpContextAccessor;
         MethodBase mb = MethodBase.GetCurrentMethod();
 
@@ -94,7 +94,7 @@ namespace tema.Controllers
             List<Tecnico> tnc = JsonConvert.DeserializeObject<List<Tecnico>>(await resTecnico.Content.ReadAsStringAsync());
             foreach (Tecnico temp in tnc)
             {
-                ls.Add(new SelectListItem() { Text = temp.nombre, Value = Convert.ToString(temp.IDTecnico) });
+                ls.Add(new SelectListItem() { Text = temp.nombre + " " + temp.pmrApellido + " " + temp.sgndApellido, Value = Convert.ToString(temp.IDTecnico) });
             }
             return ls;
         }
@@ -110,7 +110,7 @@ namespace tema.Controllers
             List<Cliente> clt = JsonConvert.DeserializeObject<List<Cliente>>(await resCliente.Content.ReadAsStringAsync());
             foreach (Cliente temp in clt)
             {
-                ls.Add(new SelectListItem() { Text = temp.nombre, Value = temp.cedula });
+                ls.Add(new SelectListItem() { Text = temp.nombre + " " + temp.pmrApellido + " " + temp.sgndApellido + ", cédula: " + temp.cedula, Value = temp.cedula });
             }
             return ls;
         }
@@ -126,7 +126,7 @@ namespace tema.Controllers
             List<Servicio> svc = JsonConvert.DeserializeObject<List<Servicio>>(await resCliente.Content.ReadAsStringAsync());
             foreach (Servicio temp in svc)
             {
-                ls.Add(new SelectListItem() { Text = temp.descripcion, Value = temp.descripcion });
+                ls.Add(new SelectListItem() { Text = "Código del vehículo: " + temp.IDVehiculo + ", servicio: " + temp.descripcion, Value = temp.descripcion });
             }
             return ls;
         }
@@ -137,14 +137,30 @@ namespace tema.Controllers
         {
             UtilidadRegistro.Registrar(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value, "Cita", mb.ReflectedType.Name, "Crear");
 
+            if(cta.hora == null)
+            {
+                return View(cta);
+            }
+
             TimeSpan tiempo = TimeSpan.Parse(cta.hora);
             DateTime fechaIngresada = (DateTime)cta.fecha;
-            DateTime fechaSinHora = fechaIngresada.Date.Add(tiempo);
+            DateTime fechaSinHora = fechaIngresada.Add(tiempo);
             DateTime fechaActual = DateTime.Now;
+            DayOfWeek diaDeLaCita = cta.fecha.Value.DayOfWeek;
 
-            if(fechaSinHora < fechaActual)
+            if (fechaSinHora < fechaActual)
             {
                 ModelState.AddModelError(string.Empty, "La fecha o la hora solicitada ya pasó");
+            }
+
+            if (tiempo < TimeSpan.Parse("07:00:00") || tiempo > TimeSpan.Parse("18:30:00"))
+            {
+                ModelState.AddModelError(string.Empty, "La hora solicitada es inválida");
+            }
+
+            if (diaDeLaCita == DayOfWeek.Saturday || diaDeLaCita == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError(string.Empty, "No se trabajan fines de semana");
             }
 
             Cita ctapost = new Cita
@@ -157,8 +173,10 @@ namespace tema.Controllers
                 descripcion = cta.descripcion,
                 citaConfirmada = cta.citaConfirmada
             };
+
             if (ModelState.IsValid)
             {
+
                 using (HttpClient cliente = new HttpClient())
                 {
                     cliente.BaseAddress = new Uri(baseurl);
@@ -205,14 +223,30 @@ namespace tema.Controllers
         {
             UtilidadRegistro.Registrar(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value, "Cita", mb.ReflectedType.Name, "Editar");
 
+            if (Cita.hora == null)
+            {
+                return View(Cita);
+            }
+
             TimeSpan tiempo = TimeSpan.Parse(Cita.hora);
             DateTime fechaIngresada = (DateTime)Cita.fecha;
             DateTime fechaSinHora = fechaIngresada.Date.Add(tiempo);
             DateTime fechaActual = DateTime.Now;
+            DayOfWeek diaDeLaCita = Cita.fecha.Value.DayOfWeek;
 
             if (fechaSinHora < fechaActual)
             {
                 ModelState.AddModelError(string.Empty, "La fecha o la hora solicitada ya pasó");
+            }
+
+            if (tiempo < TimeSpan.Parse("07:00:00") || tiempo > TimeSpan.Parse("18:30:00"))
+            {
+                ModelState.AddModelError(string.Empty, "La hora solicitada es inválida");
+            }
+
+            if (diaDeLaCita == DayOfWeek.Saturday || diaDeLaCita == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError(string.Empty, "No se trabajan fines de semana");
             }
 
             if (id != Cita.IDCita)

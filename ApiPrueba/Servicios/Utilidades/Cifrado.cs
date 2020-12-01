@@ -23,6 +23,7 @@ namespace ApiPrueba.Servicios.Utilidades
             return Convert.ToBase64String(hash);
         }
 
+
         public static string GenerarSal()
         {
             byte[] salt = new byte[1024 / 8];

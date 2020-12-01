@@ -64,79 +64,79 @@
                 });
             </script>
         }
-        <table id="tablaDatosCita" class="table table-responsive-md display">
-            <thead>
+    <table id="tablaDatosCita" class="table table-responsive-md display">
+        <thead>
+            <tr>
+                <th style="color:white">
+                    <font size="3">Código del técnico</font>
+                </th>
+                <th style="color:white">
+                    <font size="3">  Cédula del cliente</font>
+                </th>
+                <th style="color:white">
+                    <font size="3"> Fecha de la cita</font>
+                </th>
+                <th style="color:white">
+                    <font size="3">  Hora de la cita</font>
+                </th>
+                <th style="color:white">
+                    <font size="3"> Asunto</font>
+                </th>
+                <th style="color:white">
+                    <font size="3">  Descripción</font>
+                </th>
+                <th style="color:white">
+                    <font size="3"> ¿Está confirmada?</font>
+                </th>
+                <th style="color:white">
+                    <font size="3">  Acciones</font>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Cita citas in Model.cita)
+            {
                 <tr>
-                    <th style="color:white">
-                        Código del técnico
-                    </th>
-                    <th style="color:white">
-                        Cédula del cliente
-                    </th>
-                    <th style="color:white">
-                        Fecha de la cita
-                    </th>
-                    <th style="color:white">
-                        Hora de la cita
-                    </th>
-                    <th style="color:white">
-                        Asunto
-                    </th>
-                    <th style="color:white">
-                        Descripción
-                    </th>
-                    <th style="color:white">
-                        ¿Está confirmada?
-                    </th>
-                    <th style="color:white">
-                        Acciones
-                    </th>
+                    <td>
+                        @citas.IDTecnico
+                    </td>
+                    <td>
+                        @citas.cedulaCliente
+                    </td>
+                    <td>
+                        @citas.fecha?.Date.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @citas.hora
+                    </td>
+                    <td>
+                        @citas.asunto
+                    </td>
+                    <td>
+                        @citas.descripcion
+                    </td>
+                    <td>
+                        @{
+                            if (citas.citaConfirmada == true)
+                            { <p>Sí</p> }
+                            else
+                            { <p>No</p> }
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Cita" asp-route-id="@citas.IDCita">Actualizar</a> |
+                        <a asp-action="Delete" asp-controller="Cita" asp-route-id="@citas.IDCita">Cancelar cita</a> |
+                        @if (citas.citaConfirmada == true)
+                        {
+                            <p>
+                                @Html.ActionLink("Crear orden", "CreateOrden", "Cita", new { idCita = citas.IDCita, idCliente = citas.IDCliente, desc = citas.descripcion })
+                            </p>
+                        }
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (Cita citas in Model.cita)
-                {
-                    <tr>
-                        <td>
-                            @citas.IDTecnico
-                        </td>
-                        <td>
-                            @citas.cedulaCliente
-                        </td>
-                        <td>
-                            @citas.fecha?.Date.ToString("dd/MM/yyyy")
-                        </td>
-                        <td>
-                            @citas.hora
-                        </td>
-                        <td>
-                            @citas.asunto
-                        </td>
-                        <td>
-                            @citas.descripcion
-                        </td>
-                        <td>
-                            @{
-                                if (citas.citaConfirmada == true)
-                                { <p>Sí</p> }
-                                else
-                                { <p>No</p> }
-                            }
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-controller="Cita" asp-route-id="@citas.IDCita">Actualizar</a> |
-                            <a asp-action="Delete" asp-controller="Cita" asp-route-id="@citas.IDCita">Cancelar cita</a> |
-                            @if (citas.citaConfirmada == true)
-                            {
-                                <p>
-                                    @Html.ActionLink("Crear orden", "CreateOrden", "Cita", new { idCita = citas.IDCita, idCliente = citas.IDCliente, desc = citas.descripcion })
-                                </p>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+            }
+        </tbody>
+    </table>
         <p>
             Acciones rápidas:<br />
             <a asp-controller="Cita" asp-action="Create"class="Boton">Crear cita</a> |
@@ -190,38 +190,38 @@
                 });
             </script>
         }
-        <table id="tablaDatosServicio" class="table table-responsive-md">
-            <thead>
+    <table id="tablaDatosServicio" class="table table-responsive-md">
+        <thead>
+            <tr>
+                <th style="color:white">
+                    <font size="3"> Código del vehículo</font>
+                </th>
+                <th style="color:white">
+                    <font size="3">  Descripción del servicio</font>
+                </th>
+                <th style="color:white">
+                    <font size="3">  Acciones</font>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Servicio srv in Model.servicio)
+            {
                 <tr>
-                    <th style="color:white">
-                        Código del vehículo
-                    </th>
-                    <th style="color:white">
-                        Descripción del servicio
-                    </th>
-                    <th style="color:white">
-                        Acciones
-                    </th>
+                    <td>
+                        @srv.IDVehiculo
+                    </td>
+                    <td>
+                        @srv.descripcion
+                    </td>
+                    <td>
+                        @Html.ActionLink("Actualizar", "Edit", "Servicio", new { id = srv.IDServicio }) |
+                        @Html.ActionLink("Eliminar", "Delete", "Servicio", new { id = srv.IDServicio })
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (Servicio srv in Model.servicio)
-                {
-                    <tr>
-                        <td>
-                            @srv.IDVehiculo
-                        </td>
-                        <td>
-                            @srv.descripcion
-                        </td>
-                        <td>
-                            @Html.ActionLink("Actualizar", "Edit", "Servicio", new { id = srv.IDServicio }) |
-                            @Html.ActionLink("Eliminar", "Delete", "Servicio", new { id = srv.IDServicio })
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+            }
+        </tbody>
+    </table>
         <hr />
         <p >Acciones rápidas:</p><br />
         <a asp-controller="Servicio" asp-action="Create" class="Boton">Crear servicio</a>

@@ -13,7 +13,7 @@
 <div class="content-wrapper">
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a asp-controller="Vehiculo" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+            <li><a asp-controller="Vehiculo" asp-action="Index" style="color:aliceblue">Vehículos&nbsp;/&nbsp;</a></li>
             <li><a class="active" style="color:aliceblue">Eliminar vehículo</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>
@@ -26,16 +26,16 @@
             <h4>¿Desea proceder con la eliminación de este vehículo?</h4>
             <hr />
             <dl class="row">
-                <dt class="col-sm-2">
+                <dt class="col-sm-2" hidden>
                     @Html.DisplayNameFor(model => model.IDVehiculo)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-10" hidden>
                     @Html.DisplayFor(model => model.IDVehiculo)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-2" hidden>
                     @Html.DisplayNameFor(model => model.IDCliente)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-10" hidden>
                     @Html.DisplayFor(model => model.IDCliente)
                 </dd>
                 <dt class="col-sm-2">

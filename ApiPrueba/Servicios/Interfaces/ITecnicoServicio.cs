@@ -12,6 +12,7 @@ namespace ApiPrueba.Servicios.Interfaces
         List<Tecnico> VerTecnicos();
         Tecnico ConsultarTecnicoCedula(string ced);
         //List<TecnicoCita> MostrarTecnicosConCita();
+        bool ValidarCedula(string cedula);
         bool RegistrarTecnico(string nmb, string ap1, string ap2, string ced);
         bool ActualizarTecnico(string nmb, string ap1, string ap2, string ced);
         bool BorrarTecnico(string id);

@@ -13,7 +13,7 @@
 
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a asp-controller="Cita" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+            <li><a asp-controller="Cita" asp-action="Index" style="color:aliceblue">Citas&nbsp;/&nbsp;</a></li>
             <li><a class="active" style="color:aliceblue">Cancelar cita</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>
@@ -25,16 +25,16 @@
             <h4>¿Desea proceder con la cancelación?</h4>
             <hr />
             <dl class="row">
-                <dt class="col-sm-2">
+                <dt class="col-sm-2" hidden>
                     @Html.DisplayNameFor(model => model.IDCita)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-10" hidden>
                     @Html.DisplayFor(model => model.IDCita)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-2" hidden>
                     @Html.DisplayNameFor(model => model.IDTecnico)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-10" hidden>
                     @Html.DisplayFor(model => model.IDTecnico)
                 </dd>
                 <dt class="col-sm-2">
@@ -47,7 +47,7 @@
                     @Html.DisplayNameFor(model => model.fecha)
                 </dt>
                 <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.fecha)
+                    @Convert.ToString(Model.fecha?.Date.ToString("dd/MM/yyyy"))
                 </dd>
                 <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.hora)
@@ -73,10 +73,10 @@
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.citaConfirmada)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-2" hidden>
                     @Html.DisplayNameFor(model => model.IDCliente)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-10" hidden>
                     @Html.DisplayFor(model => model.IDCliente)
                 </dd>
             </dl>

@@ -204,8 +204,10 @@ namespace tema.Controllers
                 </head>
                 <body>
                 <br />
-                <img src ='http://localhost:51301/Imagenes/imageonline-co-whitebackgroundremoved.png'/>
-                <img src ='http://localhost:8001/Imagenes/imageonline-co-whitebackgroundremoved.png'/>
+                <!--<img src ='http://localhost:51301/Imagenes/imageonline-co-whitebackgroundremoved.png'/>-->
+                <!--<img src ='http://localhost:8001/Imagenes/imageonline-co-whitebackgroundremoved.png'/>-->
+                <img src ='http://localhost:8080/Imagenes/imageonline-co-whitebackgroundremoved.png' width='198' height='132' />
+
                 <br />
                 <br />
                 <p>

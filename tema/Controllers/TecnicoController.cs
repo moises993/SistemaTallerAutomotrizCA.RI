@@ -157,6 +157,7 @@ namespace tema.Controllers
                     var postTask = client.PatchAsync("Taller/Tecnico/ActualizarDatos/" + id, byteContent).Result;
 
                     var result = postTask;
+
                     if (result.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Index));

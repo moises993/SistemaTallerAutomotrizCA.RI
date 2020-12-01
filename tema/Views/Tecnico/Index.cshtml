@@ -60,61 +60,63 @@
                 });
             </script>
         }
-        <table id="tablaDatos" class="Tablas" style="width:100%">
-            <thead>
+    <table id="tablaDatos" class="Tablas" style="width:100%">
+        <thead>
+            <tr>
+                @*<th style="color:white;font-family:Arial">
+                    @Html.DisplayNameFor(model => model.IDTecnico)
+                </th>*@
+                <th style="color:white;font-family:Arial">
+                    <font size="3"> @Html.DisplayNameFor(model => model.nombre)</font>
+                </th>
+                <th style="color:white;font-family:Arial">
+                    <font size="3">   @Html.DisplayNameFor(model => model.pmrApellido)</font>
+                </th>
+                <th style="color:white;font-family:Arial">
+                    <font size="3">  @Html.DisplayNameFor(model => model.sgndApellido)</font>
+                </th>
+                <th style="color:white;font-family:Arial">
+                    <font size="3">   @Html.DisplayNameFor(model => model.cedula)</font>
+                </th>
+                <th style="color:white;font-family:Arial">
+                    <font size="3">    @Html.DisplayNameFor(model => model.fechaIngreso)</font>
+                </th>
+                <th style="color:white;font-family:Arial">
+                    <font size="3"> Acciones</font>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
                 <tr>
-                    @*<th style="color:white;font-family:Arial">
-                            @Html.DisplayNameFor(model => model.IDTecnico)
-                        </th>*@
-                    <th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.nombre)
-                    </th>
-                    <th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.pmrApellido)
-                    </th>
-                    <th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.sgndApellido)
-                    </th>
-                    <th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.cedula)
-                    </th>
-                    <th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.fechaIngreso)
-                    </th>
-                    <th></th>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.IDTecnico)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.pmrApellido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.sgndApellido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.cedula)
+                    </td>
+                    <td>
+                        @item.fechaIngreso.Date.ToString("dd/MM/yyyy")
+                    </td>
+                    <td style="text-align:center;font-family:Arial">
+                        @Html.ActionLink("Editar", "Edit", new { id = item.cedula }) |
+                        @Html.ActionLink("Detalles", "Details", new { id = item.cedula }) |
+                        @Html.ActionLink("Borrar", "Delete", new { id = item.cedula })
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        @*<td>
-                                @Html.DisplayFor(modelItem => item.IDTecnico)
-                            </td>*@
-                        <td>
-                            @Html.DisplayFor(modelItem => item.nombre)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.pmrApellido)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.sgndApellido)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.cedula)
-                        </td>
-                        <td>
-                            @item.fechaIngreso.Date.ToString("dd/MM/yyyy")
-                        </td>
-                        <td style="text-align:center;font-family:Arial">
-                            @Html.ActionLink("Editar", "Edit", new { id = item.cedula }) |
-                            @Html.ActionLink("Detalles", "Details", new { id = item.cedula }) |
-                            @Html.ActionLink("Borrar", "Delete", new { id = item.cedula })
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+            }
+        </tbody>
+    </table>
         <p>
             <a asp-action="Create" class="Boton" style="font-family:Arial; color: white">Registrar técnico</a>
         </p>

@@ -16,8 +16,8 @@
 
 
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a asp-controller="DetallesCliente" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
-            <li><a class="active" style="color:aliceblue">Editar detalle cliente</a></li>
+            <li><a asp-controller="DetallesCliente" asp-action="Index" style="color:aliceblue">Detalles del cliente&nbsp;/&nbsp;</a></li>
+            <li><a class="active" style="color:aliceblue">Actualizar detalles cliente</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>
                 <li><a href="#">Pictures</a></li>
@@ -56,16 +56,12 @@
                         <input asp-for="codDet" type="text" class="form-control" />
                         <span asp-validation-for="codDet" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Actualizar" class="btn btn-primary" />
-                    </div>
+
+                    <input type="submit" value="Actualizar" class="Boton" />&nbsp;|
+                    <a asp-controller="Cliente" class="Boton" asp-action="Details">Regresar</a>
                 </form>
             </div>
         </div>
 
-        <div>
-            <a asp-controller="Cliente" asp-action="Details">Regresar</a>
-        </div>
-
-    </div>
+     </div>
 </div>

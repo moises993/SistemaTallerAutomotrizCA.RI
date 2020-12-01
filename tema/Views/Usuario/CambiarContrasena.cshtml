@@ -10,18 +10,19 @@
         font-family: Arial;
     }
 </style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
 <div class="content-wrapper">
     <div class="container">
 
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a asp-controller="Home" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+            <li><a asp-controller="Home" asp-action="Index" style="color:aliceblue">Usuarios&nbsp;/&nbsp;</a></li>
             <li><a class="active" style="color:aliceblue">Cambiar contraseña</a></li>
         </ol>
 
         <h1>Cambiar contraseña</h1>
 
         <p align="justify">
-            Su contraseña debe contener, al menos: 
+            Su contraseña debe contener, al menos:
             <ul>
                 <li>
                     3 letras minúsculas
@@ -30,11 +31,11 @@
                     2 letras mayúsculas
                 </li>
                 <li>
-                    2 números 
+                    2 números
                 </li>
-                <li>
+                <!--<li>
                     Un caracter especial de los siguientes: !&#64;#$&
-                </li>
+                </li>-->
                 <li>
                     8 caracteres como mínimo y 10 máximo
                 </li>
@@ -56,15 +57,10 @@
                         <input asp-for="nuevaContrasena" type="password" class="form-control" />
                         <span asp-validation-for="nuevaContrasena" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Cambiar" class="btn btn-primary" />
-                    </div>
+                    <input type="submit" value="Cambiar" class="Boton" />&nbsp;|
+                    <a asp-controller="Home" class="Boton" asp-action="Index">Volver a la pantalla principal</a>
                 </form>
             </div>
-        </div>
-
-        <div>
-            <a asp-controller="Home" asp-action="Index">Volver a la pantalla principal</a>
         </div>
     </div>
 </div>

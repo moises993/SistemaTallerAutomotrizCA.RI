@@ -11,6 +11,7 @@ using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ApiPrueba.Servicios.Repositorios
@@ -349,6 +350,29 @@ namespace ApiPrueba.Servicios.Repositorios
                     await comando.ExecuteNonQueryAsync();
                 }
                 await conexion.CloseAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void ConsultaEstadoClave()
+        {
+
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+
+            try
+            {
+                conexion.Open();
+
+                using (NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"usrControlContrasena\"", conexion))
+                {
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.ExecuteNonQuery();
+                }
+
+                conexion.Close();
             }
             catch (Exception)
             {

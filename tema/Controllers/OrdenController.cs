@@ -277,8 +277,9 @@ namespace tema.Controllers
                     <head></head>
                     <body>
                         <br />
-                        <img src ='http://localhost:51301/Imagenes/imageonline-co-whitebackgroundremoved.png'/>
-                        <img src ='http://localhost:8001/Imagenes/imageonline-co-whitebackgroundremoved.png'/>
+                        <!--<img src ='http://localhost:51301/Imagenes/imageonline-co-whitebackgroundremoved.png'/>-->
+                        <img src ='http://localhost:8080/Imagenes/imageonline-co-whitebackgroundremoved.png' width='198' height='132' />
+                        
                         <br />
                         <br />
                         <p >
@@ -289,7 +290,7 @@ namespace tema.Controllers
                         </p>
                         <h1 align='center'>Reporte total de órdenes</h1>
                         <hr />
-                        <table class='tabla'>
+                        <table class='tabla' style='width: 100%;'>
                 "
             );
 

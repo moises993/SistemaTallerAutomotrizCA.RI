@@ -1,0 +1,15 @@
+D:\Desarrollo\TareaProgramada\bin\Debug\netcoreapp3.1\TareaProgramada.exe
+D:\Desarrollo\TareaProgramada\bin\Debug\netcoreapp3.1\TareaProgramada.deps.json
+D:\Desarrollo\TareaProgramada\bin\Debug\netcoreapp3.1\TareaProgramada.runtimeconfig.json
+D:\Desarrollo\TareaProgramada\bin\Debug\netcoreapp3.1\TareaProgramada.runtimeconfig.dev.json
+D:\Desarrollo\TareaProgramada\bin\Debug\netcoreapp3.1\TareaProgramada.dll
+D:\Desarrollo\TareaProgramada\bin\Debug\netcoreapp3.1\TareaProgramada.pdb
+D:\Desarrollo\TareaProgramada\bin\Debug\netcoreapp3.1\Npgsql.dll
+D:\Desarrollo\TareaProgramada\obj\Debug\netcoreapp3.1\TareaProgramada.csprojAssemblyReference.cache
+D:\Desarrollo\TareaProgramada\obj\Debug\netcoreapp3.1\TareaProgramada.AssemblyInfoInputs.cache
+D:\Desarrollo\TareaProgramada\obj\Debug\netcoreapp3.1\TareaProgramada.AssemblyInfo.cs
+D:\Desarrollo\TareaProgramada\obj\Debug\netcoreapp3.1\TareaProgramada.csproj.CoreCompileInputs.cache
+D:\Desarrollo\TareaProgramada\obj\Debug\netcoreapp3.1\TareaProgramada.csproj.CopyComplete
+D:\Desarrollo\TareaProgramada\obj\Debug\netcoreapp3.1\TareaProgramada.dll
+D:\Desarrollo\TareaProgramada\obj\Debug\netcoreapp3.1\TareaProgramada.pdb
+D:\Desarrollo\TareaProgramada\obj\Debug\netcoreapp3.1\TareaProgramada.genruntimeconfig.cache

@@ -13,7 +13,7 @@
 
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a asp-controller="Cita" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+            <li><a asp-controller="Cita" asp-action="Index" style="color:aliceblue">Citas&nbsp;/&nbsp;</a></li>
             <li><a class="active" style="color:aliceblue">Crear cita</a></li>
             @*<li><a href="#">Home</a></li>
                 <li><a href="#">Private</a></li>
@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="hora" class="control-label"></label>
-                        <input asp-for="hora" type="time" class="form-control" />
+                        <input asp-for="hora" type="time" class="form-control" /> 
                         <span asp-validation-for="hora" class="text-danger"></span>
                     </div>
                     <div class="form-group">

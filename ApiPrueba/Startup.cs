@@ -37,6 +37,7 @@ namespace ApiPrueba
             services.AddSingleton<ICorreos, Correos>();
             services.AddSingleton<GeneradorClaves>();
             services.AddSingleton<Cifrado>();
+
             services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
             IConfigurationSection appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);

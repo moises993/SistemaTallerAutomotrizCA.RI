@@ -10283,16 +10283,17 @@ html.scroll-smooth {
 html,
 body,
 .wrapper {
-  min-height: 100%;
+    min-height: 100%;
+    
 }
 
 .wrapper {
-  position: relative;
+    position: relative;
 }
 
-.wrapper .content-wrapper {
-  min-height: calc(100vh - calc(3.5rem + 1px) - calc(3.5rem + 1px));
-}
+    .wrapper .content-wrapper {
+        min-height: calc(100vh - calc(3.5rem + 1px) - calc(3.5rem + 1px));
+    }
 
 .layout-boxed .wrapper {
   box-shadow: 0 0 10 rgba(0, 0, 0, 0.3);

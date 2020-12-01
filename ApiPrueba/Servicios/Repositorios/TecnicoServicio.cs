@@ -144,6 +144,43 @@ namespace ApiPrueba.Servicios.Repositorios
         #endregion consultas
 
         #region operaciones
+
+        public bool ValidarCedula(string cedula)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(connectionString);
+            bool resultado = false;
+
+            try
+            {
+                conexion.Open();
+
+                using (NpgsqlCommand comando = new NpgsqlCommand("\"Taller\".\"tncValidarCedula\"", conexion))
+                {
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue("pcedula", cedula);
+
+                    using(NpgsqlDataReader lector = comando.ExecuteReader())
+                    {
+                        while(lector.Read())
+                        {
+                            resultado = lector.GetBoolean(0);
+                        }
+
+                        lector.Close();
+                    }
+                }
+
+                conexion.Close();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return resultado;
+        }
+
         public bool RegistrarTecnico(string nmb, string ap1, string ap2, string ced)
         {
             NpgsqlConnection conexion = new NpgsqlConnection(connectionString);

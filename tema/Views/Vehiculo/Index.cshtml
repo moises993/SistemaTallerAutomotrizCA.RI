@@ -63,52 +63,52 @@
                 });
             </script>
         }
-        <table id="tablaDatos" class="Tablas" style="width:100%">
-            <thead>
+    <table id="tablaDatos" class="Tablas" style="width:100%">
+        <thead>
+            <tr>
+
+                <th style="color:white; font-family:Arial">
+                    <font size="3"> @Html.DisplayNameFor(model => model.marca)</font>
+                </th>
+                <th style="color:white; font-family:Arial;">
+                    <font size="3">   @Html.DisplayNameFor(model => model.modelo)</font>
+                </th>
+                <th style="color:white;font-family:Arial;">
+                    <font size="3">  @Html.DisplayNameFor(model => model.placa)</font>
+                </th>
+                <th class="text-center" style="color:white;font-family:Arial;">
+                    <font size="3">    Acciones</font>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
                 <tr>
 
-                    <th style="color:white; font-family:Arial">
-                        @Html.DisplayNameFor(model => model.marca)
-                    </th>
-                    <th style="color:white; font-family:Arial;">
-                        @Html.DisplayNameFor(model => model.modelo)
-                    </th>
-                    <th style="color:white;font-family:Arial;">
-                        @Html.DisplayNameFor(model => model.placa)
-                    </th>
-                    <th class="text-center" style="color:white;font-family:Arial;">
-                        Acciones
-                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.marca)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.modelo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.placa)
+                    </td>
+                    <td style="text-align:center; font-family:Arial">
+                        @Html.ActionLink("Editar", "Edit", new { id = item.IDVehiculo }) |
+                        @Html.ActionLink("Detalles", "Details", new { id = item.placa })
+                        @if (User.IsInRole("manager"))
+                        {
+                            @Html.Raw("&#124;&nbsp;") @Html.ActionLink("Eliminar", "Delete", new { id = item.IDVehiculo })
+                        } |
+                        @Html.ActionLink("Crear expediente", "CreateExpediente", "Expediente", new { id = item.IDVehiculo }) |
+                        @Html.ActionLink("Ver expediente", "Details", "Expediente", new { id = item.placa })
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-
-                        <td>
-                            @Html.DisplayFor(modelItem => item.marca)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.modelo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.placa)
-                        </td>
-                        <td style="text-align:center; font-family:Arial">
-                            @Html.ActionLink("Editar", "Edit", new { id = item.IDVehiculo }) |
-                            @Html.ActionLink("Detalles", "Details", new { id = item.placa })
-                            @if (User.IsInRole("manager"))
-                            {
-                                @Html.Raw("&#124;&nbsp;") @Html.ActionLink("Eliminar", "Delete", new { id = item.IDVehiculo })
-                            } |
-                            @Html.ActionLink("Crear expediente", "CreateExpediente", "Expediente", new { id = item.IDVehiculo }) |
-                            @Html.ActionLink("Ver expediente", "Details", "Expediente", new { id = item.placa })
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+            }
+        </tbody>
+    </table>
         <br />
         <p>
             <a asp-action="Create" class="Boton" style="font-family:Arial; color:white">Registrar vehículo</a>

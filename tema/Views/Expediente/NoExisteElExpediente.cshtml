@@ -8,15 +8,18 @@
         font-family: Arial;
     }
 </style>
+<link href="~/Plantilla/dist/css/Tablas.css" rel="stylesheet" />
+
 <div class="content-wrapper">
     <div class="container">
         <ol class="breadcrumb" style="border:solid;color:black;background-color: #01386E">
-            <li><a asp-controller="Vehiculo" asp-action="Index" style="color:aliceblue">Inicio&nbsp;/&nbsp;</a></li>
+            <li><a asp-controller="Vehiculo" asp-action="Index" style="color:aliceblue">Expedientes&nbsp;/&nbsp;</a></li>
             <li><a class="active" style="color:aliceblue">No hay resultados de Expedientes</a></li>
         </ol>
         <h4>No se ha creado el expediente para este vehículo.</h4>
         <br />
-        <a asp-controller="Vehiculo" asp-action="Index">Regresar</a>
+        <a asp-controller="Vehiculo" class="Boton" asp-action="Index">Regresar</a>
     </div>
 </div>
+
 

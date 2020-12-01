@@ -36,11 +36,14 @@ namespace tema.Models.ViewModels
                 _returnDate = value;
             }   
         }
+
         [Display(Name = "Hora de la cita")]
         [Required(ErrorMessage = "No se indicó la hora de la cita")]
         public string hora { get; set; }
+
         [Display(Name = "Asunto de la cita")]
         [Required(ErrorMessage = "No se indicó el asunto de la cita")]
+        [StringLength(100, ErrorMessage = "El nombre ingresado excede el límite de caracteres permitido")]
         public string asunto { get; set; }
         public bool citaConfirmada { get; set; }
         #endregion propiedadesCrearCita

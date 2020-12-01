@@ -55,43 +55,45 @@
                 });
             </script>
         }
-        <table id="tablaDatos" class="Tablas" style="width:100%">
-            <thead>
+    <table id="tablaDatos" class="Tablas" style="width:100%">
+        <thead>
+            <tr>
+                <th style="color:white;font-family:Arial">
+                    <font size="3"> @Html.DisplayNameFor(model => model.IDServicio)</font>
+                </th>
+                <th style="color:white;font-family:Arial">
+                    <font size="3">  @Html.DisplayNameFor(model => model.IDVehiculo)</font>
+                </th>
+                <th style="color:white;font-family:Arial">
+                    <font size="3">  @Html.DisplayNameFor(model => model.descripcion)</font>
+                </th>
+                <th style="color:white;font-family:Arial">
+                    <font size="3">   Acciones</font>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
                 <tr>
-                    <th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.IDServicio)
-                    </th>
-                    <th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.IDVehiculo)
-                    </th>
-                    <th style="color:white;font-family:Arial">
-                        @Html.DisplayNameFor(model => model.descripcion)
-                    </th>
-                    <th></th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IDServicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IDVehiculo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.descripcion)
+                    </td>
+                    <td style="text-align:center;font-family:Arial">
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IDServicio)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IDVehiculo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.descripcion)
-                        </td>
-                        <td style="text-align:center;font-family:Arial">
-                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+            }
+        </tbody>
+    </table>
         <p>
             <a asp-action="Create" class="Boton" style="font-family: Arial;color: white">Registrar servicio</a>
         </p>

@@ -57,6 +57,13 @@ namespace ApiPrueba.Controllers
                 return StatusCode(400, ModelState);
             }
 
+            bool esCedulaUnica = _tecServicio.ValidarCedula(tec.cedula);
+
+            if(!esCedulaUnica)
+            {
+                return BadRequest();
+            }
+
             if (!_tecServicio.RegistrarTecnico(tec.nombre, tec.pmrApellido, tec.sgndApellido, tec.cedula))
             {
                 ModelState.AddModelError("", "Ocurrió un error creando al nuevo Tecnico. Por favor, inténtelo en un momento");
